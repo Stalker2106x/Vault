@@ -1,0 +1,11 @@
+[{
+    "id": "TestApp",
+    "url": "localhost",
+    "detail": "Link to localhost! easy right ?",
+    "action": "redirect"
+}, {
+    "id": "Google",
+    "url": "google.com",
+    "detail": "Always nice to have google around.",
+    "action": "popup"
+}]
