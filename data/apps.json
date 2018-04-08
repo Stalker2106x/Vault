@@ -1,6 +1,7 @@
 {
     "apps": [{
         "title": "TestApp",
+        "color": "Yellow",
         "url": "http://localhost",
         "detail": "Link to localhost! easy right ?",
         "action": "redirect"

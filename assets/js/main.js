@@ -21,6 +21,10 @@ loadJSON(function(json){
     for (var i in data.apps)
     {
         var appHtml;
+        //Defaults
+        if (!data.apps[i].color) data.apps[i].color = "blue-grey"; else data.apps[i].color = data.apps[i].color.toLowerCase();
+        if (!data.apps[i].textcolor) data.apps[i].textcolor = "white"; else data.apps[i].textcolor = data.apps[i].textcolor.toLowerCase();
+        //Render
         if (data.apps[i].image) //Image app
         {
             appHtml = nunjucks.render('app-templates/image.html', data.apps[i]);
