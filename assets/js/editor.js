@@ -26,3 +26,7 @@ function initEditors(instances) {
         }
     }
 }
+
+function saveEditors(instances) {
+    //Nothing...
+}

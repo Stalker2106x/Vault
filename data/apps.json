@@ -12,7 +12,7 @@
         "action": "popup"
     }, {
         "title": "Facebook",
-        "image": "data/img/google.png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Facebook_New_Logo_%282015%29.svg/512px-Facebook_New_Logo_%282015%29.svg.png",
         "url": "http://facebook.com",
         "detail": "Stalk your preys there.",
         "action": "popup"
@@ -24,7 +24,7 @@
         "action": "popup"
     }, {
         "title": "Amazon",
-        "image": "data/img/google.png",
+        "image": "http://images.frandroid.com/wp-content/uploads/2015/03/amazon_1-1000x364.jpg",
         "url": "http://amazon.com",
         "detail": "Buy some stupid goods you don't need.",
         "action": "popup"

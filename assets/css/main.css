@@ -19,8 +19,11 @@
         margin: 10px 10px !important;
     }
  }
-
 /* EOR */
+
+.app .card-title {
+    text-shadow: 3px 3px 8px #000000;
+}
 
 body {
     background-image: url(../img/bg.jpg);
@@ -47,4 +50,3 @@ body {
     align-items: center;
     justify-content: center;
 }
-
