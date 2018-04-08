@@ -7,6 +7,8 @@
         <link type="text/css" rel="stylesheet" href="assets/css/main.css" />
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="assets/css/materialize.min.css"  media="screen,projection"/>
+        <!--Import Pen css -->
+        <link type="text/css" rel="stylesheet" href="assets/css/pen.css" />
 
         <meta charset="UTF-8"> 
         <!--Let browser know website is optimized for mobile-->
@@ -14,12 +16,27 @@
     </head>
 
     <body>
+        <h4 id="vault-title">Vault</h4>
         <div id="app-container">
         </div>
-        <!-- App Template -->
-        <script id="app-template" type="text/x-handlebars-template" src="app.html"></script>
+        
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large red">
+            <i class="large material-icons">more_vert</i>
+            </a>
+            <ul>
+            <li><a id="rocketTop" class="btn-floating red"><i class="material-icons">arrow_upward</i></a></li>
+            <li><a id="toggleEditor" class="btn-floating yellow darken-1 inactive"><i class="material-icons">create</i></a></li>
+            </ul>
+        </div>      
         <!-- Materialize js -->
         <script type="text/javascript" src="assets/js/materialize.min.js"></script>
+        <!-- Pen, Custom editor and Markdown js -->
+        <script type="text/javascript" src="assets/js/pen.js"></script>
+        <script type="text/javascript" src="assets/js/markdown.js"></script>
+        <script type="text/javascript" src="assets/js/editor.js"></script>
+        <!-- Material floating button init -->
+        <script type="text/javascript" src="assets/js/toolbar.js"></script>
         <!-- Template Engine js -->
         <script type="text/javascript" src="assets/js/nunjucks.min.js"></script>
         <!-- Vault js -->

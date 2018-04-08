@@ -16,8 +16,24 @@ function loadJSON(callback) {
 
 // Main
 
-loadJSON(function(data){
-    var html = nunjucks.render('app.html', JSON.parse(data));
-    document.getElementById("app-container").innerHTML = html;
+loadJSON(function(json){
+    var data = JSON.parse(json);
+    for (var i in data.apps)
+    {
+        var appHtml;
+        if (data.apps[i].image) //Image app
+        {
+            appHtml = nunjucks.render('app-templates/image.html', data.apps[i]);
+        }
+        else if (data.apps[i].action && data.apps[i].url) //Standard app
+        {
+            appHtml = nunjucks.render('app-templates/base.html', data.apps[i]);
+        }
+        else //Not an app (note or alert)
+        {
+            appHtml = nunjucks.render('app-templates/panel.html', data.apps[i]);
+        }
+        document.getElementById("app-container").innerHTML += appHtml;
+    }
 });
 

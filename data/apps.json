@@ -1,13 +1,32 @@
 {
     "apps": [{
-        "id": "TestApp",
-        "url": "localhost",
+        "title": "TestApp",
+        "url": "http://localhost",
         "detail": "Link to localhost! easy right ?",
         "action": "redirect"
     }, {
-        "id": "Google",
-        "url": "google.com",
+        "title": "Google",
+        "image": "data/img/google.png",
+        "url": "http://google.com",
         "detail": "Always nice to have google around.",
+        "action": "popup"
+    }, {
+        "title": "Facebook",
+        "image": "data/img/google.png",
+        "url": "http://facebook.com",
+        "detail": "Stalk your preys there.",
+        "action": "popup"
+    }, {
+        "title": "Youtube",
+        "image": "https://cdn.pixabay.com/photo/2015/03/10/17/23/youtube-667451_960_720.png",
+        "url": "http://youtube.com",
+        "detail": "Go waste your time some more...",
+        "action": "popup"
+    }, {
+        "title": "Amazon",
+        "image": "data/img/google.png",
+        "url": "http://amazon.com",
+        "detail": "Buy some stupid goods you don't need.",
         "action": "popup"
     }]
 }

@@ -1,3 +1,27 @@
+@font-face {
+    font-family: Ailerons;
+    src: url("../font/Ailerons.otf") format("opentype");
+}
+
+/* Responsiveness */
+ /* Small devices (tablets and phones, 768px and down) */
+ @media only screen and (max-width: 768px) {
+    .app {
+        width: calc(50% - 20px);
+        margin: 10px 10px !important;
+    }
+ }
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+    .app {
+        width: calc(25% - 20px);
+        margin: 10px 10px !important;
+    }
+ }
+
+/* EOR */
+
 body {
     background-image: url(../img/bg.jpg);
     background-repeat: no-repeat;
@@ -7,14 +31,20 @@ body {
     height: 100%;
 }
 
+#vault-title {
+    text-align: center;
+    font-family: 'Ailerons', sans-serif;
+    font-size: 10vw;
+    margin-bottom: 50px;
+}
+
 #app-container {
     margin: auto auto;
     width: 90%;
     height: 90%;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 
-.app {
-    margin: 20px 20px !important;
-}
