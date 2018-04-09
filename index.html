@@ -16,7 +16,8 @@
     </head>
 
     <body>
-        <h4 id="vault-title">Vault</h4>
+        <h4 id="vault-title"></h4>
+        <h4 id="vault-caption"></h4>
         <div id="app-container">
         </div>
         
@@ -41,5 +42,27 @@
         <script type="text/javascript" src="assets/js/nunjucks.min.js"></script>
         <!-- Vault js -->
         <script type="text/javascript" src="assets/js/main.js"></script>
+        <!-- HScroll -->
+        <script type="text/javascript">
+            var cursor = 0;
+            var appTiles = document.getElementsByClassName('app');
+            function replaceVerticalScrollByHorizontal(event) {
+                if (event.deltaY != 0) {
+                    // manually scroll horizonally instead
+                    var motion = (event.deltaY > 0 ? 1 : -1);
+                    if (cursor + motion >= 0 && cursor + motion < appTiles.length)
+                    {
+                        cursor += motion;
+                    }
+                    appTiles[cursor].scrollIntoView({ block: 'start',  behavior: 'smooth' });
+                
+                    // prevent vertical scroll
+                    event.preventDefault();
+                }
+                return;
+            }
+            /* Listener on window once we start scrolling, we run our function */
+            window.addEventListener('wheel', replaceVerticalScrollByHorizontal);
+        </script>
     </body>
 </html>
