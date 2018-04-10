@@ -11,6 +11,6 @@ It uses a CMS-approach, where zero knowledge is needed to deploy the service.
 ### Configure Vault ###
 
 Vault uses a data folder to store configuration.
-img/ folder contains app-associated images
-apps.json contains user defined apps
-config.json contains the vault parameters
+* img/ folder contains app-associated images
+* apps.json contains user defined apps
+* config.json contains the vault parameters
