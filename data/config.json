@@ -1,5 +1,6 @@
 {
     "title": "Vault",
     "caption": "Where everything starts...",
+    "allow-remote-login": false,
     "passphrase": "marimba"
 }

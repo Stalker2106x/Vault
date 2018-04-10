@@ -15,7 +15,7 @@ function toggleEditors() {
             if (document.getElementById('passphrase').value == appconfig.passphrase) //auth success!
             {
                 var toggle = document.getElementById("toggleEditor");
-                toggle.firstChild.innerHTML = "save"; //Changing icon
+                toggle.children[0].innerHTML = "save"; //Changing icon
                 toggle.classList.remove("inactive");
                 initEditors(instances);
                 //Toast to alert
@@ -33,7 +33,7 @@ function toggleEditors() {
     else //Saving edition, no auth required
     {
         var toggle = document.getElementById("toggleEditor")
-        toggle.firstChild.innerHTML = "create"; //Changing icon
+        toggle.children[0].innerHTML = "create"; //Changing icon
         toggle.classList.add("inactive");
         saveEditors(instances);
         for (var i in instances)
