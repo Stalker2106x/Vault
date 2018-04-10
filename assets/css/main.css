@@ -27,6 +27,10 @@
     text-shadow: 4px 4px 8px #000000;
 }
 
+.app .card-content * {
+    word-wrap: break-word; 
+}
+
 body {
     background-image: url(../img/bg.jpg);
     background-repeat: no-repeat;
