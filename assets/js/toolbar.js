@@ -31,11 +31,8 @@ if (true/* !remote || remote &&  appconfig.allow-remote-edition == true*/)
         };
 
         req.open('POST', 'data/serialize.php', true);
-        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-        req.send({
-            "title": "zeb",
-            "caption": "Where everything stops..."
-        });
+        req.setRequestHeader("Content-Type", "application/json");
+        req.send('{ "title": "zeb", "caption": "Where everything stops..." }');
     });
 }
 

@@ -10,23 +10,41 @@ else if(isset($_SERVER["CONTENT_TYPE"]) && strncasecmp($_SERVER["CONTENT_TYPE"],
     http_response_code(401);
     exit;
 }
+//Extracting JSON POST data
+$post = json_decode(file_get_contents('php://input'));
 
+if (isset($post->config)) //Update config
+{
+    $configjson = json_decode(file_get_contents("config.json"),true);
 
-var_dump(file_get_contents('php://input'));
-echo json_last_error();
-
-/*
-
-$configjson = json_decode(file_get_contents("config.json"),true);
-$appsjson = json_decode(file_get_contents("apps.json"),true);
-
-foreach ($configjson as $key => $value) {
-    if (isset($_POST[$key]) && $_POST[$key] != $value)
-    {
-        echo 'current: '.$value.' old: '.$_POST[$key].'\n';
+    //Update data
+    foreach ($configjson as $key => $value) {
+        if (isset($post->config->{$key}) && $post->{$key} != $value) //If key exists in post 
+        {
+            echo 'old: '.$value.' new: '.$post->{$key}.'\n';
+            $configjson[$key] = $post->{$key}; //set data
+        }
     }
+    //Now serialize to file
+    $fp = fopen('config.json', 'w');
+    fwrite($fp, json_encode($configjson, JSON_PRETTY_PRINT));
+    fclose($fp);
+}
+else if (isset($post->apps)) //Update apps
+{
+    $appsjson = json_decode(file_get_contents("apps.json"),true);
+
+    //Update data !!
+
+    //Now serialize to file
+    $fp = fopen('apps.json', 'w');
+    fwrite($fp, json_encode($configjson, JSON_PRETTY_PRINT));
+    fclose($fp);
 }
 
-echo 'DONE. zebi.';
-*/
+
+$appsjson = json_decode(file_get_contents("apps.json"),true);
+
+
+echo 'DONE.';
 ?>

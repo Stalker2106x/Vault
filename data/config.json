@@ -1,6 +1,6 @@
 {
-    "title": "Vault",
-    "caption": "Where everything starts...",
+    "title": "zeb",
+    "caption": "Where everything stops...",
     "allow-remote-login": false,
     "passphrase": "marimba"
 }
