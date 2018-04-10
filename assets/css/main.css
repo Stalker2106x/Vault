@@ -54,6 +54,6 @@ body {
     margin: auto auto;
     width: 90%;
     height: 75vh;
-    overflow: auto;
+    overflow: hidden;
     align-content: flex-start;
 }
