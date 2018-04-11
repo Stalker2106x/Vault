@@ -13,16 +13,19 @@ else if(isset($_SERVER["CONTENT_TYPE"]) && strncasecmp($_SERVER["CONTENT_TYPE"],
 //Extracting JSON POST data
 $post = json_decode(file_get_contents('php://input'));
 
-if (isset($post->config)) //Update config
+if (isset($post->config)) $postconfig = $post->config;
+if (isset($post->apps)) $postapps = $post->apps;
+
+if (isset($postconfig)) //Update config
 {
     $configjson = json_decode(file_get_contents("config.json"),true);
 
     //Update data
     foreach ($configjson as $key => $value) {
-        if (isset($post->config->{$key}) && $post->{$key} != $value) //If key exists in post 
+        if (isset($postconfig->{$key}) && $postconfig->{$key} != $value) //If key exists in post 
         {
-            echo 'old: '.$value.' new: '.$post->{$key}.'\n';
-            $configjson[$key] = $post->{$key}; //set data
+            echo 'old: '.$value.' new: '.$postconfig->{$key}.'\n';
+            $configjson[$key] = $postconfig->{$key}; //set data
         }
     }
     //Now serialize to file
@@ -30,7 +33,7 @@ if (isset($post->config)) //Update config
     fwrite($fp, json_encode($configjson, JSON_PRETTY_PRINT));
     fclose($fp);
 }
-else if (isset($post->apps)) //Update apps
+if (isset($postapps)) //Update apps
 {
     $appsjson = json_decode(file_get_contents("apps.json"),true);
 
