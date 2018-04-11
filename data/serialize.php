@@ -37,7 +37,7 @@ if (isset($postconfig)) //Update config
     }
     //Now serialize to file
     $fp = fopen('config.json', 'w');
-    fwrite($fp, json_encode($configjson, JSON_PRETTY_PRINT));
+    fwrite($fp, json_encode($configjson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     fclose($fp);
 }
 if (isset($postapps)) //Update apps
@@ -62,7 +62,7 @@ if (isset($postapps)) //Update apps
 
     //Now serialize to file
     $fp = fopen('apps.json', 'w');
-    fwrite($fp, json_encode($appsjson, JSON_PRETTY_PRINT));
+    fwrite($fp, json_encode($appsjson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     fclose($fp);
 }
 
