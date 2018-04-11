@@ -17,22 +17,8 @@ if (true/* !remote || remote &&  appconfig.allow-remote-edition == true*/)
     button.innerHTML = '<a id="testBtn" class="btn-floating yellow darken-1 inactive"><i class="material-icons">backup</i></a>';
     toolbar.children[1].appendChild(button);
     document.getElementById("testBtn").addEventListener("click", function () {
-        const req = new XMLHttpRequest();
-
-        req.onreadystatechange = function(event) {
-            // XMLHttpRequest.DONE === 4
-            if (this.readyState === XMLHttpRequest.DONE) {
-                if (this.status === 200) {
-                    console.log("Réponse reçue: %s", this.responseText);
-                } else {
-                    console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
-                }
-            }
-        };
-
-        req.open('POST', 'data/serialize.php', true);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send('{ config: { "title": "zeb", "caption": "Where everything stops..." } }');
+        
+        serializeData({title: "Vault", caption: "Oklm ac les putt"}, dumpVaultApps());
     });
 }
 
