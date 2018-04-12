@@ -8,7 +8,7 @@
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="assets/css/materialize.min.css"  media="screen,projection"/>
         <!--Import Editor css -->
-        <link type="text/css" rel="stylesheet" href="assets/css/editor/alloy-editor-ocean-min.css"/>
+        <link type="text/css" rel="stylesheet" href="assets/css/editor/alloy-editor-atlas-min.css"/>
 
         <meta charset="UTF-8"> 
         <!--Let browser know website is optimized for mobile-->
@@ -17,10 +17,18 @@
 
     <body>
         <div id="page-content">
-            <h4 id="vault-title"></h4>
-            <h4 id="vault-caption"></h4>
-            <div id="app-container">
+            <div id="vault-header">
+                <h4 id="vault-title"></h4>
+                <h4 id="vault-caption"></h4>
             </div>
+            <div id="vault-search">
+                <div class="input-field">
+                    <i class="material-icons prefix">search</i>
+                    <input id="filterInput" type="text" class="validate">
+                    <label for="filterInput">Filter apps</label>
+                </div>
+            </div>
+            <div id="app-container"></div>
         </div>
         <div id="vault-toolbar-button" class="fixed-action-btn">
             <a class="btn-floating btn-large red">
@@ -42,6 +50,7 @@
         <script type="text/javascript" src="assets/js/nunjucks.min.js"></script>
         <!-- Vault js -->
         <script type="text/javascript" src="assets/js/main.js"></script>
+        <script type="text/javascript" src="assets/js/filter.js"></script>
         <!-- HScroll -->
         <script type="text/javascript">
             var appCursor = 0;

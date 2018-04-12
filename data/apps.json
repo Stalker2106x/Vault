@@ -11,7 +11,7 @@
             "title": "Google",
             "image": "data/img/google.png",
             "url": "http://google.com/",
-            "detail": "Always nice to have google around.",
+            "detail": "Always nice to have google right?",
             "action": "popup"
         },
         {
@@ -25,7 +25,7 @@
             "title": "Youtube",
             "image": "https://cdn.pixabay.com/photo/2015/03/10/17/23/youtube-667451_960_720.png",
             "url": "http://youtube.com/",
-            "detail": "Yebamod",
+            "detail": "bad behaviour ... why no hotlink :(",
             "action": "popup"
         },
         {

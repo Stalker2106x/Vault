@@ -6,6 +6,12 @@
 /* Responsiveness */
  /* Small devices (tablets and phones, 768px and down) */
  @media only screen and (max-width: 768px) {
+
+    #vault-search {
+        margin: auto auto;
+        width: 90%;
+    }
+
     .app {
         width: calc(50% - 20px);
         margin: 10px 10px !important;
@@ -15,12 +21,21 @@
  
  /* Medium devices (landscape tablets, 768px and up) */
  @media only screen and (min-width: 768px) {
+
+    #vault-search {
+        position: absolute;
+        top: 5%;
+        left: 65%;
+        width: 20%;
+    }
+
     .app {
         width: calc(20% - 20px);
         margin: 10px 10px !important;
         align-self: flex-start;
     }
  }
+
 /* EOR */
 
 .app .card-title {
@@ -35,7 +50,8 @@ body {
     background-image: url(../img/bg.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: center; 
+    background-position: center;
+    overflow: hidden;
 }
 
 #vault-title {
@@ -49,7 +65,6 @@ body {
     font-family: 'Ailerons', sans-serif;
     margin-top: -2vh;
     font-size: 3vh;
-    margin-bottom: 50px;
 }
 
 #app-container {

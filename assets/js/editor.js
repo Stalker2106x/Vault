@@ -1,3 +1,7 @@
+//Locals
+
+var editorInstance = null;
+
 //Helpers
 
 function getDescendantWithClass(element, clName) {
@@ -25,7 +29,8 @@ function toggleEditor() {
     {
         toggle.children[0].innerHTML = "save"; //Changing icon
         toggle.classList.add("active");
-        initEditor();
+        if (editorInstance == null) editorInstance = AlloyEditor.editable('page-content'); //Create instance
+        else editorInstance.get('nativeEditor').setReadOnly(false);
         //Toast to alert
         M.toast({html: '<span>Switched to edition mode !</span><button class="btn-flat toast-action">Undo</button>'});
     }
@@ -34,6 +39,7 @@ function toggleEditor() {
         var toggle = document.getElementById("toggleEditor")
         toggle.children[0].innerHTML = "create"; //Changing icon
         toggle.classList.remove("active");
+        editorInstance.get('nativeEditor').setReadOnly(true);
         saveVault();
         //Toast to alert
         M.toast({html: '<span>Modifications saved with success.</span>'});
@@ -41,14 +47,13 @@ function toggleEditor() {
     return (false);
 }
 
-function initEditor() {
-    AlloyEditor.editable('page-content'); //Create instance
-}
-
 function saveVault() {
     let data = {};
+    data.config = { 
+        title: document.getElementById("vault-title").innerText, 
+        caption: document.getElementById("vault-caption").innerText
+    };
     data.apps = dumpVaultApps();
-    data.config = {};
     serializeData(data);
 }
 
