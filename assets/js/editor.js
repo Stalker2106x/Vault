@@ -35,10 +35,6 @@ function toggleEditor() {
         toggle.children[0].innerHTML = "create"; //Changing icon
         toggle.classList.remove("active");
         saveVault();
-        for (var pen in instances)
-        {
-            instances[pen].destroy(); //Destruct instances
-        }
         //Toast to alert
         M.toast({html: '<span>Modifications saved with success.</span>'});
     }
