@@ -28,7 +28,13 @@
                     <label for="filterInput">Filter apps</label>
                 </div>
             </div>
+            <a id="app-nav-back" class="app-nav" style="display: none;">
+                <i class="material-icons large">navigate_before</i>
+            </a>
             <div id="app-container"></div>
+            <a id="app-nav-forward" class="app-nav" style="display: none;">
+                <i class="material-icons large">navigate_next</i>
+            </a>
         </div>
         <div id="vault-toolbar-button" class="fixed-action-btn">
             <a class="btn-floating btn-large red">
@@ -53,8 +59,11 @@
         <script type="text/javascript" src="assets/js/filter.js"></script>
         <!-- HScroll -->
         <script type="text/javascript">
+
             var appCursor = 0;
+            //Set navigation if scrollbar present
             var appTiles = document.getElementsByClassName('app');
+            var navButtons = document.getElementsByClassName('app-nav');
             function replaceVerticalScrollByHorizontal(event) {
                 if (event.deltaY != 0) {
                     // manually scroll horizonally instead
@@ -64,7 +73,7 @@
                         appCursor += motion;
                     }
                     appTiles[appCursor].scrollIntoView({ block: 'start',  behavior: 'smooth' });
-                
+                    updateAppNav();
                     // prevent vertical scroll
                     event.preventDefault();
                 }

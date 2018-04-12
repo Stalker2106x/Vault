@@ -22,6 +22,10 @@
  /* Medium devices (landscape tablets, 768px and up) */
  @media only screen and (min-width: 768px) {
 
+    #vault-header {
+        margin-bottom: 40px;
+    }
+
     #vault-search {
         position: absolute;
         top: 5%;
@@ -80,4 +84,23 @@ body {
     height: 75vh;
     overflow: hidden;
     align-content: flex-start;
+}
+
+.app-nav  {
+    position: absolute;
+}
+
+.app-nav .material-icons {
+    color: white;
+    outline-color: gray;
+}
+
+#app-nav-back {
+    top: 50%;
+    left: 10px;
+}
+
+#app-nav-forward {
+    top: 50%;
+    right: 10px;
 }
