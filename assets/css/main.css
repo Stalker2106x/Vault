@@ -11,6 +11,22 @@
         margin: auto auto;
         width: 90%;
     }
+    
+    .app-nav .material-icons {
+        color: white;
+        outline-color: gray;
+        font-size: 2em;
+    }
+
+    #app-nav-back {
+        top: 50%;
+        left: 0;
+    }
+    
+    #app-nav-forward {
+        top: 50%;
+        right: 0;
+    }
 
     .app {
         width: calc(50% - 20px);
@@ -31,6 +47,22 @@
         top: 5%;
         left: 70%;
         width: 20%;
+    }
+
+    .app-nav .material-icons {
+        color: white;
+        outline-color: gray;
+        font-size: 5em;
+    }
+
+    #app-nav-back {
+        top: 50%;
+        left: 10px;
+    }
+    
+    #app-nav-forward {
+        top: 50%;
+        right: 10px;
     }
 
     .app {
@@ -87,20 +119,6 @@ body {
 }
 
 .app-nav  {
+    z-index: 1;
     position: absolute;
-}
-
-.app-nav .material-icons {
-    color: white;
-    outline-color: gray;
-}
-
-#app-nav-back {
-    top: 50%;
-    left: 10px;
-}
-
-#app-nav-forward {
-    top: 50%;
-    right: 10px;
 }
