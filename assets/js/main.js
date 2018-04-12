@@ -1,3 +1,5 @@
+//Global auth token
+var authorization_passphrase = "";
 
 //Helpers
 

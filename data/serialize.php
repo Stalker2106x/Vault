@@ -19,6 +19,7 @@ if (!isset($post->passphrase) || $configjson['passphrase'] != $post->passphrase)
 {
     echo 'Authorization: Wrong or missing passphrase.';
     http_response_code(401);
+    exit;
 }
 
 if (isset($post->config)) $postconfig = $post->config;
