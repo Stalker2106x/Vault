@@ -17,6 +17,7 @@ function loadJSON(file, callback) {
  }
 
 function updateAppNav() {
+    appTiles[0].style.border = "1px solid lightgrey"; //highlight first element
     if (window.innerWidth > document.getElementById('app-container').clientWidth)
     {
         if (appCursor > 0) navButtons[0].style.display = "";

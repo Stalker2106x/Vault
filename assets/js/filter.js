@@ -39,9 +39,9 @@ document.getElementById("filterInput").addEventListener('input', function () {
         {
             app.style.display = "none";
         }
-        else
+        else if (app.style.display == "none")
         {
-            if (app.style.display == "none") app.style.display = "";
+            app.style.display = "";
         }
     });
 });

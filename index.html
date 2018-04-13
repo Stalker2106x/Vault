@@ -72,6 +72,8 @@
                     {
                         appCursor += motion;
                     }
+                    appTiles[appCursor - motion].style.border = ""; //remove old highlight
+                    appTiles[appCursor].style.border = "1px solid lightgrey"; //highlight current element
                     appTiles[appCursor].scrollIntoView({ block: 'start',  behavior: 'smooth' });
                     updateAppNav();
                     // prevent vertical scroll
