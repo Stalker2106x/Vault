@@ -21,6 +21,10 @@ function getDescendantWithClass(element, clName) {
      return null;
 }
 
+function isEditorEnabled() {
+    return (document.getElementById("toggleEditor").classList.contains("active"));
+}
+
 //Functions
 
 function toggleEditor() {

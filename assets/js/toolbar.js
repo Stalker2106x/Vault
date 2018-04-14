@@ -26,11 +26,17 @@ function unlockToolbar()
 
 function lockToolbar()
 {
-    for (let toggle in toolbarAdditionalToggles)
+    if (isEditorEnabled()) //Check editior state, return if enabled
     {
-        toggle.remove();
+        M.toast({html: '<span>Quit edition mode before locking vault.</span>'});
+        return (false);
+    }
+    for (let toggle in toolbarAdditionalToggles) 
+    {
+        toolbar.children[1].removeChild(toolbarAdditionalToggles[toggle]); //Remove additional toggles
     }
     toolbarAdditionalToggles = []; //clear array
+    return (true);
 }
 
 //Main
@@ -77,12 +83,14 @@ if (true/* !remote || remote &&  appconfig.allow-remote-edition == true*/)
         }
         else //app unlocked
         {
-            getDescendantWithClass(button, "material-icons").innerText = "lock";
-            authorization_passphrase = "";
-            button.classList.add("locked");
-            lockToolbar();
-            //Toast to alert
-            M.toast({html: '<span>Vault locked !</span>'});
+            if (lockToolbar()) //attempt to lock
+            {
+                getDescendantWithClass(button, "material-icons").innerText = "lock";
+                authorization_passphrase = "";
+                button.classList.add("locked");
+                //Toast to alert
+                M.toast({html: '<span>Vault locked !</span>'});
+            }
         }
     });
 }

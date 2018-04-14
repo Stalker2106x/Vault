@@ -1,10 +1,10 @@
 {
     "apps": [
         {
-            "title": "TestApp",
+            "title": "Test App",
             "color": "Yellow",
             "url": "http://localhost/",
-            "detail": "Serialization is serious",
+            "detail": "Serialization is serious, localhost is local.",
             "action": "redirect"
         },
         {
@@ -12,91 +12,48 @@
             "image": "data/img/google.png",
             "url": "http://google.com/",
             "detail": "Always nice to have google right?",
-            "action": "popup"
-        },
-        {
-            "title": "Facebook",
-            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Facebook_New_Logo_%282015%29.svg/512px-Facebook_New_Logo_%282015%29.svg.png",
-            "url": "http://facebook.com/",
-            "detail": "Les meilleurs caf\u00e9s",
-            "action": "popup"
-        },
-        {
-            "title": "Youtube",
-            "image": "https://cdn.pixabay.com/photo/2015/03/10/17/23/youtube-667451_960_720.png",
-            "url": "http://youtube.com/",
-            "detail": "bad behaviour ... why no hotlink :(",
-            "action": "popup"
-        },
-        {
-            "title": "Amazon",
-            "image": "http://images.frandroid.com/wp-content/uploads/2015/03/amazon_1-1000x364.jpg",
-            "url": "http://amazon.com/",
-            "detail": "Buy some stupid goods you don't need.",
-            "action": "popup"
-        },
-        {
-            "title": "TestApp",
-            "color": "Yellow",
-            "url": "http://localhost/",
-            "detail": "Link to localhost! easy right ?",
             "action": "redirect"
         },
         {
             "title": "Facebook",
             "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Facebook_New_Logo_%282015%29.svg/512px-Facebook_New_Logo_%282015%29.svg.png",
-            "url": "http://facebook.com/",
-            "detail": "Stalk your preys there.",
-            "action": "popup"
+            "url": "http://bedo.com/",
+            "detail": "Facebook social network. stalk 1 hour a day to feel better.",
+            "action": "redirect"
         },
         {
-            "title": "Google",
-            "image": "data/img/google.png",
-            "url": "http://google.com/",
-            "detail": "Always nice to have google around.",
-            "action": "popup"
+            "title": "Youtube",
+            "image": "https://cdn.pixabay.com/photo/2015/03/10/17/23/youtube-667451_960_720.png",
+            "url": "http://youtube.com/",
+            "detail": "Why bother watching trending ? Why not.",
+            "action": "redirect"
         },
         {
             "title": "Amazon",
             "image": "http://images.frandroid.com/wp-content/uploads/2015/03/amazon_1-1000x364.jpg",
             "url": "http://amazon.com/",
             "detail": "Buy some stupid goods you don't need.",
-            "action": "popup"
+            "action": "redirect"
         },
         {
-            "title": "Youtube",
-            "image": "https://cdn.pixabay.com/photo/2015/03/10/17/23/youtube-667451_960_720.png",
-            "url": "http://youtube.com/",
-            "detail": "Go waste your time some more...",
-            "action": "popup"
+            "title": "Google Drive",
+            "image": "http://www.ghanalive.tv/wp-content/uploads/2017/09/Google-Drive-Logo.png",
+            "url": "http://drive.google.com/",
+            "detail": "What's on the cloud?",
+            "action": "redirect"
         },
         {
-            "title": "Facebook",
-            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Facebook_New_Logo_%282015%29.svg/512px-Facebook_New_Logo_%282015%29.svg.png",
-            "url": "http://facebook.com/",
-            "detail": "Stalk your preys there.",
-            "action": "popup"
+            "title": "Trello",
+            "image": "https://lh3.googleusercontent.com/z7oKSvTI-2ynS5bHggIctR9GVkS8sGKqpDlfCvgxLo0du7Az00u6XpJ0LLyvzBusW-Jd=s180",
+            "url": "http://trello.com/",
+            "detail": "Organize your mess for better handling.",
+            "action": "redirect"
         },
         {
-            "title": "Google",
-            "image": "data/img/google.png",
-            "url": "http://google.com/",
-            "detail": "Always nice to have google around.",
-            "action": "popup"
-        },
-        {
-            "title": "Amazon",
-            "image": "http://images.frandroid.com/wp-content/uploads/2015/03/amazon_1-1000x364.jpg",
-            "url": "http://amazon.com/",
-            "detail": "Buy some stupid goods you don't need.",
-            "action": "popup"
-        },
-        {
-            "title": "Youtube",
-            "image": "https://cdn.pixabay.com/photo/2015/03/10/17/23/youtube-667451_960_720.png",
-            "url": "http://youtube.com/",
-            "detail": "Go waste your time some more...",
-            "action": "popup"
+            "title": "Ebay",
+            "url": "http://ebay.com/",
+            "detail": "10 Hours left for a $999 stephen hawkins hair?! Gotta bid!",
+            "action": "redirect"
         }
     ]
 }
