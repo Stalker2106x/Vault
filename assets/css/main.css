@@ -28,6 +28,11 @@
         right: 0;
     }
 
+    /* allow horizontal scroll for mobile */
+    #app-container {
+        overflow-x: scroll;
+    }
+
     .app {
         width: calc(50% - 20px);
         margin: 10px 10px !important;
@@ -65,6 +70,10 @@
         right: 10px;
     }
 
+    #app-container {
+        overflow: hidden;
+    }
+
     .app {
         width: calc(20% - 20px);
         margin: 10px 10px !important;
@@ -73,6 +82,10 @@
  }
 
 /* EOR */
+
+body {
+    min-height: 100vh;
+}
 
 .app .card-title {
     text-shadow: 4px 4px 8px #000000;
@@ -114,7 +127,6 @@ body {
     margin: auto auto;
     width: 90%;
     height: 75vh;
-    overflow: hidden;
     align-content: flex-start;
 }
 
