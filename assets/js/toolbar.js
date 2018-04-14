@@ -3,13 +3,12 @@ var toolbarAdditionalToggles = [];
 
 //Functions
 
-function addButtonToToolbar(id, icon, callback)
+function addButtonToToolbar(id, icon, tooltipText, callback)
 {
     let button = document.createElement("li");
-    button.innerHTML = '<a id="' + id + '" class="btn-floating yellow darken-1 inactive"><i class="material-icons">' + icon + '</i></a>';
+    button.innerHTML = '<a id="' + id + '" class="btn-floating yellow darken-1 tooltipped inactive" data-position="top" data-tooltip="' + tooltipText + '"><i class="material-icons">' + icon + '</i></a>';
     document.getElementById('vault-toolbar-button').children[1].appendChild(button);
     document.getElementById(id).addEventListener("click", callback);
-    toolbarInstance = M.FloatingActionButton.init(toolbar, {direction: "left", hoverEnabled: true});
     return (button);
 }
 
@@ -21,7 +20,8 @@ function verifyAuthorization()
 function unlockToolbar()
 {
     if (!verifyAuthorization) return; //Requires authorization
-    toolbarAdditionalToggles.push(addButtonToToolbar("toggleEditor", "create", toggleEditor));
+    toolbarAdditionalToggles.push(addButtonToToolbar("toggleEditor", "create", "Toggle editor", toggleEditor));
+    initToolbar(); //Init newly added buttons
 }
 
 function lockToolbar()
@@ -37,6 +37,15 @@ function lockToolbar()
     }
     toolbarAdditionalToggles = []; //clear array
     return (true);
+}
+
+function initToolbar() {
+    var toolbarInstance = M.FloatingActionButton.init(toolbar, {direction: "left", hoverEnabled: true});
+    var activeTooltips = document.getElementsByClassName("tooltipped");
+    for (var tooltip in activeTooltips)
+    {
+        M.Tooltip.init(activeTooltips[tooltip], {exitDelay: 2});
+    }
 }
 
 //Main
@@ -95,4 +104,4 @@ if (true/* !remote || remote &&  appconfig.allow-remote-edition == true*/)
     });
 }
 
-var toolbarInstance = M.FloatingActionButton.init(toolbar, {direction: "left", hoverEnabled: true});
+initToolbar();

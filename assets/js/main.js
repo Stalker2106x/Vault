@@ -28,6 +28,10 @@ function updateAppNav() {
 }
 
 // Main
+function clearVault() {
+    document.getElementById("app-container").innerHTML = ""; //Empty container content
+}
+
 function loadVault() {
     return (new Promise(function (resolve, reject) {
         //Getting global app configuration

@@ -27,6 +27,34 @@ function isEditorEnabled() {
 
 //Functions
 
+function closeEditor(save) {
+    var toggle = document.getElementById("toggleEditor")
+    toggle.children[0].innerHTML = "create"; //Changing icon
+    toggle.classList.remove("active");
+    editorInstance.get('nativeEditor').setReadOnly(true);
+    var toastContainer = document.getElementById('toast-container');
+    var activeToasts = toastContainer.childNodes;
+    for (var toast in activeToasts)
+    {
+        if (getDescendantWithClass(activeToasts[toast], "editorToast") != null)
+        {
+            toastContainer.removeChild(activeToasts[toast]);
+            break;
+        }
+    }
+    if (save)
+    {
+        saveVault();
+        //Toast to alert
+        M.toast({html: '<span>Modifications saved with success.</span>'});
+    }
+    else
+    {
+        //Toast to alert
+        M.toast({html: '<span>Exited edition mode.</span>'});
+    }
+}
+
 function toggleEditor() {
     var toggle = document.getElementById("toggleEditor");
     if (!toggle.classList.contains("active")) //Enable editor
@@ -36,19 +64,20 @@ function toggleEditor() {
         if (editorInstance == null) editorInstance = AlloyEditor.editable('page-content'); //Create instance
         else editorInstance.get('nativeEditor').setReadOnly(false);
         //Toast to alert
-        M.toast({html: '<span>Switched to edition mode !</span><button class="btn-flat toast-action">Undo</button>'});
+        M.toast({html: '<span class="editorToast">Vault is in edition mode</span><button id="revertEditor" class="btn-flat toast-action">Revert changes</button>', displayLength: 999999});
+        document.getElementById('revertEditor').addEventListener("click", revertEditor);
     }
     else //Saving and closing editor
     {
-        var toggle = document.getElementById("toggleEditor")
-        toggle.children[0].innerHTML = "create"; //Changing icon
-        toggle.classList.remove("active");
-        editorInstance.get('nativeEditor').setReadOnly(true);
-        saveVault();
-        //Toast to alert
-        M.toast({html: '<span>Modifications saved with success.</span>'});
+        closeEditor(true);
     }
     return (false);
+}
+
+function revertEditor() {
+    closeEditor(false);
+    clearVault();
+    loadVault();
 }
 
 function saveVault() {
