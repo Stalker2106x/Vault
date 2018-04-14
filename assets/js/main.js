@@ -68,6 +68,24 @@ function updateAppNav() {
     }
 }
 
+function replaceVerticalScrollByHorizontal(event) {
+    if (event.deltaY != 0) {
+        // manually scroll horizonally instead
+        var motion = (event.deltaY > 0 ? 1 : -1);
+        if (appCursor + motion >= 0 && appCursor + motion < appTiles.length)
+        {
+            appCursor += motion;
+        }
+        appTiles[appCursor - motion].style.border = ""; //remove old highlight
+        appTiles[appCursor].style.border = "1px solid lightgrey"; //highlight current element
+        appTiles[appCursor].scrollIntoView({ block: 'start',  behavior: 'smooth' });
+        updateAppNav();
+        // prevent vertical scroll
+        event.preventDefault();
+    }
+    return;
+}
+
 // Main
 function clearVault() {
     document.getElementById("app-container").innerHTML = ""; //Empty container content
@@ -111,6 +129,14 @@ function loadVault() {
     }));
 }
 
+//APP BEGIN
+var appCursor = 0;
+//Set navigation if scrollbar present
+var appTiles = document.getElementsByClassName('app');
+var navButtons = document.getElementsByClassName('app-nav');
+/* Listener on window once we start scrolling, we run our function */
+window.addEventListener('wheel', replaceVerticalScrollByHorizontal);
 loadVault().then(function() {
     updateAppNav();
 });
+//APP END

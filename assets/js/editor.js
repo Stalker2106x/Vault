@@ -17,8 +17,12 @@ function closeEditor(save) {
     //Disabling page editor
     var apps = document.getElementById("app-container").childNodes;
     [].forEach.call(apps, function (app) {
-        findFirstChildByClass(app, "app-title").contentEditable = "false";
-        findFirstChildByClass(app, "app-detail").contentEditable = "false";
+        let title = findFirstChildByClass(app, "app-title");
+        title.contentEditable = "false";
+        title.classList.remove("editable");
+        let detail = findFirstChildByClass(app, "app-detail");
+        detail.contentEditable = "false";
+        detail.classList.remove("editable");
     });
     var toastContainer = document.getElementById('toast-container');
     var activeToasts = toastContainer.childNodes;
@@ -45,9 +49,13 @@ function closeEditor(save) {
 
 function openEditor() {
     var apps = document.getElementById("app-container").childNodes;
-    [].forEach.call(apps, function (app) {
-        findFirstChildByClass(app, "app-title").contentEditable = "true";
-        findFirstChildByClass(app, "app-detail").contentEditable = "true";
+    [].forEach.call(apps, function (app) {        
+        let title = findFirstChildByClass(app, "app-title");
+        title.contentEditable = "true";
+        title.classList.add("editable");
+        let detail = findFirstChildByClass(app, "app-detail");
+        detail.contentEditable = "true";
+        detail.classList.add("editable");
     });
 }
 

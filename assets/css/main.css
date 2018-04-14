@@ -41,7 +41,7 @@
  }
  
  /* Medium devices (landscape tablets, 768px and up) */
- @media only screen and (min-width: 768px) {
+ @media only screen and (min-width: 769px) {
 
     #vault-header {
         margin-bottom: 40px;
@@ -80,6 +80,48 @@
         align-self: flex-start;
     }
  }
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 1025px) {
+
+    #vault-header {
+        margin-bottom: 40px;
+    }
+
+    #vault-search {
+        position: absolute;
+        top: 5%;
+        left: 70%;
+        width: 20%;
+    }
+
+    .app-nav .material-icons {
+        color: white;
+        outline-color: gray;
+        font-size: 5em;
+    }
+
+    #app-nav-back {
+        top: 50%;
+        left: 10px;
+    }
+    
+    #app-nav-forward {
+        top: 50%;
+        right: 10px;
+    }
+
+    #app-container {
+        overflow: hidden;
+    }
+
+    .app {
+        width: calc(16% - 20px);
+        margin: 10px 10px !important;
+        align-self: flex-start;
+    }
+} 
+
 
 /* EOR */
 
@@ -133,4 +175,8 @@ body {
 .app-nav  {
     z-index: 1;
     position: absolute;
+}
+
+.editable {
+    border: 1px dotted white;
 }
