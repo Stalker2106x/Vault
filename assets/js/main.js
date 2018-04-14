@@ -3,6 +3,47 @@ var authorization_passphrase = "";
 
 //Helpers
 
+//Gets the first child in the element childs (not multilevel)
+function getDescendantWithClass(element, clName) {
+    var children = element.childNodes;
+    for (var i = 0; i < children.length; i++) {
+        if (children[i].className &&
+            children[i].className.split(' ').indexOf(clName) >= 0) {
+            return children[i];
+         }
+     }
+     for (var i = 0; i < children.length; i++) {
+         var match = getDescendantWithClass(children[i], clName);
+         if (match !== null) {
+             return match;
+         }
+     }
+     return null;
+}
+
+//Gets the first child in the element hierarchy
+function findFirstChildByClass(element, className) {
+    var foundElement = null, found;
+    function recurse(element, className, found) {
+        for (var i = 0; i < element.childNodes.length && !found; i++) {
+            var el = element.childNodes[i];
+            var classes = el.className != undefined? el.className.split(" ") : [];
+            for (var j = 0, jl = classes.length; j < jl; j++) {
+                if (classes[j] == className) {
+                    found = true;
+                    foundElement = element.childNodes[i];
+                    break;
+                }
+            }
+            if(found)
+                break;
+            recurse(element.childNodes[i], className, found);
+        }
+    }
+    recurse(element, className, false);
+    return (foundElement);
+}
+
 function loadJSON(file, callback) {   
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");

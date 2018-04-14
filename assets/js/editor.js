@@ -4,23 +4,6 @@ var editorInstance = null;
 
 //Helpers
 
-function getDescendantWithClass(element, clName) {
-    var children = element.childNodes;
-    for (var i = 0; i < children.length; i++) {
-        if (children[i].className &&
-            children[i].className.split(' ').indexOf(clName) >= 0) {
-            return children[i];
-         }
-     }
-     for (var i = 0; i < children.length; i++) {
-         var match = getDescendantWithClass(children[i], clName);
-         if (match !== null) {
-             return match;
-         }
-     }
-     return null;
-}
-
 function isEditorEnabled() {
     return (document.getElementById("toggleEditor").classList.contains("active"));
 }
@@ -31,7 +14,12 @@ function closeEditor(save) {
     var toggle = document.getElementById("toggleEditor")
     toggle.children[0].innerHTML = "create"; //Changing icon
     toggle.classList.remove("active");
-    editorInstance.get('nativeEditor').setReadOnly(true);
+    //Disabling page editor
+    var apps = document.getElementById("app-container").childNodes;
+    [].forEach.call(apps, function (app) {
+        findFirstChildByClass(app, "app-title").contentEditable = "false";
+        findFirstChildByClass(app, "app-detail").contentEditable = "false";
+    });
     var toastContainer = document.getElementById('toast-container');
     var activeToasts = toastContainer.childNodes;
     for (var toast in activeToasts)
@@ -55,14 +43,21 @@ function closeEditor(save) {
     }
 }
 
+function openEditor() {
+    var apps = document.getElementById("app-container").childNodes;
+    [].forEach.call(apps, function (app) {
+        findFirstChildByClass(app, "app-title").contentEditable = "true";
+        findFirstChildByClass(app, "app-detail").contentEditable = "true";
+    });
+}
+
 function toggleEditor() {
     var toggle = document.getElementById("toggleEditor");
     if (!toggle.classList.contains("active")) //Enable editor
     {
         toggle.children[0].innerHTML = "save"; //Changing icon
         toggle.classList.add("active");
-        if (editorInstance == null) editorInstance = AlloyEditor.editable('page-content'); //Create instance
-        else editorInstance.get('nativeEditor').setReadOnly(false);
+        openEditor();
         //Toast to alert
         M.toast({html: '<span class="editorToast">Vault is in edition mode</span><button id="revertEditor" class="btn-flat toast-action">Revert changes</button>', displayLength: 999999});
         document.getElementById('revertEditor').addEventListener("click", revertEditor);
