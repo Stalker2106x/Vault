@@ -3,6 +3,10 @@ function getSelectedApp() {
     return (findFirstChildByClass(document.getElementById("app-container"), "selected"));
 }
 
+function getAppByIndex(index) {
+    return (getElementsByClassName("app")[index]);
+}
+
 function navigateToSelection() {
     var app = getSelectedApp();
     if (app == undefined || app.getAttribute("href") == undefined) return;
@@ -42,7 +46,7 @@ function replaceVerticalScrollByHorizontal(event) {
         if (selection == null) //If null, select first app
         {
             emptySelection = true;
-            selection = appNodes[0];
+            selection = getAppByIndex(0);
         }
         else
         {
@@ -55,7 +59,7 @@ function replaceVerticalScrollByHorizontal(event) {
                 if (appIndex < 0 || appIndex >= appNodes.length) return; //Out of range
             }
             selection.classList.remove("selected");  //unselect previous
-            selection = appNodes[appIndex];
+            selection = getAppByIndex(appIndex);
         }
         selection.classList.add("selected");  //select app
         selection.scrollIntoView({ block: 'start',  behavior: 'smooth' });
