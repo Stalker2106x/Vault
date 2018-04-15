@@ -5,8 +5,8 @@ function getSelectedApp() {
 
 function navigateToSelection() {
     var app = getSelectedApp();
-    if (app == undefined) return;
-    window.location.href = app.href;
+    if (app == undefined || app.getAttribute("href") == undefined) return;
+    window.location.href = app.getAttribute("href");
 }
 
 function updateNavArrows() {

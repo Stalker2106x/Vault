@@ -191,3 +191,7 @@ body {
     width: auto !important;
     margin: auto;
 }
+
+.app-link:hover {
+    cursor:pointer;
+}

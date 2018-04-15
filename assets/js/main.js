@@ -3,6 +3,12 @@ var authorization_passphrase = "";
 
 //Helpers
 
+//Change tagName of an element
+function changeElementTagName(element, old, wanted) {
+    let regexp = "/"+old+"/g"
+    element.outerHTML = element.outerHTML.replace(regexp,wanted);
+}
+
 //Gets index of element within its container
 function getElementIndex(node) {
     var index = 0;
@@ -124,6 +130,11 @@ window.addEventListener('wheel', replaceVerticalScrollByHorizontal);
 loadVault().then(function() {
     appNodes = [].slice.call(document.getElementById("app-container").children);
     appNodes.forEach(function(app) {
+        if (app.getAttribute("href") != undefined)
+        {
+            app.classList.add("app-link");
+            app.addEventListener("click", navigateToSelection);
+        }
         app.addEventListener("mouseover", updateSelection);
         app.addEventListener("mouseleave", clearSelection);
     });

@@ -10,13 +10,27 @@ function isEditorEnabled() {
 
 //Functions
 
+function openEditor() {
+    var apps = document.getElementsByClassName('app');
+    [].forEach.call(apps, function (app) {
+        app.classList.remove("app-link");
+        let title = findFirstChildByClass(app, "app-title");
+        title.contentEditable = "true";
+        title.classList.add("editable");
+        let detail = findFirstChildByClass(app, "app-detail");
+        detail.contentEditable = "true";
+        detail.classList.add("editable");
+    });
+}
+
 function closeEditor(save) {
     var toggle = document.getElementById("toggleEditor")
     toggle.children[0].innerHTML = "create"; //Changing icon
     toggle.classList.remove("active");
     //Disabling page editor
-    var apps = document.getElementById("app-container").childNodes;
+    var apps = document.getElementsByClassName('app');
     [].forEach.call(apps, function (app) {
+        if (app.getAttribute("href") != undefined) app.classList.add("app-link");
         let title = findFirstChildByClass(app, "app-title");
         title.contentEditable = "false";
         title.classList.remove("editable");
@@ -45,18 +59,6 @@ function closeEditor(save) {
         //Toast to alert
         M.toast({html: '<span>Exited edition mode.</span>'});
     }
-}
-
-function openEditor() {
-    var apps = document.getElementById("app-container").childNodes;
-    [].forEach.call(apps, function (app) {        
-        let title = findFirstChildByClass(app, "app-title");
-        title.contentEditable = "true";
-        title.classList.add("editable");
-        let detail = findFirstChildByClass(app, "app-detail");
-        detail.contentEditable = "true";
-        detail.classList.add("editable");
-    });
 }
 
 function toggleEditor() {
@@ -101,7 +103,8 @@ function dumpVaultApps() {
         var appJson = {};
         appJson.title = getDescendantWithClass(app, "app-title").innerText;
         appJson.detail = getDescendantWithClass(app, "app-detail").innerText;
-        appJson.url = getDescendantWithClass(app, "app-link").href;
+        var url = getDescendantWithClass(app, "app-link");
+        if (url) appJson.url = url.href;
         appsJson.apps.push(appJson);
     });
     return(appsJson);
