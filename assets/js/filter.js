@@ -2,14 +2,14 @@
 
 document.getElementById("filterInput").addEventListener('input', function () {
     var filter = this.value;
-    var apps = document.getElementsByClassName("app");
+    var firstMatching = true;
     if (filter == "")
     {
-        [].forEach.call(apps, function (app) {
+        appNodes.forEach(function (app) {
             app.style.display = "";
         });
     }
-    [].forEach.call(apps, function (app) {
+    appNodes.forEach(function (app) {
         if (findFirstChildByClass(app, "app-title").innerText.toLowerCase().indexOf(filter.toLowerCase()) < 0 //Filter title
             && findFirstChildByClass(app, "app-detail").innerText.toLowerCase().indexOf(filter.toLowerCase()) < 0) //Filter detail
         {
@@ -17,6 +17,11 @@ document.getElementById("filterInput").addEventListener('input', function () {
         }
         else 
         {
+            if (firstMatching)
+            {
+                firstMatching = false;
+                selectApp(app);
+            }
             if (app.style.display == "none")
             {
                 app.style.display = "";

@@ -3,6 +3,15 @@ var authorization_passphrase = "";
 
 //Helpers
 
+//Gets index of element within its container
+function getElementIndex(node) {
+    var index = 0;
+    while ( (node = node.previousElementSibling) ) {
+        index++;
+    }
+    return index;
+}
+
 //Gets the first child in the element childs (not multilevel)
 function getDescendantWithClass(element, clName) {
     var children = element.childNodes;
@@ -57,35 +66,6 @@ function loadJSON(file, callback) {
     xobj.send(null);  
  }
 
-function updateAppNav() {
-    appTiles[0].style.border = "1px solid lightgrey"; //highlight first element
-    if (window.innerWidth > document.getElementById('app-container').clientWidth)
-    {
-        if (appCursor > 0) navButtons[0].style.display = "";
-        else navButtons[0].style.display = "none";
-        if (appCursor < appTiles.length - 1) navButtons[1].style.display = "";
-        else navButtons[1].style.display = "none";
-    }
-}
-
-function replaceVerticalScrollByHorizontal(event) {
-    if (event.deltaY != 0) {
-        // manually scroll horizonally instead
-        var motion = (event.deltaY > 0 ? 1 : -1);
-        if (appCursor + motion >= 0 && appCursor + motion < appTiles.length)
-        {
-            appCursor += motion;
-        }
-        appTiles[appCursor - motion].style.border = ""; //remove old highlight
-        appTiles[appCursor].style.border = "1px solid lightgrey"; //highlight current element
-        appTiles[appCursor].scrollIntoView({ block: 'start',  behavior: 'smooth' });
-        updateAppNav();
-        // prevent vertical scroll
-        event.preventDefault();
-    }
-    return;
-}
-
 // Main
 function clearVault() {
     document.getElementById("app-container").innerHTML = ""; //Empty container content
@@ -130,13 +110,23 @@ function loadVault() {
 }
 
 //APP BEGIN
-var appCursor = 0;
 //Set navigation if scrollbar present
-var appTiles = document.getElementsByClassName('app');
+var appNodes = [];
+//Comportement listeners
 var navButtons = document.getElementsByClassName('app-nav');
-/* Listener on window once we start scrolling, we run our function */
+window.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        navigateToSelection();
+    }
+});
 window.addEventListener('wheel', replaceVerticalScrollByHorizontal);
 loadVault().then(function() {
-    updateAppNav();
+    appNodes = [].slice.call(document.getElementById("app-container").children);
+    appNodes.forEach(function(app) {
+        app.addEventListener("mouseover", updateSelection);
+        app.addEventListener("mouseleave", clearSelection);
+    });
+    updateNavArrows();
 });
 //APP END

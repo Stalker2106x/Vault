@@ -34,7 +34,7 @@
     }
 
     .app {
-        width: calc(50% - 20px);
+        width: calc(45vw - 20px);
         margin: 10px 10px !important;
         align-self: flex-start;
     }
@@ -75,7 +75,7 @@
     }
 
     .app {
-        width: calc(20% - 20px);
+        width: calc(22.5vw - 20px);
         margin: 10px 10px !important;
         align-self: flex-start;
     }
@@ -116,7 +116,7 @@
     }
 
     .app {
-        width: calc(16% - 20px);
+        width: calc(15vw - 20px);
         margin: 10px 10px !important;
         align-self: flex-start;
     }
@@ -177,6 +177,17 @@ body {
     position: absolute;
 }
 
+.selected {
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1) !important;
+}
+
 .editable {
     border: 1px dotted white;
+}
+
+/* material card image override */
+.card .card-image img {
+    max-width: 100%;
+    width: auto !important;
+    margin: auto;
 }

@@ -52,35 +52,13 @@
         <!-- Template Engine js -->
         <script type="text/javascript" src="assets/js/nunjucks.min.js"></script>
         <!-- Vault js -->
+        <script type="text/javascript" src="assets/js/navigation.js"></script>
         <script type="text/javascript" src="assets/js/main.js"></script>
         <script type="text/javascript" src="assets/js/editor.js"></script>
         <script type="text/javascript" src="assets/js/filter.js"></script>
         <!-- HScroll -->
         <script type="text/javascript">
 
-            var appCursor = 0;
-            //Set navigation if scrollbar present
-            var appTiles = document.getElementsByClassName('app');
-            var navButtons = document.getElementsByClassName('app-nav');
-            function replaceVerticalScrollByHorizontal(event) {
-                if (event.deltaY != 0) {
-                    // manually scroll horizonally instead
-                    var motion = (event.deltaY > 0 ? 1 : -1);
-                    if (appCursor + motion >= 0 && appCursor + motion < appTiles.length)
-                    {
-                        appCursor += motion;
-                    }
-                    appTiles[appCursor - motion].style.border = ""; //remove old highlight
-                    appTiles[appCursor].style.border = "1px solid lightgrey"; //highlight current element
-                    appTiles[appCursor].scrollIntoView({ block: 'start',  behavior: 'smooth' });
-                    updateAppNav();
-                    // prevent vertical scroll
-                    event.preventDefault();
-                }
-                return;
-            }
-            /* Listener on window once we start scrolling, we run our function */
-            window.addEventListener('wheel', replaceVerticalScrollByHorizontal);
         </script>
     </body>
 </html>
