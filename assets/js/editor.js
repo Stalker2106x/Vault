@@ -14,11 +14,13 @@ function deleteApp(event) {
     
     var dlgElem = document.getElementById('modal_delete');
     if (dlgElem != null) document.getElementById('modal_delete').remove(); //delete previous modal
-    var dlgHtml = nunjucks.render('templates/modal_delete.html', {title: "Unknown"});
+    var app = event.currentTarget.parentNode;
+    var appTitle = getDescendantWithClass(app, "app-title").innerText;
+    var dlgHtml = nunjucks.render('templates/modal_delete.html', {title: appTitle});
     document.getElementById('page-content').innerHTML += dlgHtml;
     dlgElem = document.getElementById('modal_delete');
     let dlgDelete = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
-        document.getElementById('delete-confirm').addEventListener("click", function(){
+    document.getElementById('delete-confirm').addEventListener("click", function(){
         app.style.display = "none";
         M.toast({html: '<span>Deleted app !</span>'});
         dlgDelete.close();
