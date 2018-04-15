@@ -202,13 +202,15 @@ body {
     float: right;
     top: -10px;
     right: -10px;
-}
-
-.delete-badge > .material-icons {
     background-color: cyan;
     border-radius: 100%;
     float: right;
     color: red;
+    z-index: 1;
+}
+
+.delete-badge:hover {
+    cursor:pointer;
 }
 
 .deleted {

@@ -8,7 +8,7 @@ function navigateToSelection() {
     if (selection != undefined && selection != null) //If not null, goto
     {
         if (selection.getAttribute("href") == undefined) return;
-        window.location.href = app.getAttribute("href");
+        window.location.href = selection.getAttribute("href");
     }
 }
 

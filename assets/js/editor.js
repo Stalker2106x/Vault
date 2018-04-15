@@ -5,38 +5,50 @@ var editorInstance = null;
 //Helpers
 
 function isEditorEnabled() {
-    return (document.getElementById("toggleEditor").classList.contains("active"));
+    return (document.querySelector("#toggleEditor.active") == null ? false : true);
 }
 
 //Functions
 
-var appMarkedForDeletion = null;
 function deleteApp(event) {
-    
-    var dlgElem = document.getElementById('modal_delete');
-    if (dlgElem != null) document.getElementById('modal_delete').remove(); //delete previous modal
-    var app = event.currentTarget.parentNode;
-    var appTitle = getDescendantWithClass(app, "app-title").innerText;
-    var dlgHtml = nunjucks.render('templates/modal_delete.html', {appTitle: appTitle});
-    document.getElementById('page-content').innerHTML += dlgHtml;
-    dlgElem = document.getElementById('modal_delete');
-    let dlgDelete = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
-    document.getElementById('delete-confirm').addEventListener("click", function(){
-        app.classList.add("deleted");
-        M.toast({html: '<span>Deleted app !</span>'});
-        dlgDelete.close();
-    });
+    var app = document.querySelector(".app.markedForDeletion");
+    app.classList.remove("markedForDeletion");
+    app.classList.add("deleted");
+    M.toast({html: '<span>Deleted app !</span>'});
+    dlgDelete.close();
+    dlgDelete.destroy();
+};
+
+var dlgDelete = null;
+function addDeleteModal() {
+    var dlgHtml = nunjucks.render('templates/modal_delete.html');
+    document.querySelector("#page-content").innerHTML += dlgHtml;
+    var dlgElem = document.querySelector('#modal_delete');
+    dlgElem.querySelector('#delete-confirm').addEventListener("click", deleteApp); //Bind delete
+    dlgDelete = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
+}
+
+function promptDelete(event) {
+    var dlgElem = document.querySelector("#modal_delete");
+    event.currentTarget.parentNode.classList.add("markedForDeletion");
+    var appTitle = event.currentTarget.parentNode.querySelector(".app-title").innerText;
+    dlgElem.querySelector(".delete-prompt").innerText = "Delete " + appTitle + " ?";
     dlgDelete.open();
+}
+
+function addDeleteBadge(app) {
+    let badgeHTML = '<i class="delete-badge material-icons">cancel</i>';
+    app.innerHTML = badgeHTML + app.innerHTML;
+    app.querySelector(".delete-badge").addEventListener("click", promptDelete);
 }
 
 function openEditor() {
     var apps = document.getElementsByClassName('app');
+    addDeleteModal();
     [].forEach.call(apps, function (app) {
         app.classList.remove("app-link"); //remove mouse style
-        let badgeHTML = '<a class="delete-badge" href="#"><i class="material-icons">cancel</i></a>';
-        app.innerHTML = badgeHTML + app.innerHTML;
-        getDescendantWithClass(app, "delete-badge").addEventListener("click", deleteApp);
-        let title = findFirstChildByClass(app, "app-title");
+        addDeleteBadge(app);
+         let title = findFirstChildByClass(app, "app-title");
         title.contentEditable = "true";
         title.classList.add("editable");
         let detail = findFirstChildByClass(app, "app-detail");
