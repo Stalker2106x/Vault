@@ -126,17 +126,24 @@ window.addEventListener("keyup", function(event) {
         navigateToSelection();
     }
 });
-window.addEventListener('wheel', replaceVerticalScrollByHorizontal);
+var toolbar = document.getElementById('vault-toolbar-button');
+//Init
+window.addEventListener('wheel', replaceVerticalScrollByHorizontal); //Bind Horz scroll handler
+document.getElementById("filterInput").addEventListener('input', filterApps); //Bind filter handler
+document.getElementById("scrollHome").addEventListener("click", function() { appCursor = 0; document.getElementById('app-container').scroll(0,0); }); //Bind scrollTop handler
+document.getElementById("unlockVault").addEventListener("click", authenticate); //Bind unlocking handler
+initToolbar();
+//Main
 loadVault().then(function() {
     appNodes = [].slice.call(document.getElementById("app-container").children);
     appNodes.forEach(function(app) {
         if (app.getAttribute("href") != undefined)
         {
             app.classList.add("app-link");
-            app.addEventListener("click", navigateToSelection);
+            app.addEventListener("click", navigateToSelection); //Bind navigation handler
         }
-        app.addEventListener("mouseover", updateSelection);
-        app.addEventListener("mouseleave", clearSelection);
+        app.addEventListener("mouseover", updateSelection); //Bind selection handler
+        app.addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
     });
     updateNavArrows();
 });

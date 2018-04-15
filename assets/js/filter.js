@@ -1,6 +1,6 @@
-//Main
+//Functions
 
-document.getElementById("filterInput").addEventListener('input', function () {
+function filterApps() {
     var filter = this.value;
     var firstMatching = true;
     if (filter == "")
@@ -29,4 +29,4 @@ document.getElementById("filterInput").addEventListener('input', function () {
             }
         }
     });
-});
+}
