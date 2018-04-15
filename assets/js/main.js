@@ -140,9 +140,9 @@ loadVault().then(function() {
         if (app.getAttribute("href") != undefined)
         {
             app.classList.add("app-link");
-            app.addEventListener("click", navigateToSelection); //Bind navigation handler
+            app.onclick = navigateToSelection(); //Bind navigation handler
         }
-        app.addEventListener("mouseover", updateSelection); //Bind selection handler
+        app.addEventListener("mouseover", function (event) { selectApp(event.currentTarget); }); //Bind selection handler
         app.addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
     });
     updateNavArrows();

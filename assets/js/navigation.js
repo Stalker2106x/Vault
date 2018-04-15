@@ -1,20 +1,19 @@
 
-function getSelectedApp() {
-    return (findFirstChildByClass(document.getElementById("app-container"), "selected"));
-}
-
 function getAppByIndex(index) {
-    return (document.getElementsByClassName("app")[index]);
+    return (document.querySelectorAll(".app")[index]);
 }
 
 function navigateToSelection() {
-    var app = getSelectedApp();
-    if (app == undefined || app.getAttribute("href") == undefined) return;
-    window.location.href = app.getAttribute("href");
+    var selection = document.querySelector(".app.selected");
+    if (selection != undefined && selection != null) //If not null, goto
+    {
+        if (selection.getAttribute("href") == undefined) return;
+        window.location.href = app.getAttribute("href");
+    }
 }
 
 function updateNavArrows() {
-    if (window.innerWidth > document.getElementById('app-container').clientWidth)
+    if (window.innerWidth > document.querySelector('#app-container').clientWidth)
     {
         navButtons[0].style.display = "none";
         navButtons[1].style.display = "none";
@@ -22,10 +21,9 @@ function updateNavArrows() {
 }
 
 function clearSelection() {
-    var selection = getSelectedApp(); //Get current selection
-    if (selection != null) //If not null, unselect
+    var selection = document.querySelector(".app.selected"); //Get current selection
+    if (selection != undefined && selection != null) //If not null, unselect
     {
-        var appIndex = appNodes.indexOf(selection);
         selection.classList.remove("selected");  //unselect previous
     }
 }
@@ -35,18 +33,14 @@ function selectApp(app) {
     app.classList.add("selected"); //select current element
 }
 
-function updateSelection(event) {
-    selectApp(event.currentTarget); //select current element
-}
-
 function replaceVerticalScrollByHorizontal(event) {
     var motion = (event.deltaY > 0 ? 1 : -1); // interpret scroll horizonally motion
     if (event.deltaY != 0) {
-        var selection = getSelectedApp(); //Get current selection
-        if (selection == null) //If null, select first app
+        var selection = document.querySelector(".app.selected"); //Get current selection
+        if (selection == undefined || selection == null) //If null, select first app
         {
             emptySelection = true;
-            selection = getAppByIndex(0);
+            selection = document.querySelector(".app"); //Grab first app
         }
         else
         {
@@ -59,7 +53,7 @@ function replaceVerticalScrollByHorizontal(event) {
                 if (appIndex < 0 || appIndex >= appNodes.length) return; //Out of range
             }
             selection.classList.remove("selected");  //unselect previous
-            selection = getAppByIndex(appIndex);
+            selection = document.querySelectorAll(".app")[appIndex];
         }
         selection.classList.add("selected");  //select app
         selection.scrollIntoView({ block: 'start',  behavior: 'smooth' });

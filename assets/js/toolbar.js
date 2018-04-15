@@ -7,7 +7,7 @@ function addButtonToToolbar(id, icon, tooltipText, callback)
 {
     let button = document.createElement("li");
     button.innerHTML = '<a id="' + id + '" class="btn-floating yellow darken-1 tooltipped inactive" data-position="top" data-tooltip="' + tooltipText + '"><i class="material-icons">' + icon + '</i></a>';
-    document.getElementById('vault-toolbar-button').children[1].appendChild(button);
+    document.querySelector('#vault-toolbar-button').children[1].appendChild(button);
     document.getElementById(id).addEventListener("click", callback);
     return (button);
 }
@@ -41,7 +41,7 @@ function lockToolbar()
 
 function initToolbar() {
     var toolbarInstance = M.FloatingActionButton.init(toolbar, {direction: "left", hoverEnabled: true});
-    var activeTooltips = document.getElementsByClassName("tooltipped");
+    var activeTooltips = document.querySelectorAll(".tooltipped");
     for (var tooltip in activeTooltips)
     {
         M.Tooltip.init(activeTooltips[tooltip], {exitDelay: 2});
@@ -50,20 +50,20 @@ function initToolbar() {
 
 var dlgAuth = null;
 function authenticate() {
-    let button = document.getElementById("unlockVault");
+    let button = document.querySelector("#unlockVault");
     if (button.classList.contains("locked")) //app is locked
     {
         if (dlgAuth == null) //Create modal first time
         {
             var dlgHtml = nunjucks.render('templates/modal_auth.html');
-            document.getElementById('page-content').innerHTML += dlgHtml;
-            dlgElem = document.getElementById('modal_auth');
+            document.querySelector('#page-content').innerHTML += dlgHtml;
+            dlgElem = document.querySelector('#modal_auth');
             dlgAuth = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
-            document.getElementById('submit-passphrase').addEventListener("click", function(){
-                var passphraseInput = document.getElementById('passphrase');
+            document.querySelector('#submit-passphrase').addEventListener("click", function(){
+                var passphraseInput = document.querySelector('#passphrase');
                 if (passphraseInput.value == appconfig.passphrase) //auth success!
                 {
-                    getDescendantWithClass(button, "material-icons").innerText = "lock_open";
+                    button.querySelector(".material-icons").innerText = "lock_open";
                     authorization_passphrase = passphraseInput.value;
                     button.classList.remove("locked");
                     unlockToolbar();
