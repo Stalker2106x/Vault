@@ -3,10 +3,10 @@ var toolbarAdditionalToggles = [];
 
 //Functions
 
-function addButtonToToolbar(id, icon, tooltipText, callback)
+function addButtonToToolbar(id, icon, color, tooltipText, callback)
 {
     let button = document.createElement("li");
-    button.innerHTML = '<a id="' + id + '" class="btn-floating yellow darken-1 tooltipped inactive" data-position="top" data-tooltip="' + tooltipText + '"><i class="material-icons">' + icon + '</i></a>';
+    button.innerHTML = '<a id="' + id + '" class="btn-floating ' + color + ' darken-1 tooltipped inactive" data-position="top" data-tooltip="' + tooltipText + '"><i class="material-icons">' + icon + '</i></a>';
     document.querySelector('#vault-toolbar-button').children[1].appendChild(button);
     document.getElementById(id).addEventListener("click", callback);
     return (button);
@@ -20,7 +20,8 @@ function verifyAuthorization()
 function unlockToolbar()
 {
     if (!verifyAuthorization) return; //Requires authorization
-    toolbarAdditionalToggles.push(addButtonToToolbar("toggleEditor", "create", "Toggle editor", toggleEditor));
+    toolbarAdditionalToggles.push(addButtonToToolbar("toggleEditor", "create", "blue", "Toggle editor", toggleEditor));
+    toolbarAdditionalToggles.push(addButtonToToolbar("vaultConfig", "settings", "blue", "Configure Vault", configureVault));
     initToolbar(); //Init newly added buttons
 }
 
@@ -57,8 +58,9 @@ function authenticate() {
         {
             var dlgHtml = nunjucks.render('templates/modal_auth.html');
             document.querySelector('#page-content').innerHTML += dlgHtml;
-            dlgElem = document.querySelector('#modal_auth');
+            var dlgElem = document.querySelector('#modal_auth');
             dlgAuth = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
+            M.updateTextFields();
             document.querySelector('#submit-passphrase').addEventListener("click", function(){
                 var passphraseInput = document.querySelector('#passphrase');
                 if (passphraseInput.value == appconfig.passphrase) //auth success!

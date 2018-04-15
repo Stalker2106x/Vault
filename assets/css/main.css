@@ -216,3 +216,8 @@ body {
 .deleted {
     display: none;
 }
+
+.modalForm {
+    width: 95%;
+    margin: auto;
+}

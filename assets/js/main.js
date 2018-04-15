@@ -115,6 +115,14 @@ function loadVault() {
     }));
 }
 
+function bindClickHandler(app, callback) {
+    if (app.getAttribute("href") != undefined)
+    {
+        app.classList.add("app-link");
+        app.addEventListener("click", callback); //Bind navigation handler
+    }
+}
+
 //APP BEGIN
 //Set navigation if scrollbar present
 var appNodes = [];
@@ -122,7 +130,7 @@ var appNodes = [];
 var navButtons = document.getElementsByClassName('app-nav');
 window.addEventListener("keyup", function(event) {
     event.preventDefault();
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && !isEditorEnabled()) {
         navigateToSelection();
     }
 });
@@ -137,11 +145,7 @@ initToolbar();
 loadVault().then(function() {
     appNodes = [].slice.call(document.getElementById("app-container").children);
     appNodes.forEach(function(app) {
-        if (app.getAttribute("href") != undefined)
-        {
-            app.classList.add("app-link");
-            app.addEventListener("click", navigateToSelection); //Bind navigation handler
-        }
+        bindClickHandler(app, navigateToSelection);
         app.addEventListener("mouseover", function (event) { selectApp(event.currentTarget); }); //Bind selection handler
         app.addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
     });

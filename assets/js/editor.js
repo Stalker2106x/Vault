@@ -10,6 +10,44 @@ function isEditorEnabled() {
 
 //Functions
 
+var dlgConfig = null;
+function configureVault() {
+    if (dlgConfig == null) //Create modal first time
+    {
+        var config = { 
+            title: document.getElementById("vault-title").innerText, 
+            caption: document.getElementById("vault-caption").innerText
+        };
+        var dlgHtml = nunjucks.render('templates/modal_config.html', config);
+        document.querySelector('#page-content').innerHTML += dlgHtml;
+        var dlgElem = document.querySelector('#modal_config');
+        dlgConfig = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
+        M.updateTextFields();
+        document.querySelector('#submit-config').addEventListener("click", function () {
+            document.getElementById("vault-title").innerText = document.getElementById("configInput_title").value;
+            document.getElementById("vault-caption").innerText = document.getElementById("configInput_caption").value;
+            saveVault();
+            M.toast({html: '<span>Modifications saved with success.</span>'});
+            dlgConfig.close();
+        });
+    }
+    dlgConfig.open();
+}
+
+function editApp(event) {
+    let appDOM = event.currentTarget;
+    var app = {
+        title: appDOM.querySelector(".app-title").innerText,
+        detail: appDOM.querySelector(".app-detail").innerText
+    };
+    var dlgHtml = nunjucks.render('templates/modal_appedit.html', app);
+    var dlgElem = document.querySelector('#modal_appEdit');
+    dlgElem.innerHTML = dlgHtml;
+    var dlgAppEdit = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
+    M.updateTextFields();
+    dlgAppEdit.open();
+}
+
 function deleteApp(event) {
     var app = document.querySelector(".app.markedForDeletion");
     app.classList.remove("markedForDeletion");
@@ -26,6 +64,12 @@ function addDeleteModal() {
     var dlgElem = document.querySelector('#modal_delete');
     dlgElem.querySelector('#delete-confirm').addEventListener("click", deleteApp); //Bind delete
     dlgDelete = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
+}
+
+function addAppEditModal() {
+    var dlgContainer = '<div id="modal_appEdit" class="modal"></div>';
+    document.querySelector("#page-content").innerHTML += dlgContainer;
+    var dlgElem = document.querySelector('#modal_appEdit');
 }
 
 function promptDelete(event) {
@@ -45,15 +89,18 @@ function addDeleteBadge(app) {
 function openEditor() {
     var apps = document.getElementsByClassName('app');
     addDeleteModal();
+    addAppEditModal();
     [].forEach.call(apps, function (app) {
         app.classList.remove("app-link"); //remove mouse style
         addDeleteBadge(app);
-         let title = findFirstChildByClass(app, "app-title");
+        bindClickHandler(app, editApp);
+        /*
+        let title = findFirstChildByClass(app, "app-title");
         title.contentEditable = "true";
         title.classList.add("editable");
         let detail = findFirstChildByClass(app, "app-detail");
         detail.contentEditable = "true";
-        detail.classList.add("editable");
+        detail.classList.add("editable");*/
     });
 }
 
@@ -65,13 +112,16 @@ function closeEditor(save) {
     var apps = document.getElementsByClassName('app');
     [].forEach.call(apps, function (app) {
         if (app.getAttribute("href") != undefined) app.classList.add("app-link");
-        getDescendantWithClass(app, "delete-badge").remove();
+        app.querySelector(".delete-badge").remove();
+        bindClickHandler(apps, navigateToSelection);
+        /*
         let title = findFirstChildByClass(app, "app-title");
         title.contentEditable = "false";
         title.classList.remove("editable");
         let detail = findFirstChildByClass(app, "app-detail");
         detail.contentEditable = "false";
         detail.classList.remove("editable");
+        */
     });
     var toastContainer = document.getElementById('toast-container');
     var activeToasts = toastContainer.childNodes;
@@ -132,22 +182,23 @@ function saveVault() {
 
 function dumpVaultApps() {
     //Collecting apps data
-    var apps = document.getElementsByClassName('app');
-    var appsJson = { apps: [] };
+    var apps = document.querySelectorAll('.app');
+
+    var appsArray = [];
     [].forEach.call(apps, function (app) {
         var appJson = {};
+        if (app.classList.contains("deleted")) appJson.deleted = true; //Mark for deletion
         appJson.title = getDescendantWithClass(app, "app-title").innerText;
         appJson.detail = getDescendantWithClass(app, "app-detail").innerText;
         var url = getDescendantWithClass(app, "app-link");
         if (url) appJson.url = url.href;
-        appsJson.apps.push(appJson);
+        appsArray.push(appJson);
     });
-    return(appsJson);
+    return({ apps: appsArray});
 }
 
 function serializeData(data) {
     const req = new XMLHttpRequest();
-
     req.onreadystatechange = function(event) {
         // XMLHttpRequest.DONE === 4
         if (this.readyState === XMLHttpRequest.DONE) {

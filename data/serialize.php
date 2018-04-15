@@ -48,16 +48,19 @@ if (isset($postapps)) //Update apps
     //Loop through app collection
     $i = 0;
     foreach ($appsjson->apps as $app ) {
-        //Now iterate inside post data for this appand update
-        echo '[APP #'.$i.']';
+        //Now iterate inside post data to update json data
+        echo '['.$i.']';
         foreach ($postapps[$i] as $key => $postValue) {
             if (!isset($app->{$key}) || $postValue != $app->{$key}) //If key doesnt exists or is modified in post 
             {
-                echo '['.$key.']: '.$app->{$key}.' => '.$postValue;
+                if ($key == "deleted" && $postValue == true) echo 'DELETED';
+                if (isset($app->{$key})) echo '['.$key.']: '.$app->{$key};
+                else echo 'NEW';
+                echo ' => '.$postValue;
                 $app->{$key} = $postValue; //set data
             }
         }
-        echo '[/APP]';
+        echo '[/'.$i.']';
         $i = $i + 1;
     }
 
@@ -67,5 +70,4 @@ if (isset($postapps)) //Update apps
     fclose($fp);
 }
 
-echo 'DONE.';
 ?>

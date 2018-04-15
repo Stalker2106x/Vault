@@ -5,7 +5,8 @@
             "color": "Yellow",
             "url": "http://localhost/",
             "detail": "Serialization is serious, localhost is local.",
-            "action": "redirect"
+            "action": "redirect",
+            "deleted": true
         },
         {
             "title": "Google",
