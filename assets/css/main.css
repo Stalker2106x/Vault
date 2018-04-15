@@ -202,3 +202,7 @@ body {
     top: -10px;
     right: -10px;
 }
+
+.deleted {
+    display: none;
+}
