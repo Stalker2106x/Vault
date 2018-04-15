@@ -8,6 +8,7 @@ document.getElementById("filterInput").addEventListener('input', function () {
         appNodes.forEach(function (app) {
             app.style.display = "";
         });
+        return;
     }
     appNodes.forEach(function (app) {
         if (findFirstChildByClass(app, "app-title").innerText.toLowerCase().indexOf(filter.toLowerCase()) < 0 //Filter title

@@ -58,12 +58,11 @@ document.getElementById("scrollHome").addEventListener("click", function() { app
 if (true/* !remote || remote &&  appconfig.allow-remote-edition == true*/)
 {
     let button = document.getElementById("unlockVault");
-    var dlgAuth;
+    var dlgAuth = null;
     document.getElementById("unlockVault").addEventListener("click", function () {
         if (button.classList.contains("locked")) //app is locked
         {
-            var dlgElem = document.getElementById('modal_auth');
-            if (dlgElem == null) //Create modal first time
+            if (dlgAuth == null) //Create modal first time
             {
                 var dlgHtml = nunjucks.render('templates/modal_auth.html');
                 document.getElementById('page-content').innerHTML += dlgHtml;

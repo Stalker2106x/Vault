@@ -11,8 +11,19 @@ function isEditorEnabled() {
 //Functions
 
 function deleteApp(event) {
-    let app = event.currentTarget.parentNode;
-    app.style.display = "none";
+    
+    var dlgElem = document.getElementById('modal_delete');
+    if (dlgElem != null) document.getElementById('modal_delete').remove(); //delete previous modal
+    var dlgHtml = nunjucks.render('templates/modal_delete.html', {title: "Unknown"});
+    document.getElementById('page-content').innerHTML += dlgHtml;
+    dlgElem = document.getElementById('modal_delete');
+    let dlgDelete = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
+        document.getElementById('delete-confirm').addEventListener("click", function(){
+        app.style.display = "none";
+        M.toast({html: '<span>Deleted app !</span>'});
+        dlgDelete.close();
+    });
+    dlgDelete.open();
 }
 
 function openEditor() {
