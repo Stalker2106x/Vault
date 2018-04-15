@@ -4,7 +4,7 @@ function getSelectedApp() {
 }
 
 function getAppByIndex(index) {
-    return (getElementsByClassName("app")[index]);
+    return (document.getElementsByClassName("app")[index]);
 }
 
 function navigateToSelection() {
