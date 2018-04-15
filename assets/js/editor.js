@@ -23,27 +23,43 @@ function configureVault() {
         var dlgElem = document.querySelector('#modal_config');
         dlgConfig = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
         M.updateTextFields();
-        document.querySelector('#submit-config').addEventListener("click", function () {
+        document.querySelector('#config-apply').addEventListener("click", function () {
             document.getElementById("vault-title").innerText = document.getElementById("configInput_title").value;
             document.getElementById("vault-caption").innerText = document.getElementById("configInput_caption").value;
             saveVault();
-            M.toast({html: '<span>Modifications saved with success.</span>'});
+            M.toast({html: '<span>Modifications applied.</span>'});
             dlgConfig.close();
         });
     }
     dlgConfig.open();
 }
 
+function getAppAttribute(app, selector)
+{
+    var attribute = app.querySelector(selector);
+    if (attribute == null) return ("");
+    if (selector == ".app-image") return (attribute.src);
+    else return (attribute.innerText);
+}
+
 function editApp(event) {
+    if (event.target.classList.contains("delete-badge")) promptDelete(event);
     let appDOM = event.currentTarget;
     var app = {
-        title: appDOM.querySelector(".app-title").innerText,
-        detail: appDOM.querySelector(".app-detail").innerText
+        title: getAppAttribute(appDOM, ".app-title"),
+        detail: getAppAttribute(appDOM, ".app-detail"),
+        image: getAppAttribute(appDOM, ".app-image")
     };
     var dlgHtml = nunjucks.render('templates/modal_appedit.html', app);
     var dlgElem = document.querySelector('#modal_appEdit');
     dlgElem.innerHTML = dlgHtml;
     var dlgAppEdit = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
+    document.querySelector('#edit-apply').addEventListener("click", function () {
+        appDOM.querySelector(".app-title").innerText = document.querySelector("#appInput_title").value;
+        appDOM.querySelector(".app-detail").innerText = document.querySelector("#appInput_detail").value;
+        M.toast({html: '<span>Modifications applied.</span>'});
+        dlgAppEdit.close();
+    });
     M.updateTextFields();
     dlgAppEdit.open();
 }
@@ -94,13 +110,6 @@ function openEditor() {
         app.classList.remove("app-link"); //remove mouse style
         addDeleteBadge(app);
         bindClickHandler(app, editApp);
-        /*
-        let title = findFirstChildByClass(app, "app-title");
-        title.contentEditable = "true";
-        title.classList.add("editable");
-        let detail = findFirstChildByClass(app, "app-detail");
-        detail.contentEditable = "true";
-        detail.classList.add("editable");*/
     });
 }
 
@@ -113,15 +122,7 @@ function closeEditor(save) {
     [].forEach.call(apps, function (app) {
         if (app.getAttribute("href") != undefined) app.classList.add("app-link");
         app.querySelector(".delete-badge").remove();
-        bindClickHandler(apps, navigateToSelection);
-        /*
-        let title = findFirstChildByClass(app, "app-title");
-        title.contentEditable = "false";
-        title.classList.remove("editable");
-        let detail = findFirstChildByClass(app, "app-detail");
-        detail.contentEditable = "false";
-        detail.classList.remove("editable");
-        */
+        bindClickHandler(app, navigateToSelection);
     });
     var toastContainer = document.getElementById('toast-container');
     var activeToasts = toastContainer.childNodes;

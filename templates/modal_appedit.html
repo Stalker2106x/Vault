@@ -1,5 +1,5 @@
 <div class="modal-content">
-    <h4 class="delete-prompt"></h4>
+    <h4>{{title}} Settings</h4>
     <form onkeypress="return event.keyCode != 13;" class="modalForm">
         <div class="row">
             <div class="input-field col s6">
@@ -15,7 +15,7 @@
         </div>
         <div class="input-field">
             <i class="material-icons prefix">chat</i>
-            <textarea id="appInput_detail" class="materialize-textarea" value="{{detail}}"></textarea>
+            <textarea id="appInput_detail" class="materialize-textarea">{{detail}}</textarea>
             <label for="appInput_detail">Detail</label>
         </div>
         <div class="input-field">
@@ -26,6 +26,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button id="delete-confirm" class="modal-action waves-effect waves-green btn-flat">Proceed</a>
+    <button id="edit-apply" class="modal-action waves-effect waves-green btn-flat">Apply</a>
     <button class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
 </div>

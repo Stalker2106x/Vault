@@ -217,6 +217,10 @@ body {
     display: none;
 }
 
+.modal-content > h4 {
+    margin-bottom: 20px;
+}
+
 .modalForm {
     width: 95%;
     margin: auto;
