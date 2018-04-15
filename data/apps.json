@@ -1,31 +1,31 @@
 {
     "apps": [
         {
-            "title": "Ebay",
+            "title": "Test App",
             "color": "Yellow",
             "url": "http://localhost/",
-            "detail": "10 Hours left for a $999 stephen hawkins hair?! Gotta bid!",
+            "detail": "Serialization is serious, localhost is local.",
             "action": "redirect"
         },
         {
-            "title": "Ebay",
+            "title": "Google",
             "image": "data/img/google.png",
             "url": "http://google.com/",
-            "detail": "10 Hours left for a $999 stephen hawkins hair?! Gotta bid!",
+            "detail": "Always nice to have google right?",
             "action": "redirect"
         },
         {
-            "title": "Google Drive",
+            "title": "Facebook",
             "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Facebook_New_Logo_%282015%29.svg/512px-Facebook_New_Logo_%282015%29.svg.png",
             "url": "http://bedo.com/",
-            "detail": "What's on the cloud?",
+            "detail": "Facebook social network. stalk 1 hour a day to feel better.",
             "action": "redirect"
         },
         {
-            "title": "Ebay",
+            "title": "Youtube",
             "image": "https://lh3.googleusercontent.com/Ned_Tu_ge6GgJZ_lIO_5mieIEmjDpq9kfgD05wapmvzcInvT4qQMxhxq_hEazf8ZsqA=s180",
             "url": "http://youtube.com/",
-            "detail": "10 Hours left for a $999 stephen hawkins hair?! Gotta bid!",
+            "detail": "Why bother watching trending ? Why not.",
             "action": "redirect"
         },
         {
