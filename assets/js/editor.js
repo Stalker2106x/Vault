@@ -10,10 +10,18 @@ function isEditorEnabled() {
 
 //Functions
 
+function deleteApp(event) {
+    let app = event.currentTarget.parentNode;
+    app.style.display = "none";
+}
+
 function openEditor() {
     var apps = document.getElementsByClassName('app');
     [].forEach.call(apps, function (app) {
-        app.classList.remove("app-link");
+        app.classList.remove("app-link"); //remove mouse style
+        let badgeHTML = '<a class="delete-badge" href="#"><i class="material-icons">cancel</i></a>';
+        app.innerHTML = badgeHTML + app.innerHTML;
+        getDescendantWithClass(app, "delete-badge").addEventListener("click", deleteApp);
         let title = findFirstChildByClass(app, "app-title");
         title.contentEditable = "true";
         title.classList.add("editable");
@@ -31,6 +39,7 @@ function closeEditor(save) {
     var apps = document.getElementsByClassName('app');
     [].forEach.call(apps, function (app) {
         if (app.getAttribute("href") != undefined) app.classList.add("app-link");
+        getDescendantWithClass(app, "delete-badge").remove();
         let title = findFirstChildByClass(app, "app-title");
         title.contentEditable = "false";
         title.classList.remove("editable");
@@ -69,7 +78,7 @@ function toggleEditor() {
         toggle.classList.add("active");
         openEditor();
         //Toast to alert
-        M.toast({html: '<span class="editorToast">Vault is in edition mode</span><button id="revertEditor" class="btn-flat toast-action">Revert changes</button>', displayLength: 999999});
+        M.toast({html: '<span class="editorToast">Vault is in edition mode</span><button id="revertEditor" class="btn-flat toast-action">Undo all</button>', displayLength: 999999});
         document.getElementById('revertEditor').addEventListener("click", revertEditor);
     }
     else //Saving and closing editor

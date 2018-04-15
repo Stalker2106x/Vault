@@ -195,3 +195,10 @@ body {
 .app-link:hover {
     cursor:pointer;
 }
+
+.delete-badge {
+    position: relative;
+    float: right;
+    top: -10px;
+    right: -10px;
+}
