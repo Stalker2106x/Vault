@@ -198,8 +198,7 @@ body {
 }
 
 .delete-badge {
-    position: relative;
-    float: right;
+    position: absolute;
     top: -10px;
     right: -10px;
     background-color: cyan;
