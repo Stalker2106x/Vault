@@ -3,7 +3,7 @@
 Vault is a pure vanillaJS + PHP landing page for your server.
 It uses a CMS-approach, where zero knowledge is needed to deploy the service.
 
-![Example](example/grid.png)
+![Example](./example/grid.png)
 
 ### How do I get set up?
 
