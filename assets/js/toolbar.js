@@ -3,6 +3,14 @@ var toolbarAdditionalToggles = [];
 
 //Functions
 
+/**
+ * Adds a button to vault toolbar
+ * @param {String} id of the button to inject
+ * @param {String} icon identifier of Material Icons atlas
+ * @param {String} color of the button
+ * @param {String} tooltipText tooltip on button hover
+ * @param {Function} callback to execute on click
+ */
 function addButtonToToolbar(id, icon, color, tooltipText, callback)
 {
     let button = document.createElement("li");
@@ -12,11 +20,17 @@ function addButtonToToolbar(id, icon, color, tooltipText, callback)
     return (button);
 }
 
+/**
+ * Checks if the stored passphrase equals the JSON config one
+ */
 function verifyAuthorization()
 {
     return (authorization_passphrase == appconfig.passphrase);
 }
 
+/**
+ * Inject admin tools/buttons to vault toolbar
+ */
 function unlockToolbar()
 {
     if (!verifyAuthorization) return; //Requires authorization
@@ -25,6 +39,9 @@ function unlockToolbar()
     initToolbar(); //Init newly added buttons
 }
 
+/**
+ * Locks toolbar and removes admin tools/buttons from toolbar
+ */
 function lockToolbar()
 {
     if (isEditorEnabled()) //Check editior state, return if enabled
@@ -40,6 +57,9 @@ function lockToolbar()
     return (true);
 }
 
+/**
+ * Initialize base toolbar with JS anims
+ */
 function initToolbar() {
     var toolbarInstance = M.FloatingActionButton.init(toolbar, {direction: "left", hoverEnabled: true});
     var activeTooltips = document.querySelectorAll(".tooltipped");
@@ -50,6 +70,9 @@ function initToolbar() {
 }
 
 var dlgAuth = null;
+/**
+ * Prompt the user for passphrase, to trigger unlock of vault if correct
+ */
 function authenticate() {
     let button = document.querySelector("#unlockVault");
     if (button.classList.contains("locked")) //app is locked

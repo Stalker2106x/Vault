@@ -1,8 +1,14 @@
-
+/**
+ * returns the DOM of an app by its position in the grid
+ * @param {Integer} index of the app to get
+ */
 function getAppByIndex(index) {
     return (document.querySelectorAll(".app")[index]);
 }
 
+/**
+ * Redirect url to the app currently selected (if any)
+ */
 function navigateToSelection() {
     var selection = document.querySelector(".app.selected");
     if (selection != undefined && selection != null) //If not null, goto
@@ -12,6 +18,9 @@ function navigateToSelection() {
     }
 }
 
+/**
+ * Updates navigation arrows surrounding app container
+ */
 function updateNavArrows() {
     if (window.innerWidth > document.querySelector('#app-container').clientWidth)
     {
@@ -20,6 +29,9 @@ function updateNavArrows() {
     }
 }
 
+/**
+ * Deselect the currently selected app
+ */
 function clearSelection() {
     var selection = document.querySelector(".app.selected"); //Get current selection
     if (selection != undefined && selection != null) //If not null, unselect
@@ -28,11 +40,19 @@ function clearSelection() {
     }
 }
 
+/**
+ * Selects an app
+ * @param {DOM} app DOM to select
+ */
 function selectApp(app) {
     clearSelection();
     app.classList.add("selected"); //select current element
 }
 
+/**
+ * Replaces the vertical scroll method by custom handler
+ * @param {Event} event triggered by mouse wheel scroll
+ */
 function replaceVerticalScrollByHorizontal(event) {
     var motion = (event.deltaY > 0 ? 1 : -1); // interpret scroll horizonally motion
     if (event.deltaY != 0) {

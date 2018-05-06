@@ -1,5 +1,8 @@
 //Functions
 
+/**
+ * filter apps displayed on grid based on search bar contents
+ */
 function filterApps() {
     var filter = this.value;
     var firstMatching = true;

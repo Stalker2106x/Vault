@@ -3,13 +3,17 @@ var authorization_passphrase = "";
 
 //Helpers
 
-//Change tagName of an element
+/**
+ * Change tagName of an element
+ */
 function changeElementTagName(element, old, wanted) {
     let regexp = "/"+old+"/g"
     element.outerHTML = element.outerHTML.replace(regexp,wanted);
 }
 
-//Gets index of element within its container
+/**
+ * Gets index of element within its container
+ */
 function getElementIndex(node) {
     var index = 0;
     while ( (node = node.previousElementSibling) ) {
@@ -18,7 +22,9 @@ function getElementIndex(node) {
     return index;
 }
 
-//Gets the first child in the element childs (not multilevel)
+/**
+ * Gets the first child in the element childs (not multilevel)
+ */
 function getDescendantWithClass(element, clName) {
     var children = element.childNodes;
     for (var i = 0; i < children.length; i++) {
@@ -36,7 +42,9 @@ function getDescendantWithClass(element, clName) {
      return null;
 }
 
-//Gets the first child in the element hierarchy
+/**
+ * Gets the first child in the element hierarchy
+ */
 function findFirstChildByClass(element, className) {
     var foundElement = null, found;
     function recurse(element, className, found) {
@@ -59,6 +67,11 @@ function findFirstChildByClass(element, className) {
     return (foundElement);
 }
 
+/**
+ * Extract data from JSON file, and execute given callback when loaded
+ * @param {String} file path of file to load
+ * @param {Function} callback function to execute when loaded
+ */
 function loadJSON(file, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
@@ -72,11 +85,17 @@ function loadJSON(file, callback) {
     xobj.send(null);
  }
 
-// Main
+/**
+ * Empties the app grid
+ */
 function clearVault() {
     document.getElementById("app-container").innerHTML = ""; //Empty container content
 }
 
+
+/**
+ * loads the whole Vault from JSON data
+ */
 function loadVault() {
     return (new Promise(function (resolve, reject) {
         //Getting global app configuration
@@ -115,6 +134,11 @@ function loadVault() {
     }));
 }
 
+/**
+ * Binds the click behaviour to an app
+ * @param {DOM} app DOM to bind click callback to
+ * @param {Function} callback Callback to bind to event
+ */
 function bindClickHandler(app, callback) {
     if (app.getAttribute("href") != undefined)
     {
