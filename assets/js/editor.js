@@ -14,16 +14,19 @@ var dlgConfig = null;
 function configureVault() {
     if (dlgConfig == null) //Create modal first time
     {
-        var config = { 
-            title: document.getElementById("vault-title").innerText, 
-            caption: document.getElementById("vault-caption").innerText
+        var config = {
+            title: document.getElementById("vault-title").innerText,
+            caption: document.getElementById("vault-caption").innerText,
+            passphrase: authorization_passphrase
         };
         var dlgHtml = nunjucks.render('templates/modal_config.html', config);
         document.querySelector('#page-content').innerHTML += dlgHtml;
         var dlgElem = document.querySelector('#modal_config');
         dlgConfig = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
         M.updateTextFields();
-        document.querySelector('#config-apply').addEventListener("click", function () {
+        var bgSelect = dlgElem.querySelector('#configSelect_background');
+        M.FormSelect.init(bgSelect);
+        dlgElem.querySelector('#config-apply').addEventListener("click", function () {
             document.getElementById("vault-title").innerText = document.getElementById("configInput_title").value;
             document.getElementById("vault-caption").innerText = document.getElementById("configInput_caption").value;
             saveVault();
@@ -51,9 +54,11 @@ function editApp(event) {
         image: getAppAttribute(appDOM, ".app-image")
     };
     var dlgHtml = nunjucks.render('templates/modal_appedit.html', app);
+    document.querySelector('#modal_appEdit').innerHTML = dlgHtml;
     var dlgElem = document.querySelector('#modal_appEdit');
-    dlgElem.innerHTML = dlgHtml;
     var dlgAppEdit = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
+    var colorSelect = dlgElem.querySelector('#appSelect_color');
+    M.FormSelect.init(colorSelect);
     document.querySelector('#edit-apply').addEventListener("click", function () {
         appDOM.querySelector(".app-title").innerText = document.querySelector("#appInput_title").value;
         appDOM.querySelector(".app-detail").innerText = document.querySelector("#appInput_detail").value;
@@ -173,8 +178,8 @@ function revertEditor() {
 
 function saveVault() {
     let data = {};
-    data.config = { 
-        title: document.getElementById("vault-title").innerText, 
+    data.config = {
+        title: document.getElementById("vault-title").innerText,
         caption: document.getElementById("vault-caption").innerText
     };
     data.apps = dumpVaultApps();

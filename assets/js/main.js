@@ -59,7 +59,7 @@ function findFirstChildByClass(element, className) {
     return (foundElement);
 }
 
-function loadJSON(file, callback) {   
+function loadJSON(file, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
     xobj.open('GET', file, true);
@@ -69,7 +69,7 @@ function loadJSON(file, callback) {
         callback(xobj.responseText);
         }
     };
-    xobj.send(null);  
+    xobj.send(null);
  }
 
 // Main

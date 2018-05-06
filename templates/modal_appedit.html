@@ -9,8 +9,13 @@
             </div>
             <div class="input-field col s6">
                 <i class="material-icons prefix">color_lens</i>
-                <input id="appInput_color" type="text" class="validate" value="{{color}}">
-                <label for="appInput_color">Card color</label>
+                <select id="appSelect_color">
+                    <option value="" disabled selected>Choose color</option>
+                    <option value="default">Default</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="red">Red</option>
+                </select>
+                <label for="appSelect_color">Card color</label>
             </div>
         </div>
         <div class="input-field">

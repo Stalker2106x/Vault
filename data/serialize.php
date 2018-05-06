@@ -1,4 +1,5 @@
 <?php
+//Enforcing valid request method
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     // The request is NOT using the POST method, discard
     echo 'Bad request: only post method allowed.';
@@ -10,6 +11,7 @@ else if(isset($_SERVER["CONTENT_TYPE"]) && strncasecmp($_SERVER["CONTENT_TYPE"],
     http_response_code(400);
     exit;
 }
+
 //Extracting JSON POST data
 $post = json_decode(file_get_contents('php://input'));
 //Reading config before anything for passphrase check
@@ -25,23 +27,24 @@ if (!isset($post->passphrase) || $configjson['passphrase'] != $post->passphrase)
 if (isset($post->config)) $postconfig = $post->config;
 if (isset($post->apps)) $postapps = $post->apps;
 
-if (isset($postconfig)) //Update config
+if (isset($postconfig)) //Update config if present
 {
 
     //Update data
     foreach ($configjson as $key => $value) {
-        if (isset($postconfig->{$key}) && $postconfig->{$key} != $value) //If key exists in post 
+        if (isset($postconfig->{$key}) && $postconfig->{$key} != $value) //If key exists in post
         {
-            echo 'old: '.$value.' new: '.$postconfig->{$key}.'\n';
-            $configjson[$key] = $postconfig->{$key}; //set data
+            echo '['.$key.']: '.$configjson->{$key};
+            echo ' => '.$postValue;
+            $configjson->{$key} = $postValue; //set data
         }
     }
-    //Now serialize to file
+    //Now serialize config to file
     $fp = fopen('config.json', 'w');
     fwrite($fp, json_encode($configjson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     fclose($fp);
 }
-if (isset($postapps)) //Update apps
+if (isset($postapps)) //Update apps if present
 {
     $appsjson = json_decode(file_get_contents("apps.json"));
 
@@ -51,7 +54,7 @@ if (isset($postapps)) //Update apps
         //Now iterate inside post data to update json data
         echo '['.$i.']';
         foreach ($postapps[$i] as $key => $postValue) {
-            if (!isset($app->{$key}) || $postValue != $app->{$key}) //If key doesnt exists or is modified in post 
+            if (!isset($app->{$key}) || $postValue != $app->{$key}) //If key doesnt exists or is modified in post
             {
                 if ($key == "deleted" && $postValue == true) echo 'DELETED';
                 if (isset($app->{$key})) echo '['.$key.']: '.$app->{$key};

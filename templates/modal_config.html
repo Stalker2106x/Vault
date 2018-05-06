@@ -12,6 +12,21 @@
                 <input id="configInput_caption" type="text" class="validate" value="{{caption}}">
                 <label for="configInput_caption">Caption</label>
             </div>
+            <div class="input-field">
+                <i class="material-icons prefix">insert_photo</i>
+                <select id="configSelect_background" class="icons">
+                  <option value="" disabled selected>Choose your option</option>
+                  <option value="horizon" data-icon="assets/img/horizon.jpg">Horizon</option>
+                  <option value="sky" data-icon="assets/img/sky.jpg">Sky</option>
+                  <option value="neogray" data-icon="assets/img/neogray.jpg">Neo Gray</option>
+                </select>
+                <label>Background image</label>
+            </div>
+            <div class="input-field">
+                <i class="material-icons prefix">lock</i>
+                <input id="configInput_passphrase" type="password" class="validate" value="{{passphrase}}">
+                <label for="configInput_passphrase">Passphrase</label>
+            </div>
         </form>
     </div>
     <div class="modal-footer">
