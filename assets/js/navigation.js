@@ -42,7 +42,7 @@ function clearSelection() {
 
 /**
  * Selects an app
- * @param {DOM} app DOM to select
+ * @param {DOMElement} app DOM to select
  */
 function selectApp(app) {
     clearSelection();

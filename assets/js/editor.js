@@ -30,14 +30,17 @@ function configureVault() {
         var dlgElem = document.querySelector('#modal_config');
         dlgConfig = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
         M.updateTextFields();
-        var bgSelect = dlgElem.querySelector('#configSelect_background');
-        M.FormSelect.init(bgSelect);
+        var bgSelect = M.FormSelect.init(dlgElem.querySelector('#configSelect_background'));
         dlgElem.querySelector('#config-apply').addEventListener("click", function () {
-            document.getElementById("vault-title").innerText = document.getElementById("configInput_title").value;
-            document.getElementById("vault-caption").innerText = document.getElementById("configInput_caption").value;
-            saveVault();
+            var config = { };
+            if (appconfig.title != dlgElem.querySelector('#configInput_title').value) config.title = dlgElem.querySelector('#configInput_title').value;
+            if (appconfig.caption != dlgElem.querySelector('#configInput_caption').value) config.caption = dlgElem.querySelector('#configInput_caption').value;
+            if (bgSelect.getSelectedValues()[0] != "") config.background = bgSelect.getSelectedValues()[0];
+            saveVault(config);
             M.toast({html: '<span>Modifications applied.</span>'});
             dlgConfig.close();
+            //Apply changes
+            loadConfig();
         });
     }
     dlgConfig.open();
@@ -45,7 +48,7 @@ function configureVault() {
 
 /**
  * returns the data of a specific element of an app
- * @param {DOM} app HTML DOM of the app
+ * @param {DOMElement} app HTML DOM of the app
  * @param {string} selector Element to query for data
  */
 function getAppAttribute(app, selector)
@@ -223,13 +226,11 @@ function revertEditor() {
 
 /**
  * Saves the vault config to JSON, collects app data and POSTs to serialization script
+ * @param {JSON} config JSON Object containing vault configuration data
  */
-function saveVault() {
+function saveVault(config) {
     let data = {};
-    data.config = {
-        title: document.getElementById("vault-title").innerText,
-        caption: document.getElementById("vault-caption").innerText
-    };
+    if (config) data.config = config;
     data.apps = dumpVaultApps();
     serializeData(data);
 }

@@ -88,23 +88,26 @@ function loadJSON(file, callback) {
 /**
  * Empties the app grid
  */
-function clearVault() {
+function clearApps() {
     document.getElementById("app-container").innerHTML = ""; //Empty container content
 }
 
+function loadConfig() {
+    loadJSON('data/config.json', function(json){
+        appconfig = JSON.parse(json);
+        document.getElementById('vault-title').innerText = appconfig.title;
+        document.getElementById('vault-caption').innerText = appconfig.caption;
+        document.body.style.backgroundImage= "url(\'./assets/img/"+appconfig.background+".jpg\')";
+    });
+}
 
 /**
  * loads the whole Vault from JSON data
  */
 function loadVault() {
     return (new Promise(function (resolve, reject) {
-        //Getting global app configuration
-        loadJSON('data/config.json', function(json){
-            appconfig = JSON.parse(json);
-            document.getElementById('vault-title').innerText = appconfig.title;
-            document.getElementById('vault-caption').innerText = appconfig.caption;
-        });
-
+        //Getting global vault configuration
+        loadConfig();
         //Rendering app tiles
         loadJSON('data/apps.json', function(json){
             var data = JSON.parse(json);
@@ -136,7 +139,7 @@ function loadVault() {
 
 /**
  * Binds the click behaviour to an app
- * @param {DOM} app DOM to bind click callback to
+ * @param {DOMElement} app DOM to bind click callback to
  * @param {Function} callback Callback to bind to event
  */
 function bindClickHandler(app, callback) {

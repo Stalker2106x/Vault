@@ -34,9 +34,9 @@ if (isset($postconfig)) //Update config if present
     foreach ($configjson as $key => $value) {
         if (isset($postconfig->{$key}) && $postconfig->{$key} != $value) //If key exists in post
         {
-            echo '['.$key.']: '.$configjson->{$key};
-            echo ' => '.$postValue;
-            $configjson->{$key} = $postValue; //set data
+            echo '['.$key.']: '.$value;
+            echo ' => '.$postconfig->{$key};
+            $configjson[$key] = $postconfig->{$key}; //set data
         }
     }
     //Now serialize config to file
