@@ -89,6 +89,7 @@
     }
 
     #vault-search {
+        height: 5em;
         position: absolute;
         top: 5%;
         left: 70%;
