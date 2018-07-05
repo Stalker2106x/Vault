@@ -41,7 +41,7 @@ function unlockToolbar()
   toolbar.querySelector("ul").appendChild(toggleEditorBtn);
   //Vault config opener injection
   var vaultConfigBtn = document.createElement("li");
-  vaultConfigBtn.innerHTML = '<a id="vaultConfig" href="#modal_config" class="btn-floating blue darken-1 tooltipped modal-trigger" data-position="top" data-tooltip="Configure Vault"><i class="material-icons">gear</i></a>';
+  vaultConfigBtn.innerHTML = '<a id="vaultConfig" href="#modal_config" class="btn-floating blue darken-1 tooltipped modal-trigger" data-position="top" data-tooltip="Configure Vault"><i class="material-icons">settings</i></a>';
   toolbarAdditionalToggles.push(vaultConfigBtn);
   toolbar.querySelector("ul").appendChild(vaultConfigBtn);
   initToolbar(); //Init newly added buttons
