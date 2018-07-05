@@ -1,4 +1,8 @@
 /* global M, nunjucks, appconfig, authorization_passphrase */
+//Locals
+var editorInstance = null;
+var dlgConfig = null;
+
 //Helpers
 
 /**
@@ -8,9 +12,10 @@ function isEditorEnabled() {
   return (document.querySelector("#toggleEditor.active") == null ? false : true);
 }
 
+
+
 //Functions
 
-var dlgConfig = null;
 /**
  * opens the vault configuration modal
  */
@@ -140,6 +145,16 @@ function addDeleteBadge(app) {
 }
 
 /**
+ * Add delete badge to an app
+ * @param {DOM} app DOM of app to add delete badge to
+ */
+function removeDeleteBadge(app) {
+  let badgeDOM = app.querySelector(".delete-badge");
+  badgeDOM.removeEventListener("click", promptDelete);
+  badgeDOM.parentNode.removeChild(badgeDOM);
+}
+
+/**
  * Opens vault app editor
  */
 function openEditor() {
@@ -147,9 +162,9 @@ function openEditor() {
   addDeleteModal();
   addAppEditModal();
   [].forEach.call(apps, function (app) {
-    app.classList.remove("app-link"); //remove mouse style
+    unbindAppClick(app, navigateToSelection);
     addDeleteBadge(app);
-    bindClickHandler(app, editApp);
+    bindAppClick(app, editApp);
   });
 }
 
@@ -164,8 +179,9 @@ function closeEditor(save) {
   var apps = document.getElementsByClassName("app");
   [].forEach.call(apps, function (app) {
     if (app.getAttribute("href") != undefined) app.classList.add("app-link");
-    app.querySelector(".delete-badge").remove();
-    bindClickHandler(app, navigateToSelection);
+    unbindAppClick(app, editApp);
+    removeDeleteBadge(app);
+    bindAppClick(app, navigateToSelection);
   });
   var toastContainer = document.getElementById("toast-container");
   var activeToasts = toastContainer.childNodes;

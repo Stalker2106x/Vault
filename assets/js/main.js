@@ -142,11 +142,19 @@ function loadVault() {
  * @param {DOMElement} app DOM to bind click callback to
  * @param {Function} callback Callback to bind to event
  */
-function bindClickHandler(app, callback) {
+function bindAppClick(app, callback) {
   if (app.getAttribute("href") != undefined)
   {
     app.classList.add("app-link");
     app.addEventListener("click", callback); //Bind navigation handler
+  }
+}
+
+function unbindAppClick(app, callback) {
+  if (app.getAttribute("href") != undefined)
+  {
+    app.removeEventListener("click", callback); //Bind navigation handler
+    app.classList.remove("app-link");
   }
 }
 
@@ -172,7 +180,7 @@ initToolbar();
 loadVault().then(function() {
   appNodes = [].slice.call(document.getElementById("app-container").children);
   appNodes.forEach(function(app) {
-    bindClickHandler(app, navigateToSelection);
+    bindAppClick(app, navigateToSelection);
     app.addEventListener("mouseover", function (event) { selectApp(event.currentTarget); }); //Bind selection handler
     app.addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
   });
