@@ -1,7 +1,7 @@
 {
     "title": "Vault",
     "caption": "Where everything starts...",
-    "background": "horizon",
+    "background": "neogray",
     "allow-remote-login": false,
     "passphrase": "marimba"
 }

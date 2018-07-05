@@ -1,3 +1,5 @@
+/* global M, nunjucks, authorization_passphrase, appconfig */
+
 //Locals
 var toolbarAdditionalToggles = [];
 
@@ -61,7 +63,7 @@ function lockToolbar()
  * Initialize base toolbar with JS anims
  */
 function initToolbar() {
-  var toolbarInstance = M.FloatingActionButton.init(toolbar, {direction: "left", hoverEnabled: true});
+  M.FloatingActionButton.init(toolbar, {direction: "left", hoverEnabled: true});
   var activeTooltips = document.querySelectorAll(".tooltipped");
   for (var tooltip in activeTooltips)
   {

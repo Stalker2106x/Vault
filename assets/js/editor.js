@@ -1,7 +1,4 @@
-//Locals
-
-var editorInstance = null;
-
+/* global M, nunjucks, appconfig, authorization_passphrase */
 //Helpers
 
 /**
@@ -118,7 +115,6 @@ function addDeleteModal() {
 function addAppEditModal() {
   var dlgContainer = "<div id=\"modal_appEdit\" class=\"modal\"></div>";
   document.querySelector("#page-content").innerHTML += dlgContainer;
-  var dlgElem = document.querySelector("#modal_appEdit");
 }
 
 /**
