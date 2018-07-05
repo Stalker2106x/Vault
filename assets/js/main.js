@@ -89,6 +89,7 @@ function loadJSON(file, callback) {
  * Empties the app grid
  */
 function clearApps() {
+  appNodes = [];
   document.getElementById("app-container").innerHTML = ""; //Empty container content
 }
 
@@ -108,6 +109,7 @@ function loadVault() {
   return (new Promise(function (resolve, reject) {
     //Getting global vault configuration
     loadConfig();
+    if (appNodes.length != 0) clearApps();
     //Rendering app tiles
     loadJSON("data/apps.json", function(json){
       var data = JSON.parse(json);
@@ -132,6 +134,7 @@ function loadVault() {
         }
         document.getElementById("app-container").innerHTML += appHtml;
       }
+      appNodes = [].slice.call(document.getElementById("app-container").children);
       resolve();
     });
   }));
@@ -150,15 +153,35 @@ function bindAppClick(app, callback) {
   }
 }
 
-function unbindAppClick(app, callback) {
-  if (app.getAttribute("href") != undefined)
-  {
-    app.removeEventListener("click", callback); //Bind navigation handler
-    app.classList.remove("app-link");
+/**
+ * initialize the vault configuration modal
+ */
+var VaultConfigModal = null;
+function initVaultConfigModal() {
+  var dlgDOM = document.querySelector("#modal_config");
+  dlgDOM.querySelector("#config-apply").addEventListener("click", function () {
+    //Update vault config
+    appConfig.title = dlgDOM.querySelector("#configInput_title").value;
+    appConfig.caption = dlgDOM.querySelector("#configInput_caption").value;
+    appConfig.background = bgSelect.getSelectedValues()[0];
+    saveVault(appConfig);
+    M.toast({html: "<span>Modifications applied.</span>"});
+    VaultConfigModal.close();
+    //Reload changes
+    loadConfig();
+  });
+  var dlgParams = {
+    dismissible: true,
+    preventScrolling: true
   }
+  VaultConfigModal = M.Modal.init(dlgDOM, dlgParams);
+  M.updateTextFields();
+  var bgSelect = M.FormSelect.init(dlgDOM.querySelector("#configSelect_background"));
 }
 
-
+/**
+ * initialize the vault authentication modal
+ */
 var AuthModal = null;
 function initAuthModal()
 {
@@ -218,7 +241,7 @@ var appNodes = [];
 var navButtons = document.getElementsByClassName("app-nav");
 window.addEventListener("keyup", function(event) {
   event.preventDefault();
-  if (event.keyCode === 13 && !isEditorEnabled()) {
+  if (event.keyCode === 13) {
     navigateToSelection();
   }
 });
@@ -230,7 +253,6 @@ initToolbar();
 initAuthModal();
 //Main
 loadVault().then(function() {
-  appNodes = [].slice.call(document.getElementById("app-container").children);
   appNodes.forEach(function(app) {
     bindAppClick(app, navigateToSelection);
     app.addEventListener("mouseover", function (event) { selectApp(event.currentTarget); }); //Bind selection handler

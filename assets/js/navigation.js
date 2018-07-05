@@ -7,14 +7,23 @@ function getAppByIndex(index) {
 }
 
 /**
- * Redirect url to the app currently selected (if any)
+ * Execute action of the app currently selected (if any)
+ * Redirects or opens configuration
  */
 function navigateToSelection() {
   var selection = document.querySelector(".app.selected");
-  if (selection != undefined && selection != null) //If not null, goto
+  if (selection != undefined && selection != null) //If not null, execute
   {
-    if (selection.getAttribute("href") == undefined) return;
-    window.location.href = selection.getAttribute("href");
+    if (!isEditorEnabled()) //Editor off
+    {
+      if (selection.getAttribute("href") == undefined) return;
+      window.location.href = selection.getAttribute("href");
+    }
+    else
+    {
+      setAppEditModalData(selection);
+      AppEditModal.open();
+    }
   }
 }
 

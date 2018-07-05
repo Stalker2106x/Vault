@@ -1,7 +1,4 @@
 /* global M, nunjucks, appConfig, authorization_passphrase */
-//Locals
-var editorInstance = null;
-
 //Helpers
 
 /**
@@ -11,35 +8,12 @@ function isEditorEnabled() {
   return (document.querySelector("#toggleEditor.active") == null ? false : true);
 }
 
-
+function openColorPaletteHelp() {
+  var help = window.open('palette.html','Color palette helper','height=800,width=600');
+  if (window.focus) help.focus();
+}
 
 //Functions
-
-/**
- * opens the vault configuration modal
- */
-var VaultConfigModal = null;
-function initVaultConfigModal() {
-  var dlgDOM = document.querySelector("#modal_config");
-  dlgDOM.querySelector("#config-apply").addEventListener("click", function () {
-    //Update vault config
-    appConfig.title = dlgDOM.querySelector("#configInput_title").value;
-    appConfig.caption = dlgDOM.querySelector("#configInput_caption").value;
-    appConfig.background = bgSelect.getSelectedValues()[0];
-    saveVault(appConfig);
-    M.toast({html: "<span>Modifications applied.</span>"});
-    VaultConfigModal.close();
-    //Reload changes
-    loadConfig();
-  });
-  var dlgParams = {
-    dismissible: true,
-    preventScrolling: true
-  }
-  VaultConfigModal = M.Modal.init(dlgDOM, dlgParams);
-  M.updateTextFields();
-  var bgSelect = M.FormSelect.init(dlgElem.querySelector("#configSelect_background"));
-}
 
 /**
  * returns the data of a specific element of an app
@@ -60,20 +34,34 @@ function getAppAttribute(app, selector)
  */
 var AppEditModal = null;
 function initAppEditModal() {
-  var dlgDOM = document.querySelector("#modal_appEdit");
-  dlgDOM.querySelector("#edit-apply").addEventListener("click", serializeAppConfig);
+  var dlgDOM = document.querySelector("#modal_edit");
   var dlgParams = {
     dismissible: true,
     preventScrolling: true
   };
-  var colorSelect = appDOM.querySelector("#appSelect_color");
-  M.FormSelect.init(colorSelect);
+  dlgDOM.querySelector("#paletteHelp").addEventListener('click', openColorPaletteHelp);
   AppEditModal = M.Modal.init(dlgDOM, dlgParams);
 }
 
-function serializeAppConfig() {
-  //Identify selected app instead of app[0]
-  var appDOM = appNodes[0];
+/**
+ * Fills edit modal with an app data
+ * @param {DOM} appDOM concerned app
+ */
+function setAppEditModalData(appDOM) {
+  var dlgDOM = document.querySelector("#modal_edit");
+  //Set data
+  dlgDOM.querySelector("#appInput_title").value = appDOM.querySelector(".app-title").innerText;
+  dlgDOM.querySelector("#appInput_detail").value = appDOM.querySelector(".app-detail").innerText;
+  dlgDOM.querySelector("#appInput_image").value = (appDOM.querySelector(".app-image") != null ? appDOM.querySelector(".app-image").src : "");
+  //Add serialize callback
+  dlgDOM.querySelector("#edit-apply").addEventListener("click", function() { reportAppEditModalData(appDOM); });
+}
+
+/**
+ * Grabs modal data and injects it in current editor state
+ * @param {DOM} appDOM concerned app
+ */
+function reportAppEditModalData(appDOM) {
   appDOM.querySelector(".app-title").innerText = document.querySelector("#appInput_title").value;
   appDOM.querySelector(".app-detail").innerText = document.querySelector("#appInput_detail").value;
   M.toast({html: "<span>Modifications applied.</span>"});
@@ -143,14 +131,10 @@ function removeDeleteBadge(app) {
  * Opens vault app editor
  */
 function openEditor() {
-  initVaultConfigModal();
   initAppEditModal();
   initAppDeleteModal();
-  var apps = document.getElementsByClassName("app");
-  [].forEach.call(apps, function (app) {
-    unbindAppClick(app, navigateToSelection);
+  appNodes.forEach(function (app) {
     addDeleteBadge(app);
-    app.href = "#modal_edit";
   });
 }
 
@@ -158,16 +142,10 @@ function openEditor() {
  * Close vault app editor
  */
 function closeEditor(save) {
-  var toggle = document.getElementById("toggleEditor");
-  toggle.children[0].innerHTML = "create"; //Changing icon
-  toggle.classList.remove("active");
   //Disabling page editor
   var apps = document.getElementsByClassName("app");
   [].forEach.call(apps, function (app) {
-    if (app.getAttribute("href") != undefined) app.classList.add("app-link");
-    unbindAppClick(app, editApp);
     removeDeleteBadge(app);
-    bindAppClick(app, navigateToSelection);
   });
   var toastContainer = document.getElementById("toast-container");
   var activeToasts = toastContainer.childNodes;
@@ -194,12 +172,14 @@ function closeEditor(save) {
 
 /**
  * toggle app editor on or off
+ * @param save : should we save on exit ?
  */
-function toggleEditor() {
+function toggleEditor(save) {
   var toggle = document.getElementById("toggleEditor");
   if (!toggle.classList.contains("active")) //Enable editor
   {
     toggle.children[0].innerHTML = "save"; //Changing icon
+    toggle.classList.remove("inactive");
     toggle.classList.add("active");
     openEditor();
     //Toast to alert
@@ -208,7 +188,10 @@ function toggleEditor() {
   }
   else //Saving and closing editor
   {
-    closeEditor(true);
+    closeEditor(save);
+    toggle.children[0].innerHTML = "edit"; //Changing icon
+    toggle.classList.remove("active");
+    toggle.classList.add("inactive");
   }
   return (false);
 }
@@ -217,8 +200,7 @@ function toggleEditor() {
  * Cancels edition of apps and revert grid to JSON state
  */
 function revertEditor() {
-  closeEditor(false);
-  clearVault();
+  toggleEditor(false);
   loadVault();
 }
 

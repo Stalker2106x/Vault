@@ -101,21 +101,19 @@
                 <div class="modal-content">
                     <h4>App Settings</h4>
                     <form onkeypress="return event.keyCode != 13;" class="modalForm">
+                        <div class="input-field">
+                            <i class="material-icons prefix">label</i>
+                            <input id="appInput_title" type="text" class="validate" value="TITLE">
+                            <label for="appInput_title">Title</label>
+                        </div>
                         <div class="row">
-                            <div class="input-field col s6">
-                                <i class="material-icons prefix">label</i>
-                                <input id="appInput_title" type="text" class="validate" value="TITLE">
-                                <label for="appInput_title">Title</label>
-                            </div>
-                            <div class="input-field col s6">
+                            <div class="input-field col s11">
                                 <i class="material-icons prefix">color_lens</i>
-                                <select id="appSelect_color">
-                                    <option value="" disabled selected>Choose color</option>
-                                    <option value="default">Default</option>
-                                    <option value="yellow">Yellow</option>
-                                    <option value="red">Red</option>
-                                </select>
-                                <label for="appSelect_color">Card color</label>
+                                <input id="appInput_color" type="text" class="validate" value="">
+                                <label for="appInput_color">Card color</label>
+                            </div>
+                            <div class="input-field col s1">
+                                <a id="paletteHelp" class="waves-effect waves-light btn"><i class="material-icons">info</i></a>
                             </div>
                         </div>
                         <div class="input-field">

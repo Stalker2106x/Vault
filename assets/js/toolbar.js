@@ -32,17 +32,18 @@ function verifyAuthorization()
 function unlockToolbar()
 {
   if (!verifyAuthorization) return; //Requires authorization
+  initVaultConfigModal();
   //Editor toggle injection
-  var toggleEditor = document.createElement("li");
-  toggleEditor.innerHTML = '<a id="toggleEditor" class="btn-floating blue darken-1 tooltipped inactive" data-position="top" data-tooltip="Toggle Editor"><i class="material-icons">create</i></a>';
-  toggleEditor.addEventListener("click", toggleEditor);
-  toolbarAdditionalToggles.push(toggleEditor);
-  toolbar.querySelector("ul").appendChild(toggleEditor);
+  var toggleEditorBtn = document.createElement("li");
+  toggleEditorBtn.innerHTML = '<a id="toggleEditor" class="btn-floating blue darken-1 tooltipped inactive" data-position="top" data-tooltip="Toggle Editor"><i class="material-icons">create</i></a>';
+  toggleEditorBtn.addEventListener("click", function() { toggleEditor(true) });
+  toolbarAdditionalToggles.push(toggleEditorBtn);
+  toolbar.querySelector("ul").appendChild(toggleEditorBtn);
   //Vault config opener injection
-  var vaultConfig = document.createElement("li");
-  vaultConfig.innerHTML = '<a id="vaultConfig" href="#modal_config" class="btn-floating blue darken-1 tooltipped inactive modal-trigger" data-position="top" data-tooltip="Configure Vault"><i class="material-icons">gear</i></a>';
-  toolbarAdditionalToggles.push(vaultConfig);
-  toolbar.querySelector("ul").appendChild(vaultConfig);
+  var vaultConfigBtn = document.createElement("li");
+  vaultConfigBtn.innerHTML = '<a id="vaultConfig" href="#modal_config" class="btn-floating blue darken-1 tooltipped modal-trigger" data-position="top" data-tooltip="Configure Vault"><i class="material-icons">gear</i></a>';
+  toolbarAdditionalToggles.push(vaultConfigBtn);
+  toolbar.querySelector("ul").appendChild(vaultConfigBtn);
   initToolbar(); //Init newly added buttons
 }
 
