@@ -94,10 +94,10 @@ function clearApps() {
 
 function loadConfig() {
   loadJSON("data/config.json", function(json){
-    appconfig = JSON.parse(json);
-    document.getElementById("vault-title").innerText = appconfig.title;
-    document.getElementById("vault-caption").innerText = appconfig.caption;
-    document.body.style.backgroundImage= "url('./assets/img/"+appconfig.background+".jpg')";
+    appConfig = JSON.parse(json);
+    document.getElementById("vault-title").innerText = appConfig.title;
+    document.getElementById("vault-caption").innerText = appConfig.caption;
+    document.body.style.backgroundImage= "url('./assets/img/"+appConfig.background+".jpg')";
   });
 }
 
@@ -158,8 +158,61 @@ function unbindAppClick(app, callback) {
   }
 }
 
+
+var AuthModal = null;
+function initAuthModal()
+{
+  var dlgDOM = document.querySelector("#modal_auth");
+  dlgDOM.querySelector("#submit-passphrase").addEventListener("click", function(){
+    var authorization_passphrase = document.querySelector("#passphrase").value;
+    if (authorization_passphrase == appConfig.passphrase) //auth success!
+    {
+      let button = document.querySelector("#unlockVault");
+      button.querySelector(".material-icons").innerText = "lock_open";
+      button.classList.remove("locked");
+      unlockToolbar();
+      //Toast to alert
+      M.toast({html: "<span>Unlocked Vault !</span>"});
+      AuthModal.close();
+    }
+    else
+    {
+      //Toast bad_passphrase
+      M.toast({html: "<span>Wrong passphrase!</span>"});
+    }
+  });
+  var dlgParams = {
+    dismissible: true,
+    preventScrolling: true
+  };
+  AuthModal = M.Modal.init(dlgDOM, dlgParams);
+  M.updateTextFields();
+}
+
+/**
+ * Prompt the user for passphrase, to trigger unlock of vault if correct
+ */
+function authenticate() {
+  let button = document.querySelector("#unlockVault");
+  if (button.classList.contains("locked")) //app is locked
+  {
+    AuthModal.open();
+  }
+  else //app unlocked
+  {
+    if (lockToolbar()) //attempt to lock
+    {
+      getDescendantWithClass(button, "material-icons").innerText = "lock";
+      authorization_passphrase = "";
+      button.classList.add("locked");
+      //Toast to alert
+      M.toast({html: "<span>Vault locked !</span>"});
+    }
+  }
+}
+
 //APP BEGIN
-//Set navigation if scrollbar present
+var appConfig = {};
 var appNodes = [];
 //Comportement listeners
 var navButtons = document.getElementsByClassName("app-nav");
@@ -173,9 +226,8 @@ var toolbar = document.getElementById("vault-toolbar-button");
 //Init
 window.addEventListener("wheel", replaceVerticalScrollByHorizontal); //Bind Horz scroll handler
 document.getElementById("filterInput").addEventListener("input", filterApps); //Bind filter handler
-document.getElementById("scrollHome").addEventListener("click", function() { appCursor = 0; document.getElementById("app-container").scroll(0,0); }); //Bind scrollTop handler
-document.getElementById("unlockVault").addEventListener("click", authenticate); //Bind unlocking handler
 initToolbar();
+initAuthModal();
 //Main
 loadVault().then(function() {
   appNodes = [].slice.call(document.getElementById("app-container").children);

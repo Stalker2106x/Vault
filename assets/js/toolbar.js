@@ -1,4 +1,4 @@
-/* global M, nunjucks, authorization_passphrase, appconfig */
+/* global M, nunjucks, authorization_passphrase, appConfig */
 
 //Locals
 var toolbarAdditionalToggles = [];
@@ -15,11 +15,7 @@ var toolbarAdditionalToggles = [];
  */
 function addButtonToToolbar(id, icon, color, tooltipText, callback)
 {
-  let button = document.createElement("li");
-  button.innerHTML = "<a id=\"" + id + "\" class=\"btn-floating " + color + " darken-1 tooltipped inactive\" data-position=\"top\" data-tooltip=\"" + tooltipText + "\"><i class=\"material-icons\">" + icon + "</i></a>";
-  document.querySelector("#vault-toolbar-button").children[1].appendChild(button);
-  document.getElementById(id).addEventListener("click", callback);
-  return (button);
+
 }
 
 /**
@@ -27,7 +23,7 @@ function addButtonToToolbar(id, icon, color, tooltipText, callback)
  */
 function verifyAuthorization()
 {
-  return (authorization_passphrase == appconfig.passphrase);
+  return (authorization_passphrase == appConfig.passphrase);
 }
 
 /**
@@ -36,8 +32,17 @@ function verifyAuthorization()
 function unlockToolbar()
 {
   if (!verifyAuthorization) return; //Requires authorization
-  toolbarAdditionalToggles.push(addButtonToToolbar("toggleEditor", "create", "blue", "Toggle editor", toggleEditor));
-  toolbarAdditionalToggles.push(addButtonToToolbar("vaultConfig", "settings", "blue", "Configure Vault", configureVault));
+  //Editor toggle injection
+  var toggleEditor = document.createElement("li");
+  toggleEditor.innerHTML = '<a id="toggleEditor" class="btn-floating blue darken-1 tooltipped inactive" data-position="top" data-tooltip="Toggle Editor"><i class="material-icons">create</i></a>';
+  toggleEditor.addEventListener("click", toggleEditor);
+  toolbarAdditionalToggles.push(toggleEditor);
+  toolbar.querySelector("ul").appendChild(toggleEditor);
+  //Vault config opener injection
+  var vaultConfig = document.createElement("li");
+  vaultConfig.innerHTML = '<a id="vaultConfig" href="#modal_config" class="btn-floating blue darken-1 tooltipped inactive modal-trigger" data-position="top" data-tooltip="Configure Vault"><i class="material-icons">gear</i></a>';
+  toolbarAdditionalToggles.push(vaultConfig);
+  toolbar.querySelector("ul").appendChild(vaultConfig);
   initToolbar(); //Init newly added buttons
 }
 
@@ -53,7 +58,7 @@ function lockToolbar()
   }
   for (let toggle in toolbarAdditionalToggles) 
   {
-    toolbar.children[1].removeChild(toolbarAdditionalToggles[toggle]); //Remove additional toggles
+    toolbar.querySelector("ul").removeChild(toolbarAdditionalToggles[toggle]); //Remove additional toggles
   }
   toolbarAdditionalToggles = []; //clear array
   return (true);
@@ -69,54 +74,6 @@ function initToolbar() {
   {
     M.Tooltip.init(activeTooltips[tooltip], {exitDelay: 2});
   }
+  document.getElementById("scrollHome").addEventListener("click", function() { appCursor = 0; document.getElementById("app-container").scroll(0,0); }); //Bind scrollTop handler
+  document.getElementById("unlockVault").addEventListener("click", authenticate); //Bind unlocking handler
 }
-
-var dlgAuth = null;
-/**
- * Prompt the user for passphrase, to trigger unlock of vault if correct
- */
-function authenticate() {
-  let button = document.querySelector("#unlockVault");
-  if (button.classList.contains("locked")) //app is locked
-  {
-    if (dlgAuth == null) //Create modal first time
-    {
-      var dlgHtml = nunjucks.render("templates/modal_auth.html");
-      document.querySelector("#page-content").innerHTML += dlgHtml;
-      var dlgElem = document.querySelector("#modal_auth");
-      dlgAuth = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
-      M.updateTextFields();
-      document.querySelector("#submit-passphrase").addEventListener("click", function(){
-        var passphraseInput = document.querySelector("#passphrase");
-        if (passphraseInput.value == appconfig.passphrase) //auth success!
-        {
-          button.querySelector(".material-icons").innerText = "lock_open";
-          authorization_passphrase = passphraseInput.value;
-          button.classList.remove("locked");
-          unlockToolbar();
-          //Toast to alert
-          M.toast({html: "<span>Unlocked Vault !</span>"});
-          dlgAuth.close();
-        }
-        else
-        {
-          //Toast bad_passphrase
-          M.toast({html: "<span>Wrong passphrase!</span>"});
-        }
-      });
-    }
-    dlgAuth.open();
-  }
-  else //app unlocked
-  {
-    if (lockToolbar()) //attempt to lock
-    {
-      getDescendantWithClass(button, "material-icons").innerText = "lock";
-      authorization_passphrase = "";
-      button.classList.add("locked");
-      //Toast to alert
-      M.toast({html: "<span>Vault locked !</span>"});
-    }
-  }
-}
-

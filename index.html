@@ -40,8 +40,112 @@
             </a>
             <ul id="vault-toolbar-bar">
                 <li><a id="scrollHome" class="btn-floating red tooltipped" data-position="top" data-tooltip="Go to first app"><i class="material-icons">arrow_back</i></a></li>
-                <li><a id="unlockVault" class="btn-floating yellow darken-1 tooltipped locked" data-position="top" data-tooltip="Unlock vault"><i class="material-icons">lock</i></a></li>
+                <li><a id="unlockVault" class="btn-floating yellow darken-1 tooltipped locked" data-position="top" href="#modal_auth" data-tooltip="Unlock vault"><i class="material-icons">lock</i></a></li>
             </ul>
+        </div>
+        <div id="modal-container">
+            <!-- Authentication modal -->
+            <div id="modal_auth" class="modal">
+                <div class="modal-content">
+                    <h4>Authenticate to proceed</h4>
+                    <form style="padding-top: 1vh;" onkeypress="return event.keyCode != 13;">
+                        <div class="input-field">
+                            <input placeholder="Seek and ye shall find" id="passphrase" type="password" class="validate" />
+                            <label for="passphrase">Passphrase</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="submit-passphrase" class="modal-action waves-effect waves-green btn-flat">I'm lucky</button>
+                </div>
+            </div>
+            <!-- Vault configuration modal -->
+            <div id="modal_config" class="modal">
+                <div class="modal-content">
+                    <h4>Vault Configuration</h4>
+                    <form onkeypress="return event.keyCode != 13;" class="modalForm">
+                        <div class="input-field">
+                            <i class="material-icons prefix">label</i>
+                            <input id="configInput_title" type="text" class="validate" value="TITLE">
+                            <label for="configInput_title">Vault Name</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">settings_ethernet</i>
+                            <input id="configInput_caption" type="text" class="validate" value="CAPTION">
+                            <label for="configInput_caption">Caption</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">insert_photo</i>
+                            <select id="configSelect_background" class="icons">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="horizon" data-icon="assets/img/horizon.jpg">Horizon</option>
+                                <option value="sky" data-icon="assets/img/sky.jpg">Sky</option>
+                                <option value="neogray" data-icon="assets/img/neogray.jpg">Neo Gray</option>
+                            </select>
+                            <label>Background image</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">lock</i>
+                            <input id="configInput_passphrase" type="password" class="validate" value="PASSPHRASE">
+                            <label for="configInput_passphrase">Passphrase</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="config-apply" class="modal-action waves-effect waves-green btn-flat">Apply</a>
+                    <button class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+                </div>
+            </div>
+            <!-- app edition modal -->
+            <div id="modal_edit" class="modal">
+                <div class="modal-content">
+                    <h4>App Settings</h4>
+                    <form onkeypress="return event.keyCode != 13;" class="modalForm">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">label</i>
+                                <input id="appInput_title" type="text" class="validate" value="TITLE">
+                                <label for="appInput_title">Title</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">color_lens</i>
+                                <select id="appSelect_color">
+                                    <option value="" disabled selected>Choose color</option>
+                                    <option value="default">Default</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="red">Red</option>
+                                </select>
+                                <label for="appSelect_color">Card color</label>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">chat</i>
+                            <textarea id="appInput_detail" class="materialize-textarea">DETAIL</textarea>
+                            <label for="appInput_detail">Detail</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">burst_mode</i>
+                            <input id="appInput_image" type="text" class="validate" value="IMAGE">
+                            <label for="appInput_image">Image href</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="edit-apply" class="modal-action waves-effect waves-green btn-flat">Apply</a>
+                    <button class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+                </div>
+            </div>
+            <!-- app deletion modal -->
+            <div id="modal_delete" class="modal">
+                <div class="modal-content">
+                    <h4 class="delete-prompt"></h4>
+                    <p>This operation will premanently remove the selected application from configuration.</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="delete-confirm" class="modal-action waves-effect waves-green btn-flat">Proceed</a>
+                    <button class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+                </div>
+            </div>
         </div>
         <!-- Materialize js -->
         <script type="text/javascript" src="assets/js/materialize.min.js"></script>
@@ -55,8 +159,5 @@
         <script type="text/javascript" src="assets/js/filter.js"></script>
         <script type="text/javascript" src="assets/js/main.js"></script>
         <!-- HScroll -->
-        <script type="text/javascript">
-
-        </script>
     </body>
 </html>

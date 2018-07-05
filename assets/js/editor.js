@@ -1,7 +1,6 @@
-/* global M, nunjucks, appconfig, authorization_passphrase */
+/* global M, nunjucks, appConfig, authorization_passphrase */
 //Locals
 var editorInstance = null;
-var dlgConfig = null;
 
 //Helpers
 
@@ -19,33 +18,27 @@ function isEditorEnabled() {
 /**
  * opens the vault configuration modal
  */
-function configureVault() {
-  if (dlgConfig == null) //Create modal first time
-  {
-    var config = {
-      title: document.getElementById("vault-title").innerText,
-      caption: document.getElementById("vault-caption").innerText,
-      passphrase: authorization_passphrase
-    };
-    var dlgHtml = nunjucks.render("templates/modal_config.html", config);
-    document.querySelector("#page-content").innerHTML += dlgHtml;
-    var dlgElem = document.querySelector("#modal_config");
-    dlgConfig = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
-    M.updateTextFields();
-    var bgSelect = M.FormSelect.init(dlgElem.querySelector("#configSelect_background"));
-    dlgElem.querySelector("#config-apply").addEventListener("click", function () {
-      var config = { };
-      if (appconfig.title != dlgElem.querySelector("#configInput_title").value) config.title = dlgElem.querySelector("#configInput_title").value;
-      if (appconfig.caption != dlgElem.querySelector("#configInput_caption").value) config.caption = dlgElem.querySelector("#configInput_caption").value;
-      if (bgSelect.getSelectedValues()[0] != "") config.background = bgSelect.getSelectedValues()[0];
-      saveVault(config);
-      M.toast({html: "<span>Modifications applied.</span>"});
-      dlgConfig.close();
-      //Apply changes
-      loadConfig();
-    });
+var VaultConfigModal = null;
+function initVaultConfigModal() {
+  var dlgDOM = document.querySelector("#modal_config");
+  dlgDOM.querySelector("#config-apply").addEventListener("click", function () {
+    //Update vault config
+    appConfig.title = dlgDOM.querySelector("#configInput_title").value;
+    appConfig.caption = dlgDOM.querySelector("#configInput_caption").value;
+    appConfig.background = bgSelect.getSelectedValues()[0];
+    saveVault(appConfig);
+    M.toast({html: "<span>Modifications applied.</span>"});
+    VaultConfigModal.close();
+    //Reload changes
+    loadConfig();
+  });
+  var dlgParams = {
+    dismissible: true,
+    preventScrolling: true
   }
-  dlgConfig.open();
+  VaultConfigModal = M.Modal.init(dlgDOM, dlgParams);
+  M.updateTextFields();
+  var bgSelect = M.FormSelect.init(dlgElem.querySelector("#configSelect_background"));
 }
 
 /**
@@ -65,28 +58,26 @@ function getAppAttribute(app, selector)
  * Opens edit modal for an app
  * @param {Event} event triggered from click event on an app
  */
-function editApp(event) {
-  if (event.target.classList.contains("delete-badge")) promptDelete(event);
-  let appDOM = event.currentTarget;
-  var app = {
-    title: getAppAttribute(appDOM, ".app-title"),
-    detail: getAppAttribute(appDOM, ".app-detail"),
-    image: getAppAttribute(appDOM, ".app-image")
+var AppEditModal = null;
+function initAppEditModal() {
+  var dlgDOM = document.querySelector("#modal_appEdit");
+  dlgDOM.querySelector("#edit-apply").addEventListener("click", serializeAppConfig);
+  var dlgParams = {
+    dismissible: true,
+    preventScrolling: true
   };
-  var dlgHtml = nunjucks.render("templates/modal_appedit.html", app);
-  document.querySelector("#modal_appEdit").innerHTML = dlgHtml;
-  var dlgElem = document.querySelector("#modal_appEdit");
-  var dlgAppEdit = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
-  var colorSelect = dlgElem.querySelector("#appSelect_color");
+  var colorSelect = appDOM.querySelector("#appSelect_color");
   M.FormSelect.init(colorSelect);
-  document.querySelector("#edit-apply").addEventListener("click", function () {
-    appDOM.querySelector(".app-title").innerText = document.querySelector("#appInput_title").value;
-    appDOM.querySelector(".app-detail").innerText = document.querySelector("#appInput_detail").value;
-    M.toast({html: "<span>Modifications applied.</span>"});
-    dlgAppEdit.close();
-  });
-  M.updateTextFields();
-  dlgAppEdit.open();
+  AppEditModal = M.Modal.init(dlgDOM, dlgParams);
+}
+
+function serializeAppConfig() {
+  //Identify selected app instead of app[0]
+  var appDOM = appNodes[0];
+  appDOM.querySelector(".app-title").innerText = document.querySelector("#appInput_title").value;
+  appDOM.querySelector(".app-detail").innerText = document.querySelector("#appInput_detail").value;
+  M.toast({html: "<span>Modifications applied.</span>"});
+  AppEditModal.close();
 }
 
 /**
@@ -104,22 +95,16 @@ function deleteApp(event) {
 
 var dlgDelete = null;
 /**
- * Inject app deletion modal to vault DOM
+ * Initialize App deletion modal
  */
-function addDeleteModal() {
-  var dlgHtml = nunjucks.render("templates/modal_delete.html");
-  document.querySelector("#page-content").innerHTML += dlgHtml;
-  var dlgElem = document.querySelector("#modal_delete");
-  dlgElem.querySelector("#delete-confirm").addEventListener("click", deleteApp); //Bind delete
-  dlgDelete = M.Modal.init(dlgElem, {dismissible: true, preventScrolling: true});
-}
-
-/**
- * Inject app edition modal to vault DOM
- */
-function addAppEditModal() {
-  var dlgContainer = "<div id=\"modal_appEdit\" class=\"modal\"></div>";
-  document.querySelector("#page-content").innerHTML += dlgContainer;
+function initAppDeleteModal() {
+  var dlgDOM = document.querySelector("#modal_delete");
+  dlgDOM.querySelector("#delete-confirm").addEventListener("click", deleteApp); //Bind delete
+  var dlgParams = {
+    dismissible: true,
+    preventScrolling: true
+  };
+  dlgDelete = M.Modal.init(dlgDOM, dlgParams);
 }
 
 /**
@@ -158,13 +143,14 @@ function removeDeleteBadge(app) {
  * Opens vault app editor
  */
 function openEditor() {
+  initVaultConfigModal();
+  initAppEditModal();
+  initAppDeleteModal();
   var apps = document.getElementsByClassName("app");
-  addDeleteModal();
-  addAppEditModal();
   [].forEach.call(apps, function (app) {
     unbindAppClick(app, navigateToSelection);
     addDeleteBadge(app);
-    bindAppClick(app, editApp);
+    app.href = "#modal_edit";
   });
 }
 
