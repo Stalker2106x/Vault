@@ -139,6 +139,9 @@ function openEditor() {
   });
 }
 
+/**
+ * Toggle on/off app dragging
+ */
 function toggleDragger() {
   if (appDragger == null) appDragger = dragula([document.querySelector("#app-container")]);
   else if (appDragger.containers.length != 0) appDragger.containers = [];

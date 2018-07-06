@@ -225,3 +225,12 @@ body {
     width: 95%;
     margin: auto;
 }
+
+/* grid overrides */
+.col {
+    padding: 0px !important;
+}
+
+.input-field.col label {
+    left: 0px !important;
+}
