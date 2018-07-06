@@ -172,11 +172,22 @@ function initVaultConfigModal() {
   });
   var dlgParams = {
     dismissible: true,
-    preventScrolling: true
+    preventScrolling: true,
+    onOpenStart: fillVaultConfigModalData
   }
-  VaultConfigModal = M.Modal.init(dlgDOM, dlgParams);
   M.updateTextFields();
   var bgSelect = M.FormSelect.init(dlgDOM.querySelector("#configSelect_background"));
+  VaultConfigModal = M.Modal.init(dlgDOM, dlgParams);
+}
+
+/**
+ * fill the vault configuration modal data
+ */
+function fillVaultConfigModalData() {
+  var dlgDOM = document.querySelector("#modal_config");
+  dlgDOM.querySelector("#configInput_title").value = appConfig.title;
+  dlgDOM.querySelector("#configInput_caption").value = appConfig.caption;
+  dlgDOM.querySelector("#configInput_passphrase").value = "";
 }
 
 /**
@@ -187,7 +198,7 @@ function initAuthModal()
 {
   var dlgDOM = document.querySelector("#modal_auth");
   dlgDOM.querySelector("#submit-passphrase").addEventListener("click", function(){
-    var authorization_passphrase = document.querySelector("#passphrase").value;
+    authorization_passphrase = document.querySelector("#passphrase").value;
     if (authorization_passphrase == appConfig.passphrase) //auth success!
     {
       let button = document.querySelector("#unlockVault");
@@ -235,6 +246,7 @@ function authenticate() {
 }
 
 //APP BEGIN
+var appDragger = null;
 var appConfig = {};
 var appNodes = [];
 //Comportement listeners
