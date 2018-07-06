@@ -49,14 +49,15 @@ if (isset($postdata["apps"])) //Update apps if present
     //Loop through posted apps
     for ($i = 0; $i < count($postdata["apps"]); ++$i) {
         //Now iterate inside posted app to update json data
-        echo 'APP#'.$i;
+        echo 'app'.$i.': {';
         foreach ($postdata["apps"][$i] as $param => $value) {
             if ($value != "" && (!isset($apps[$i][$param]) || $value != $apps[$i][$param])) //If posted key doesnt exists, or post is not empty and different from config
             {
-                echo $param." set to: ".$value;
+                echo $param.": ".$value;
                 $apps[$i][$param] = $value; //set data
             }
         }
+        echo '} ';
     }
     $apps = array_values($apps); //Remove app indexes for serialization
     //Now serialize to file

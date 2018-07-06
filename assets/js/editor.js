@@ -176,7 +176,7 @@ function closeEditor(save) {
   }
   if (save)
   {
-    saveVault();
+    serializeData("apps");
     //Toast to alert
     M.toast({html: "<span>Modifications saved with success.</span>"});
   }
@@ -222,24 +222,11 @@ function revertEditor() {
 }
 
 /**
- * Saves the vault config to JSON, collects app data and POSTs to serialization script
- * @param {JSON} config JSON Object containing vault configuration data
- */
-function saveVault(config) {
-  let data = {};
-  if (config) data.config = config;
-  data.apps = dumpVaultApps();
-  serializeData(data);
-}
-
-/**
  * Dump vault apps to JSON object
  */
 function dumpVaultApps() {
   //Collecting apps data
-  var appsJSON = {
-    apps: []
-  };
+  var apps = [];
   appNodes.forEach(function (app) {
     var appObject = {};
     appObject.title = app.querySelector(".app-title").innerText;
@@ -248,31 +235,32 @@ function dumpVaultApps() {
     //Get App image
     var image = app.querySelector(".app-image");
     appObject.image = (image != null ?  image.src : "");
-    appsJSON.apps.push(appObject);
+    apps.push(appObject);
   });
-  return(appsJSON);
+  return(apps);
 }
 
 /**
  * Serialize JSON data to serialization object
- * @param {JSON} data JSON object of vault data
+ * @param {String} type Identifier for data type {"config" or "apps"}
  */
-function serializeData(data) {
+function serializeData(type) {
   const req = new XMLHttpRequest();
   req.onreadystatechange = function(event) {
     // XMLHttpRequest.DONE === 4
     if (this.readyState === XMLHttpRequest.DONE) {
       if (this.status === 200) {
-        //Toastr Sucess!
+        //Success!
       } else {
         console.log("Server error: %d (%s:%s)", this.status, this.statusText, this.responseText);
       }
     }
   };
-  var postData = {};
-  postData.passphrase = authorization_passphrase;
-  if (data.config) postData.config = data.config;
-  if (data.apps) postData.apps = data.apps.apps;
+  var postData = {
+    passphrase: authorization_passphrase
+  };
+  if (type == "config") postData.config = appConfig;
+  if (type == "apps") postData.apps = dumpVaultApps();
 
   req.open("POST", "data/serialize.php", true);
   req.setRequestHeader("Content-Type", "application/json");
