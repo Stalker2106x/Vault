@@ -5,8 +5,7 @@
         "url": "http://localhost/",
         "detail": "Serialization is serious, localhost is local.",
         "action": "redirect",
-        "deleted": true,
-        "image": ""
+        "deleted": true
     },
     {
         "title": "Google",
@@ -54,7 +53,6 @@
         "title": "Ebay",
         "url": "http://ebay.com/",
         "detail": "10 Hours left for a $999 stephen hawkins hair?! Gotta bid!",
-        "action": "redirect",
-        "image": ""
+        "action": "redirect"
     }
 ]
