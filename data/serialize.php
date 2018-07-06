@@ -31,7 +31,7 @@ if (isset($postdata["config"])) //Update config if present
 
     //Update data
     foreach ($postdata["config"] as $param => $value) {
-        if (isset($config[$param]) && $config[$param] != $value) //If key exists in configuration and post value is different
+        if (isset($config[$param]) && $value != "" && $config[$param] != $value) //If key exists in configuration and post value is different
         {
             echo $param." changed to: ".$postdata["config"][$param];
             $config[$param] = $postdata["config"][$param]; //set data
@@ -39,7 +39,7 @@ if (isset($postdata["config"])) //Update config if present
     }
     //Now serialize config to file
     $fp = fopen('config.json', 'w');
-    fwrite($fp, json_encode($configjson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    fwrite($fp, json_encode($config, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     fclose($fp);
 }
 
