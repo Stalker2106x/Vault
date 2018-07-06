@@ -34,6 +34,7 @@ function getAppAttribute(app, selector)
  */
 var AppEditModal = null;
 function initAppEditModal() {
+  if (AppEditModal != null) return;
   var dlgDOM = document.querySelector("#modal_edit");
   var dlgParams = {
     dismissible: true,
@@ -77,22 +78,23 @@ function deleteApp(event) {
   app.classList.remove("markedForDeletion");
   app.classList.add("deleted");
   M.toast({html: "<span>Deleted app !</span>"});
-  dlgDelete.close();
-  dlgDelete.destroy();
+  AppDeleteModal.close();
+  AppDeleteModal.destroy();
 }
 
-var dlgDelete = null;
 /**
  * Initialize App deletion modal
  */
+var AppDeleteModal = null;
 function initAppDeleteModal() {
+  if (AppDeleteModal != null) return;
   var dlgDOM = document.querySelector("#modal_delete");
   dlgDOM.querySelector("#delete-confirm").addEventListener("click", deleteApp); //Bind delete
   var dlgParams = {
     dismissible: true,
     preventScrolling: true
   };
-  dlgDelete = M.Modal.init(dlgDOM, dlgParams);
+  AppDeleteModal = M.Modal.init(dlgDOM, dlgParams);
 }
 
 /**
@@ -104,7 +106,7 @@ function promptDelete(event) {
   event.currentTarget.parentNode.classList.add("markedForDeletion");
   var appTitle = event.currentTarget.parentNode.querySelector(".app-title").innerText;
   dlgElem.querySelector(".delete-prompt").innerText = "Delete " + appTitle + " ?";
-  dlgDelete.open();
+  AppDeleteModal.open();
 }
 
 /**
@@ -143,7 +145,11 @@ function openEditor() {
  * Toggle on/off app dragging
  */
 function toggleDragger() {
-  if (appDragger == null) appDragger = dragula([document.querySelector("#app-container")]);
+  if (appDragger == null)
+  {
+    appDragger = dragula([document.querySelector("#app-container")]);
+    appDragger.on("drop", setAppNodes); //Refresh appNodes list on drop
+  }
   else if (appDragger.containers.length != 0) appDragger.containers = [];
   else appDragger.containers.push(document.querySelector("#app-container"));
 }
@@ -231,19 +237,21 @@ function saveVault(config) {
  */
 function dumpVaultApps() {
   //Collecting apps data
-  var apps = document.querySelectorAll(".app");
-
-  var appsArray = [];
-  [].forEach.call(apps, function (app) {
-    var appJson = {};
-    if (app.classList.contains("deleted")) appJson.deleted = true; //Mark for deletion
-    appJson.title = getDescendantWithClass(app, "app-title").innerText;
-    appJson.detail = getDescendantWithClass(app, "app-detail").innerText;
-    var url = getDescendantWithClass(app, "app-link");
-    if (url) appJson.url = url.href;
-    appsArray.push(appJson);
+  var appsJSON = {
+    apps: []
+  };
+  appNodes.forEach(function (app) {
+    var appObject = {};
+    if (app.classList.contains("deleted")) appObject.deleted = true; //Mark for deletion
+    appObject.title = getDescendantWithClass(app, "app-title").innerText;
+    appObject.detail = getDescendantWithClass(app, "app-detail").innerText;
+    appObject.url = app.href;
+    //Get App image
+    var image = app.querySelector(".app-image");
+    appObject.image = (image != null ?  image.src : "");
+    appsJSON.apps.push(appObject);
   });
-  return({ apps: appsArray});
+  return(appsJSON);
 }
 
 /**

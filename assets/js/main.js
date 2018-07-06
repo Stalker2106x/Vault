@@ -134,10 +134,19 @@ function loadVault() {
         }
         document.getElementById("app-container").innerHTML += appHtml;
       }
-      appNodes = [].slice.call(document.getElementById("app-container").children);
+      setAppNodes();
       resolve();
     });
   }));
+}
+
+/**
+ * Fills appNodes array with current node order
+ */
+function setAppNodes()
+{
+  appNodes = [].slice.call(document.getElementById("app-container").children);
+  return (true);
 }
 
 /**
