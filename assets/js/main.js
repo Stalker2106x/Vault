@@ -112,25 +112,25 @@ function loadVault() {
     if (appNodes.length != 0) clearApps();
     //Rendering app tiles
     loadJSON("data/apps.json", function(json){
-      var data = JSON.parse(json);
-      for (var i in data.apps)
+      var apps = JSON.parse(json);
+      for (var i in apps)
       {
         var appHtml;
         //Defaults
-        if (!data.apps[i].color) data.apps[i].color = "blue-grey"; else data.apps[i].color = data.apps[i].color.toLowerCase();
-        if (!data.apps[i].textcolor) data.apps[i].textcolor = "white"; else data.apps[i].textcolor = data.apps[i].textcolor.toLowerCase();
+        if (!apps[i].color) apps[i].color = "blue-grey"; else apps[i].color = apps[i].color.toLowerCase();
+        if (!apps[i].textcolor) apps[i].textcolor = "white"; else apps[i].textcolor = apps[i].textcolor.toLowerCase();
         //Render
-        if (data.apps[i].image) //Image app
+        if (apps[i].image) //Image app
         {
-          appHtml = nunjucks.render("templates/app_image.html", data.apps[i]);
+          appHtml = nunjucks.render("templates/app_image.html", apps[i]);
         }
-        else if (data.apps[i].action && data.apps[i].url) //Standard app
+        else if (apps[i].action && apps[i].url) //Standard app
         {
-          appHtml = nunjucks.render("templates/app_base.html", data.apps[i]);
+          appHtml = nunjucks.render("templates/app_base.html", apps[i]);
         }
         else //Not an app (note or alert)
         {
-          appHtml = nunjucks.render("templates/app_panel.html", data.apps[i]);
+          appHtml = nunjucks.render("templates/app_panel.html", apps[i]);
         }
         document.getElementById("app-container").innerHTML += appHtml;
       }

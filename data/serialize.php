@@ -13,30 +13,28 @@ else if(isset($_SERVER["CONTENT_TYPE"]) && strncasecmp($_SERVER["CONTENT_TYPE"],
 }
 
 //Extracting JSON POST data
-$post = json_decode(file_get_contents('php://input'));
-//Reading config before anything for passphrase check
-$configjson = json_decode(file_get_contents("config.json"),true);
+$postdata = json_decode(file_get_contents('php://input'), true);
+//Reading vault config (before anything because passphrase check is needed)
+$config = json_decode(file_get_contents("config.json"), true);
 
-if (!isset($post->passphrase) || $configjson['passphrase'] != $post->passphrase)
+if (!isset($postdata["passphrase"]) || $config['passphrase'] != $postdata["passphrase"])
 {
     echo 'Authorization: Wrong or missing passphrase.';
     http_response_code(401);
     exit;
 }
 
-if (isset($post->config)) $postconfig = $post->config;
-if (isset($post->apps)) $postapps = $post->apps;
+// SERIALIZATION ROUTINES BEGIN HERE
 
-if (isset($postconfig)) //Update config if present
+if (isset($postdata["config"])) //Update config if present
 {
 
     //Update data
-    foreach ($configjson as $key => $value) {
-        if (isset($postconfig->{$key}) && $postconfig->{$key} != $value) //If key exists in post
+    foreach ($postdata["config"] as $param => $value) {
+        if (isset($config[$param]) && $config[$param] != $value) //If key exists in configuration and post value is different
         {
-            echo '['.$key.']: '.$value;
-            echo ' => '.$postconfig->{$key};
-            $configjson[$key] = $postconfig->{$key}; //set data
+            echo $param." changed to: ".$postdata["config"][$param];
+            $config[$param] = $postdata["config"][$param]; //set data
         }
     }
     //Now serialize config to file
@@ -44,32 +42,26 @@ if (isset($postconfig)) //Update config if present
     fwrite($fp, json_encode($configjson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     fclose($fp);
 }
-if (isset($postapps)) //Update apps if present
-{
-    $appsjson = json_decode(file_get_contents("apps.json"));
 
-    //Loop through app collection
-    $i = 0;
-    foreach ($appsjson->apps as $app ) {
-        //Now iterate inside post data to update json data
-        echo '['.$i.']';
-        foreach ($postapps[$i] as $key => $postValue) {
-            if (!isset($app->{$key}) || $postValue != $app->{$key}) //If key doesnt exists or is modified in post
+if (isset($postdata["apps"])) //Update apps if present
+{
+    $apps = json_decode(file_get_contents("apps.json"), true);
+    //Loop through posted apps
+    for ($i = 0; $i < count($postdata["apps"]); ++$i) {
+        //Now iterate inside posted app to update json data
+        echo 'APP#'.$i;
+        foreach ($postdata["apps"][$i] as $param => $value) {
+            if (!isset($apps[$i][$param]) || ($value != "" && $value != $apps[$i][$param])) //If posted key doesnt exists, or post is not empty and different from config
             {
-                if ($key == "deleted" && $postValue == true) echo 'DELETED';
-                if (isset($app->{$key})) echo '['.$key.']: '.$app->{$key};
-                else echo 'NEW';
-                echo ' => '.$postValue;
-                $app->{$key} = $postValue; //set data
+                echo $param." set to: ".$value;
+                $apps[$i][$param] = $value; //set data
             }
         }
-        echo '[/'.$i.']';
-        $i = $i + 1;
     }
-
+    $apps = array_values($apps); //Remove app indexes for serialization
     //Now serialize to file
     $fp = fopen('apps.json', 'w');
-    fwrite($fp, json_encode($appsjson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    fwrite($fp, json_encode($apps, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     fclose($fp);
 }
 

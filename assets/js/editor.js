@@ -242,9 +242,8 @@ function dumpVaultApps() {
   };
   appNodes.forEach(function (app) {
     var appObject = {};
-    if (app.classList.contains("deleted")) appObject.deleted = true; //Mark for deletion
-    appObject.title = getDescendantWithClass(app, "app-title").innerText;
-    appObject.detail = getDescendantWithClass(app, "app-detail").innerText;
+    appObject.title = app.querySelector(".app-title").innerText;
+    appObject.detail = app.querySelector(".app-detail").innerText;
     appObject.url = app.href;
     //Get App image
     var image = app.querySelector(".app-image");
