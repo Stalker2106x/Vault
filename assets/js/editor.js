@@ -133,9 +133,16 @@ function removeDeleteBadge(app) {
 function openEditor() {
   initAppEditModal();
   initAppDeleteModal();
+  toggleDragger();
   appNodes.forEach(function (app) {
     addDeleteBadge(app);
   });
+}
+
+function toggleDragger() {
+  if (appDragger == null) appDragger = dragula([document.querySelector("#app-container")]);
+  else if (appDragger.containers.length != 0) appDragger.containers = [];
+  else appDragger.containers.push(document.querySelector("#app-container"));
 }
 
 /**
@@ -144,6 +151,7 @@ function openEditor() {
 function closeEditor(save) {
   //Disabling page editor
   var apps = document.getElementsByClassName("app");
+  toggleDragger();
   [].forEach.call(apps, function (app) {
     removeDeleteBadge(app);
   });
