@@ -168,17 +168,7 @@ function bindAppClick(app, callback) {
 var VaultConfigModal = null;
 function initVaultConfigModal() {
   var dlgDOM = document.querySelector("#modal_config");
-  dlgDOM.querySelector("#config-apply").addEventListener("click", function () {
-    //Update vault config
-    appConfig.title = dlgDOM.querySelector("#configInput_title").value;
-    appConfig.caption = dlgDOM.querySelector("#configInput_caption").value;
-    appConfig.background = bgSelect.getSelectedValues()[0];
-    saveVault(appConfig);
-    M.toast({html: "<span>Modifications applied.</span>"});
-    VaultConfigModal.close();
-    //Reload changes
-    loadConfig();
-  });
+  dlgDOM.querySelector("#config-apply").addEventListener("click", serializeVaultConfigModalData);
   var dlgParams = {
     dismissible: true,
     preventScrolling: true,
@@ -196,7 +186,29 @@ function fillVaultConfigModalData() {
   var dlgDOM = document.querySelector("#modal_config");
   dlgDOM.querySelector("#configInput_title").value = appConfig.title;
   dlgDOM.querySelector("#configInput_caption").value = appConfig.caption;
+  var bgSelect = dlgDOM.querySelector("#configSelect_background");
+  [].forEach.call(bgSelect.children, function (option) {
+    option.selected = (option.value == appConfig.background ? true : false);
+  });
   dlgDOM.querySelector("#configInput_passphrase").value = "";
+}
+
+/**
+ * serializes the vault configuration data to json
+ */
+function serializeVaultConfigModalData() {
+    var dlgDOM = document.querySelector("#modal_config");
+    appConfig.title = dlgDOM.querySelector("#configInput_title").value;
+    appConfig.caption = dlgDOM.querySelector("#configInput_caption").value;
+    var bgSelect = dlgDOM.querySelector("#configSelect_background");
+    [].forEach.call(bgSelect.children, function (option) {
+      if (option.selected && !option.disabled) appConfig.background = option.value;
+    });
+    VaultConfigModal.close();
+    saveVault(appConfig);
+    M.toast({html: "<span>Modifications applied.</span>"});
+    //Reload changes
+    loadConfig();
 }
 
 /**
