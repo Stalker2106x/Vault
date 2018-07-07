@@ -11,6 +11,7 @@ function getAppByIndex(index) {
  * Redirects or opens configuration
  */
 function navigateToSelection() {
+  if (AppDeleteModal.isOpen) return; //Prevent delete override
   var selection = document.querySelector(".app.selected");
   if (selection != undefined && selection != null) //If not null, execute
   {

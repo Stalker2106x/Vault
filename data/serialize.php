@@ -59,6 +59,12 @@ if (isset($postdata["apps"])) //Update apps if present
         }
         echo '} ';
     }
+    echo 'Deleted: ';
+    for ($i = count($postdata["apps"]); $i < count($apps); ++$i) //If apps were deleted
+    {
+        unset($apps[$i]);
+        echo 'app'.$i;
+    }
     $apps = array_values($apps); //Remove app indexes for serialization
     //Now serialize to file
     $fp = fopen('apps.json', 'w');

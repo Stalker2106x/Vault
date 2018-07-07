@@ -74,9 +74,11 @@ function reportAppEditModalData(appDOM) {
  * @param {Event} event triggered from click event on an app delete-btn
  */
 function deleteApp(event) {
-  var app = document.querySelector(".app.markedForDeletion");
-  app.classList.remove("markedForDeletion");
-  app.classList.add("deleted");
+  var appContainer = document.querySelector("#app-container");
+  appNodes.forEach(function(app) {
+    if (app.classList.contains("markedForDeletion")) appContainer.removeChild(app);
+  });
+  
   M.toast({html: "<span>Deleted app !</span>"});
   AppDeleteModal.close();
   AppDeleteModal.destroy();
@@ -160,29 +162,25 @@ function toggleDragger() {
 function closeEditor(save) {
   //Disabling page editor
   var apps = document.getElementsByClassName("app");
+  if (AppEditModal.isOpen) AppEditModal.close(); //Close modal if open
   toggleDragger();
   [].forEach.call(apps, function (app) {
     removeDeleteBadge(app);
   });
   var toastContainer = document.getElementById("toast-container");
-  var activeToasts = toastContainer.childNodes;
-  for (var toast in activeToasts)
-  {
-    if (getDescendantWithClass(activeToasts[toast], "editorToast") != null)
+  [].forEach.call(toastContainer.children, function (toast) {
+    if (toast.querySelector(".editorToast") != null)
     {
-      toastContainer.removeChild(activeToasts[toast]);
-      break;
+      toastContainer.removeChild(toast);
     }
-  }
+  });
   if (save)
   {
     serializeData("apps");
-    //Toast to alert
     M.toast({html: "<span>Modifications saved with success.</span>"});
   }
   else
   {
-    //Toast to alert
     M.toast({html: "<span>Exited edition mode.</span>"});
   }
 }

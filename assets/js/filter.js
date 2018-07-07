@@ -4,7 +4,7 @@
  * filter apps displayed on grid based on search bar contents
  */
 function filterApps() {
-  var filter = this.value;
+  var filter = this.value.toLowerCase();
   var firstMatching = true;
   if (filter == "")
   {
@@ -14,8 +14,8 @@ function filterApps() {
     return;
   }
   appNodes.forEach(function (app) {
-    if (findFirstChildByClass(app, "app-title").innerText.toLowerCase().indexOf(filter.toLowerCase()) < 0 //Filter title
-            && findFirstChildByClass(app, "app-detail").innerText.toLowerCase().indexOf(filter.toLowerCase()) < 0) //Filter detail
+    if (app.querySelector(".app-title").innerText.toLowerCase().indexOf(filter) < 0 //Filter title
+      && app.querySelector(".app-detail").innerText.toLowerCase().indexOf(filter) < 0) //Filter detail
     {
       app.style.display = "none";
     }

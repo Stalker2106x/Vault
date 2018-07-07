@@ -6,19 +6,6 @@ var toolbarAdditionalToggles = [];
 //Functions
 
 /**
- * Adds a button to vault toolbar
- * @param {String} id of the button to inject
- * @param {String} icon identifier of Material Icons atlas
- * @param {String} color of the button
- * @param {String} tooltipText tooltip on button hover
- * @param {Function} callback to execute on click
- */
-function addButtonToToolbar(id, icon, color, tooltipText, callback)
-{
-
-}
-
-/**
  * Checks if the stored passphrase equals the JSON config one
  */
 function verifyAuthorization()
@@ -36,7 +23,7 @@ function unlockToolbar()
   //Editor toggle injection
   var toggleEditorBtn = document.createElement("li");
   toggleEditorBtn.innerHTML = '<a id="toggleEditor" class="btn-floating blue darken-1 tooltipped inactive" data-position="top" data-tooltip="Toggle Editor"><i class="material-icons">create</i></a>';
-  toggleEditorBtn.addEventListener("click", function() { toggleEditor(true) });
+  toggleEditorBtn.addEventListener("click", function() { toggleEditor(true); });
   toolbarAdditionalToggles.push(toggleEditorBtn);
   toolbar.querySelector("ul").appendChild(toggleEditorBtn);
   //Vault config opener injection
