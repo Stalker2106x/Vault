@@ -63,11 +63,12 @@ if (isset($postdata["apps"])) //Update apps if present
         }
         echo '} ';
     }
-    echo 'Deleted: ';
-    for ($i = count($postdata["apps"]); $i < count($apps); ++$i) //If apps were deleted
+    echo 'deletion: ';
+    while (count($apps) > count($postdata["apps"])) //Remove deleted apps
     {
+        $i = count($apps) - 1;
         unset($apps[$i]);
-        echo 'app'.$i;
+        echo 'app'.$i.' ';
     }
     $apps = array_values($apps); //Remove app indexes for serialization
     //Now serialize to file

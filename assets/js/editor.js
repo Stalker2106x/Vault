@@ -76,24 +76,27 @@ function reportAppEditModalData(appDOM) {
     color: document.querySelector("#appInput_color").value,
     image: document.querySelector("#appInput_image").value
   };
-  appDOM.outerHTML = buildAppDOMFromJSON(appObject);
+  var newAppDOM = document.createElement("div");
+  newAppDOM.innerHTML = buildAppDOMFromJSON(appObject);
+  newAppDOM = newAppDOM.firstChild;
+  appDOM.parentNode.replaceChild(newAppDOM, appDOM);
+  bindAppEvents(newAppDOM);
+  addDeleteBadge(newAppDOM);
+  setAppNodes(); //Refresh app nodes
   M.toast({html: "<span>Modifications applied.</span>"});
   AppEditModal.close();
 }
 
 /**
  * delete an application from grid
- * @param {Event} event triggered from click event on an app delete-btn
+ * @param {DOM} appDOM concerned app
  */
-function deleteApp(event) {
+function deleteApp(appDOM) {
   var appContainer = document.querySelector("#app-container");
-  appNodes.forEach(function(app) {
-    if (app.classList.contains("markedForDeletion")) appContainer.removeChild(app);
-  });
-  
+  appContainer.removeChild(appDOM);
+  setAppNodes();
   M.toast({html: "<span>Deleted app !</span>"});
   AppDeleteModal.close();
-  AppDeleteModal.destroy();
 }
 
 /**
@@ -103,7 +106,6 @@ var AppDeleteModal = null;
 function initAppDeleteModal() {
   if (AppDeleteModal != null) return;
   var dlgDOM = document.querySelector("#modal_delete");
-  dlgDOM.querySelector("#delete-confirm").addEventListener("click", deleteApp); //Bind delete
   var dlgParams = {
     dismissible: true,
     preventScrolling: true
@@ -115,11 +117,16 @@ function initAppDeleteModal() {
  * Opens modal to confirm app deletion
  * @param {Event} event triggered from click on an app delete-btn
  */
-function promptDelete(event) {
-  var dlgElem = document.querySelector("#modal_delete");
-  event.currentTarget.parentNode.classList.add("markedForDeletion");
-  var appTitle = event.currentTarget.parentNode.querySelector(".app-title").innerText;
-  dlgElem.querySelector(".delete-prompt").innerText = "Delete " + appTitle + " ?";
+function setAppDeleteModalData(appDOM) {
+  var dlgDOM = document.querySelector("#modal_delete");
+  dlgDOM.querySelector(".delete-prompt").innerText = "Delete " + appDOM.querySelector(".app-title").innerText; + " ?";
+  //Clear button to prevent duplicate events
+  var confirmBtn = dlgDOM.querySelector("#delete-confirm");
+  var confirmCopy = confirmBtn.cloneNode();
+  while (confirmBtn.firstChild) { confirmCopy.appendChild(confirmBtn.lastChild); }
+  confirmBtn.parentNode.replaceChild(confirmCopy, confirmBtn);
+  //Bind delete callback
+  dlgDOM.querySelector("#delete-confirm").addEventListener("click", function() { deleteApp(appDOM); });
   AppDeleteModal.open();
 }
 
@@ -130,7 +137,7 @@ function promptDelete(event) {
 function addDeleteBadge(app) {
   let badgeHTML = "<i class=\"delete-badge material-icons\">cancel</i>";
   app.innerHTML = badgeHTML + app.innerHTML;
-  app.querySelector(".delete-badge").addEventListener("click", promptDelete);
+  app.querySelector(".delete-badge").addEventListener("click", function () { setAppDeleteModalData(app); });
 }
 
 /**
@@ -139,7 +146,6 @@ function addDeleteBadge(app) {
  */
 function removeDeleteBadge(app) {
   let badgeDOM = app.querySelector(".delete-badge");
-  badgeDOM.removeEventListener("click", promptDelete);
   badgeDOM.parentNode.removeChild(badgeDOM);
 }
 
