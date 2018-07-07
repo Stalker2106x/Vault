@@ -37,6 +37,31 @@ function loadConfig() {
 }
 
 /**
+ * Converts a JSON app to an html DOM
+ */
+function buildAppDOMFromJSON(app)
+{
+  var appDOM;
+  //Inject defaults
+  if (!app.color) app.color = "blue-grey"; else app.color = app.color.toLowerCase();
+  if (!app.textcolor) app.textcolor = "white"; else app.textcolor = app.textcolor.toLowerCase();
+  //Render
+  if (app.image) //Image app
+  {
+    appDOM = nunjucks.render("templates/app_image.html", app);
+  }
+  else if (app.action && app.url) //Standard app
+  {
+    appDOM = nunjucks.render("templates/app_base.html", app);
+  }
+  else //Not an app (note or alert)
+  {
+    appDOM = nunjucks.render("templates/app_panel.html", app);
+  }
+  return (appDOM);
+}
+
+/**
  * loads the whole Vault from JSON data
  */
 function loadVault() {
@@ -46,28 +71,9 @@ function loadVault() {
     if (appNodes.length != 0) clearApps();
     //Rendering app tiles
     loadJSON("data/apps.json", function(json){
-      var apps = JSON.parse(json);
-      for (var i in apps)
-      {
-        var appHtml;
-        //Defaults
-        if (!apps[i].color) apps[i].color = "blue-grey"; else apps[i].color = apps[i].color.toLowerCase();
-        if (!apps[i].textcolor) apps[i].textcolor = "white"; else apps[i].textcolor = apps[i].textcolor.toLowerCase();
-        //Render
-        if (apps[i].image) //Image app
-        {
-          appHtml = nunjucks.render("templates/app_image.html", apps[i]);
-        }
-        else if (apps[i].action && apps[i].url) //Standard app
-        {
-          appHtml = nunjucks.render("templates/app_base.html", apps[i]);
-        }
-        else //Not an app (note or alert)
-        {
-          appHtml = nunjucks.render("templates/app_panel.html", apps[i]);
-        }
-        document.getElementById("app-container").innerHTML += appHtml;
-      }
+      JSON.parse(json).forEach(function (app) {
+        document.getElementById("app-container").innerHTML += buildAppDOMFromJSON(app);
+      });
       setAppNodes();
       resolve();
     });
@@ -106,7 +112,7 @@ function initVaultConfigModal() {
   var dlgParams = {
     dismissible: true,
     preventScrolling: true,
-    onOpenStart: fillVaultConfigModalData
+    onOpenStart: setVaultConfigModalData
   }
   M.updateTextFields();
   var bgSelect = M.FormSelect.init(dlgDOM.querySelector("#configSelect_background"));
@@ -116,7 +122,7 @@ function initVaultConfigModal() {
 /**
  * fill the vault configuration modal data
  */
-function fillVaultConfigModalData() {
+function setVaultConfigModalData() {
   var dlgDOM = document.querySelector("#modal_config");
   dlgDOM.querySelector("#configInput_title").value = appConfig.title;
   dlgDOM.querySelector("#configInput_caption").value = appConfig.caption;
@@ -201,6 +207,15 @@ function authenticate() {
   }
 }
 
+/**
+ * Bind app navigation, hover and various events to an app
+ */
+function bindAppEvents(app) {
+  bindAppClick(app, navigateToSelection);
+  app.addEventListener("mouseover", function (event) { selectApp(event.currentTarget); }); //Bind selection handler
+  app.addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
+}
+
 //APP BEGIN
 var appDragger = null;
 var appConfig = {};
@@ -222,9 +237,7 @@ initAuthModal();
 //Main
 loadVault().then(function() {
   appNodes.forEach(function(app) {
-    bindAppClick(app, navigateToSelection);
-    app.addEventListener("mouseover", function (event) { selectApp(event.currentTarget); }); //Bind selection handler
-    app.addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
+    bindAppEvents(app);
   });
   updateNavArrows();
 });

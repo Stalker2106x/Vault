@@ -53,9 +53,16 @@ function setAppEditModalData(appDOM) {
   //Set data
   dlgDOM.querySelector("#appInput_title").value = appDOM.querySelector(".app-title").innerText;
   dlgDOM.querySelector("#appInput_detail").value = appDOM.querySelector(".app-detail").innerText;
-  dlgDOM.querySelector("#appInput_image").value = (appDOM.querySelector(".app-image") != null ? appDOM.querySelector(".app-image").src : "");
-  //Add serialize callback
-  dlgDOM.querySelector("#edit-apply").addEventListener("click", function() { reportAppEditModalData(appDOM); });
+  dlgDOM.querySelector("#appInput_color").value = (appDOM.getAttribute("color") != "blue-grey" ? appDOM.getAttribute("color") : "");
+  dlgDOM.querySelector("#appInput_image").value = (appDOM.querySelector(".app-image") != null ? appDOM.querySelector(".app-image").getAttribute("src") : "");
+  //Clear button to prevent duplicate events
+  var applyBtn = dlgDOM.querySelector("#edit-apply");
+  var applyCopy = applyBtn.cloneNode();
+  while (applyBtn.firstChild) { applyCopy.appendChild(applyBtn.lastChild); }
+  applyBtn.parentNode.replaceChild(applyCopy, applyBtn);
+  // Add serialize callback
+  dlgDOM.querySelector("#edit-apply").addEventListener("click", function report() { reportAppEditModalData(appDOM); });
+  M.updateTextFields();
 }
 
 /**
@@ -63,8 +70,13 @@ function setAppEditModalData(appDOM) {
  * @param {DOM} appDOM concerned app
  */
 function reportAppEditModalData(appDOM) {
-  appDOM.querySelector(".app-title").innerText = document.querySelector("#appInput_title").value;
-  appDOM.querySelector(".app-detail").innerText = document.querySelector("#appInput_detail").value;
+  appObject = {
+    title: document.querySelector("#appInput_title").value,
+    detail: document.querySelector("#appInput_detail").value,
+    color: document.querySelector("#appInput_color").value,
+    image: document.querySelector("#appInput_image").value
+  };
+  appDOM.outerHTML = buildAppDOMFromJSON(appObject);
   M.toast({html: "<span>Modifications applied.</span>"});
   AppEditModal.close();
 }
@@ -220,20 +232,27 @@ function revertEditor() {
 }
 
 /**
+ * Converts an app DOM to JSON Object
+ */
+function appDOMtoJSON(app) {
+  var appObject = {};
+  appObject.title = app.querySelector(".app-title").innerText;
+  appObject.detail = app.querySelector(".app-detail").innerText;
+  appObject.url = app.getAttribute("href");
+  //Get App image
+  var image = app.querySelector(".app-image");
+  appObject.image = (image != null ?  image.getAttribute("src") : "");
+  return (appObject);
+}
+
+/**
  * Dump vault apps to JSON object
  */
 function dumpVaultApps() {
   //Collecting apps data
   var apps = [];
   appNodes.forEach(function (app) {
-    var appObject = {};
-    appObject.title = app.querySelector(".app-title").innerText;
-    appObject.detail = app.querySelector(".app-detail").innerText;
-    appObject.url = app.getAttribute("href");
-    //Get App image
-    var image = app.querySelector(".app-image");
-    appObject.image = (image != null ?  image.getAttribute("src") : "");
-    apps.push(appObject);
+    apps.push(appDOMtoJSON(app));
   });
   return(apps);
 }
