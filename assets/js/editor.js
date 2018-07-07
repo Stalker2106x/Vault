@@ -229,10 +229,10 @@ function dumpVaultApps() {
     var appObject = {};
     appObject.title = app.querySelector(".app-title").innerText;
     appObject.detail = app.querySelector(".app-detail").innerText;
-    appObject.url = app.href;
+    appObject.url = app.getAttribute("href");
     //Get App image
     var image = app.querySelector(".app-image");
-    appObject.image = (image != null ?  image.src : "");
+    appObject.image = (image != null ?  image.getAttribute("src") : "");
     apps.push(appObject);
   });
   return(apps);

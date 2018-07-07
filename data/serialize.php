@@ -51,7 +51,11 @@ if (isset($postdata["apps"])) //Update apps if present
         //Now iterate inside posted app to update json data
         echo 'app'.$i.': {';
         foreach ($postdata["apps"][$i] as $param => $value) {
-            if ($value != "" && (!isset($apps[$i][$param]) || $value != $apps[$i][$param])) //If posted key doesnt exists, or post is not empty and different from config
+            if ($value == "") //Empty value
+            {
+                if (isset($apps[$i][$param])) unset($apps[$i][$param]); //Remove if exists
+            }
+            else if (!isset($apps[$i][$param]) || $value != $apps[$i][$param]) //If posted key doesnt exists, or post is not empty and different from config
             {
                 echo $param.": ".$value;
                 $apps[$i][$param] = $value; //set data
