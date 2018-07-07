@@ -1,10 +1,4 @@
-/**
- * returns the DOM of an app by its position in the grid
- * @param {Integer} index of the app to get
- */
-function getAppByIndex(index) {
-  return (document.querySelectorAll(".app")[index]);
-}
+/* global appNodes, navButtons */
 
 /**
  * Execute action of the app currently selected (if any)
@@ -68,7 +62,6 @@ function replaceVerticalScrollByHorizontal(event) {
     var selection = document.querySelector(".app.selected"); //Get current selection
     if (selection == undefined || selection == null) //If null, select first app
     {
-      emptySelection = true;
       selection = document.querySelector(".app"); //Grab first app
     }
     else

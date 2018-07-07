@@ -1,3 +1,5 @@
+/* global M, nunjucks */
+
 //Global auth token
 var authorization_passphrase = "";
 
@@ -65,7 +67,7 @@ function buildAppDOMFromJSON(app)
  * loads the whole Vault from JSON data
  */
 function loadVault() {
-  return (new Promise(function (resolve, reject) {
+  return (new Promise(function (resolve /* , reject */) {
     //Getting global vault configuration
     loadConfig();
     if (appNodes.length != 0) clearApps();
@@ -113,7 +115,7 @@ function initVaultConfigModal() {
     dismissible: true,
     preventScrolling: true,
     onOpenStart: setVaultConfigModalData
-  }
+  };
   M.updateTextFields();
   var bgSelect = M.FormSelect.init(dlgDOM.querySelector("#configSelect_background"));
   VaultConfigModal = M.Modal.init(dlgDOM, dlgParams);
@@ -137,19 +139,19 @@ function setVaultConfigModalData() {
  * serializes the vault configuration data to json
  */
 function serializeVaultConfigModalData() {
-    var dlgDOM = document.querySelector("#modal_config");
-    appConfig.title = dlgDOM.querySelector("#configInput_title").value;
-    appConfig.caption = dlgDOM.querySelector("#configInput_caption").value;
-    var bgSelect = dlgDOM.querySelector("#configSelect_background");
-    [].forEach.call(bgSelect.children, function (option) {
-      if (option.selected && !option.disabled) appConfig.background = option.value;
-    });
-    appConfig.passphrase = dlgDOM.querySelector("#configInput_passphrase").value;
-    VaultConfigModal.close();
-    serializeData("config");
-    M.toast({html: "<span>Modifications applied.</span>"});
-    //Reload changes
-    loadConfig();
+  var dlgDOM = document.querySelector("#modal_config");
+  appConfig.title = dlgDOM.querySelector("#configInput_title").value;
+  appConfig.caption = dlgDOM.querySelector("#configInput_caption").value;
+  var bgSelect = dlgDOM.querySelector("#configSelect_background");
+  [].forEach.call(bgSelect.children, function (option) {
+    if (option.selected && !option.disabled) appConfig.background = option.value;
+  });
+  appConfig.passphrase = dlgDOM.querySelector("#configInput_passphrase").value;
+  VaultConfigModal.close();
+  serializeData("config");
+  M.toast({html: "<span>Modifications applied.</span>"});
+  //Reload changes
+  loadConfig();
 }
 
 /**

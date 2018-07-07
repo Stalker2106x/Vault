@@ -1,4 +1,4 @@
-/* global M, nunjucks, authorization_passphrase, appConfig */
+/* global M, authorization_passphrase, appConfig */
 
 //Locals
 var toolbarAdditionalToggles = [];
@@ -22,13 +22,13 @@ function unlockToolbar()
   initVaultConfigModal();
   //Editor toggle injection
   var toggleEditorBtn = document.createElement("li");
-  toggleEditorBtn.innerHTML = '<a id="toggleEditor" class="btn-floating blue darken-1 tooltipped inactive" data-position="top" data-tooltip="Toggle Editor"><i class="material-icons">create</i></a>';
+  toggleEditorBtn.innerHTML = "<a id=\"toggleEditor\" class=\"btn-floating blue darken-1 tooltipped inactive\" data-position=\"top\" data-tooltip=\"Toggle Editor\"><i class=\"material-icons\">create</i></a>";
   toggleEditorBtn.addEventListener("click", function() { toggleEditor(true); });
   toolbarAdditionalToggles.push(toggleEditorBtn);
   toolbar.querySelector("ul").appendChild(toggleEditorBtn);
   //Vault config opener injection
   var vaultConfigBtn = document.createElement("li");
-  vaultConfigBtn.innerHTML = '<a id="vaultConfig" href="#modal_config" class="btn-floating blue darken-1 tooltipped modal-trigger" data-position="top" data-tooltip="Configure Vault"><i class="material-icons">settings</i></a>';
+  vaultConfigBtn.innerHTML = "<a id=\"vaultConfig\" href=\"#modal_config\" class=\"btn-floating blue darken-1 tooltipped modal-trigger\" data-position=\"top\" data-tooltip=\"Configure Vault\"><i class=\"material-icons\">settings</i></a>";
   toolbarAdditionalToggles.push(vaultConfigBtn);
   toolbar.querySelector("ul").appendChild(vaultConfigBtn);
   initToolbar(); //Init newly added buttons

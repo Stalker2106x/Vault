@@ -1,4 +1,4 @@
-//Functions
+/* global appNodes */
 
 /**
  * filter apps displayed on grid based on search bar contents

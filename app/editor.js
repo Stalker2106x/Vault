@@ -1,4 +1,5 @@
-/* global M, nunjucks, appConfig, authorization_passphrase */
+/* global M, appConfig, appDragger, authorization_passphrase */
+
 //Helpers
 
 /**
@@ -9,7 +10,7 @@ function isEditorEnabled() {
 }
 
 function openColorPaletteHelp() {
-  var help = window.open('palette.html','Color palette helper','height=800,width=600');
+  var help = window.open("palette.html", "Color palette helper", "height=800, width=600");
   if (window.focus) help.focus();
 }
 
@@ -40,7 +41,7 @@ function initAppEditModal() {
     dismissible: true,
     preventScrolling: true
   };
-  dlgDOM.querySelector("#paletteHelp").addEventListener('click', openColorPaletteHelp);
+  dlgDOM.querySelector("#paletteHelp").addEventListener("click", openColorPaletteHelp);
   AppEditModal = M.Modal.init(dlgDOM, dlgParams);
 }
 
