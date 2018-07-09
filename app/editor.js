@@ -1,4 +1,4 @@
-/* global M, appConfig, appDragger, authorization_passphrase */
+/* global M, nunjucks, appConfig, appDragger, authorization_passphrase */
 
 //Helpers
 
@@ -147,7 +147,7 @@ function addDeleteBadge(app) {
  */
 function removeDeleteBadge(app) {
   let badgeDOM = app.querySelector(".delete-badge");
-  badgeDOM.parentNode.removeChild(badgeDOM);
+  if (badgeDOM != null) badgeDOM.parentNode.removeChild(badgeDOM);
 }
 
 /**
@@ -161,6 +161,7 @@ function openEditor() {
     addDeleteBadge(app);
     bindAppEvents(app);
   });
+  addNewAppPlaceholder();
 }
 
 /**
@@ -169,11 +170,29 @@ function openEditor() {
 function toggleDragger() {
   if (appDragger == null)
   {
-    appDragger = dragula([document.querySelector("#app-container")]);
+    appDragger = dragula([document.querySelector("#app-container")], {
+      moves: function (el, target, source, sibling) {
+        if (el.classList.contains("placeholder")) return (false);
+        return (true);
+      }
+    });
     appDragger.on("drop", setAppNodes); //Refresh appNodes list on drop
   }
   else if (appDragger.containers.length != 0) appDragger.containers = [];
   else appDragger.containers.push(document.querySelector("#app-container"));
+}
+
+function addNewAppPlaceholder()
+{
+  document.getElementById("app-container").innerHTML += nunjucks.render("templates/new_app.html");
+  setAppNodes();
+}
+
+function removeNewAppPlaceholder()
+{
+  var appContainer = document.querySelector("#app-container");
+  appContainer.removeChild(appContainer.querySelector("#newapp"));
+  setAppNodes();
 }
 
 /**
@@ -184,6 +203,7 @@ function closeEditor(save) {
   var apps = document.getElementsByClassName("app");
   if (AppEditModal.isOpen) AppEditModal.close(); //Close modal if open
   toggleDragger();
+  removeNewAppPlaceholder();
   [].forEach.call(apps, function (app) {
     removeDeleteBadge(app);
     bindAppEvents(app);

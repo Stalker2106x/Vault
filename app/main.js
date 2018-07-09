@@ -44,6 +44,7 @@ function loadConfig() {
 function buildAppDOMFromJSON(app)
 {
   var appDOM;
+  if (app == undefined) return (appDOM);
   //Inject defaults
   if (!app.color) app.color = "blue-grey"; else app.color = app.color.toLowerCase();
   if (!app.textcolor) app.textcolor = "white"; else app.textcolor = app.textcolor.toLowerCase();
