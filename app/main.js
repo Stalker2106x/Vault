@@ -66,20 +66,18 @@ function buildAppDOMFromJSON(app)
 /**
  * loads the whole Vault from JSON data
  */
-function loadVault() {
-  return (new Promise(function (resolve /* , reject */) {
-    //Getting global vault configuration
-    loadConfig();
-    if (appNodes.length != 0) clearApps();
-    //Rendering app tiles
-    loadJSON("data/apps.json", function(json){
-      JSON.parse(json).forEach(function (app) {
-        document.getElementById("app-container").innerHTML += buildAppDOMFromJSON(app);
-      });
-      setAppNodes();
-      resolve();
+function loadApps() {
+  if (appNodes.length != 0) clearApps();
+  //Rendering app tiles
+  loadJSON("data/apps.json", function(json){
+    JSON.parse(json).forEach(function (app) {
+      document.getElementById("app-container").innerHTML += buildAppDOMFromJSON(app);
     });
-  }));
+    setAppNodes();
+    appNodes.forEach(function(app) {
+      bindAppEvents(app);
+    });
+  });
 }
 
 /**
@@ -200,7 +198,7 @@ function authenticate() {
   {
     if (lockToolbar()) //attempt to lock
     {
-      getDescendantWithClass(button, "material-icons").innerText = "lock";
+      button.querySelector(".material-icons").innerText = "lock";
       authorization_passphrase = "";
       button.classList.add("locked");
       //Toast to alert
@@ -214,8 +212,8 @@ function authenticate() {
  */
 function bindAppEvents(app) {
   bindAppClick(app, navigateToSelection);
-  app.addEventListener("mouseover", function (event) { selectApp(event.currentTarget); }); //Bind selection handler
-  app.addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
+  app.querySelector(".card").addEventListener("mouseover", function () { selectApp(app); }); //Bind selection handler
+  app.querySelector(".card").addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
 }
 
 //APP BEGIN
@@ -237,10 +235,8 @@ document.getElementById("filterInput").addEventListener("input", filterApps); //
 initToolbar();
 initAuthModal();
 //Main
-loadVault().then(function() {
-  appNodes.forEach(function(app) {
-    bindAppEvents(app);
-  });
-  updateNavArrows();
-});
+//Getting global vault configuration
+loadConfig();
+//Getting apps
+loadApps();
 //APP END

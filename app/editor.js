@@ -54,7 +54,7 @@ function setAppEditModalData(appDOM) {
   //Set data
   dlgDOM.querySelector("#appInput_title").value = appDOM.querySelector(".app-title").innerText;
   dlgDOM.querySelector("#appInput_detail").value = appDOM.querySelector(".app-detail").innerText;
-  dlgDOM.querySelector("#appInput_color").value = (appDOM.getAttribute("color") != "blue-grey" ? appDOM.getAttribute("color") : "");
+  dlgDOM.querySelector("#appInput_color").value = (appDOM.querySelector(".card").getAttribute("color") != "blue-grey" ? appDOM.querySelector(".card").getAttribute("color") : "");
   dlgDOM.querySelector("#appInput_image").value = (appDOM.querySelector(".app-image") != null ? appDOM.querySelector(".app-image").getAttribute("src") : "");
   //Clear button to prevent duplicate events
   var applyBtn = dlgDOM.querySelector("#edit-apply");
@@ -159,6 +159,7 @@ function openEditor() {
   toggleDragger();
   appNodes.forEach(function (app) {
     addDeleteBadge(app);
+    bindAppEvents(app);
   });
 }
 
@@ -185,6 +186,7 @@ function closeEditor(save) {
   toggleDragger();
   [].forEach.call(apps, function (app) {
     removeDeleteBadge(app);
+    bindAppEvents(app);
   });
   var toastContainer = document.getElementById("toast-container");
   [].forEach.call(toastContainer.children, function (toast) {
@@ -235,7 +237,7 @@ function toggleEditor(save) {
  */
 function revertEditor() {
   toggleEditor(false);
-  loadVault();
+  loadApps();
 }
 
 /**

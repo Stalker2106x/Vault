@@ -60,11 +60,8 @@ function replaceVerticalScrollByHorizontal(event) {
   var motion = (event.deltaY > 0 ? 1 : -1); // interpret scroll horizonally motion
   if (event.deltaY != 0) {
     var selection = document.querySelector(".app.selected"); //Get current selection
-    if (selection == undefined || selection == null) //If null, select first app
-    {
-      selection = document.querySelector(".app"); //Grab first app
-    }
-    else
+    if (selection == null) selection = appNodes[0]; //If null, select first app
+    else //Else, increment
     {
       var appIndex = appNodes.indexOf(selection);
       if (appIndex + motion < 0 || appIndex + motion >= appNodes.length) return; //Out of range
@@ -74,10 +71,9 @@ function replaceVerticalScrollByHorizontal(event) {
         appIndex += motion;
         if (appIndex < 0 || appIndex >= appNodes.length) return; //Out of range
       }
-      selection.classList.remove("selected");  //unselect previous
-      selection = document.querySelectorAll(".app")[appIndex];
+      selection = appNodes[appIndex];
     }
-    selection.classList.add("selected");  //select app
+    selectApp(selection);
     selection.scrollIntoView({ block: "start",  behavior: "smooth" });
     updateNavArrows();
     // prevent vertical scroll
