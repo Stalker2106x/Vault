@@ -49,11 +49,11 @@ function initAppEditModal() {
  * Fills edit modal with an app data
  * @param {DOM} appDOM concerned app
  */
-function setAppEditModalData(appDOM) {
+function setAppEditModalData(appDOM, applyCallback) {
   var dlgDOM = document.querySelector("#modal_edit");
   //Set data
-  dlgDOM.querySelector("#appInput_title").value = appDOM.querySelector(".app-title").innerText;
-  dlgDOM.querySelector("#appInput_detail").value = appDOM.querySelector(".app-detail").innerText;
+  dlgDOM.querySelector("#appInput_title").value = (appDOM.querySelector(".app-title") != null ? appDOM.querySelector(".app-title").innerText : "");
+  dlgDOM.querySelector("#appInput_detail").value = (appDOM.querySelector(".app-detail") != null ? appDOM.querySelector(".app-detail").innerText : "");
   dlgDOM.querySelector("#appInput_color").value = (appDOM.querySelector(".card").getAttribute("color") != "blue-grey" ? appDOM.querySelector(".card").getAttribute("color") : "");
   dlgDOM.querySelector("#appInput_image").value = (appDOM.querySelector(".app-image") != null ? appDOM.querySelector(".app-image").getAttribute("src") : "");
   //Clear button to prevent duplicate events
@@ -62,8 +62,21 @@ function setAppEditModalData(appDOM) {
   while (applyBtn.firstChild) { applyCopy.appendChild(applyBtn.lastChild); }
   applyBtn.parentNode.replaceChild(applyCopy, applyBtn);
   // Add serialize callback
-  dlgDOM.querySelector("#edit-apply").addEventListener("click", function report() { reportAppEditModalData(appDOM); });
+  dlgDOM.querySelector("#edit-apply").addEventListener("click", applyCallback);
   M.updateTextFields();
+}
+
+/**
+ * returns JSON object containing modal app data
+ */
+function dumpAppEditModalData() {
+  var appObject = {
+    title: document.querySelector("#appInput_title").value,
+    detail: document.querySelector("#appInput_detail").value,
+    color: document.querySelector("#appInput_color").value,
+    image: document.querySelector("#appInput_image").value
+  };
+  return (appObject);
 }
 
 /**
@@ -71,16 +84,12 @@ function setAppEditModalData(appDOM) {
  * @param {DOM} appDOM concerned app
  */
 function reportAppEditModalData(appDOM) {
-  appObject = {
-    title: document.querySelector("#appInput_title").value,
-    detail: document.querySelector("#appInput_detail").value,
-    color: document.querySelector("#appInput_color").value,
-    image: document.querySelector("#appInput_image").value
-  };
+  var appObject = dumpAppEditModalData();
   var newAppDOM = document.createElement("div");
   newAppDOM.innerHTML = buildAppDOMFromJSON(appObject);
   newAppDOM = newAppDOM.firstChild;
-  appDOM.parentNode.replaceChild(newAppDOM, appDOM);
+  if (appDOM != undefined) appDOM.parentNode.replaceChild(newAppDOM, appDOM);
+  else document.querySelector("#app-container").appendChild(newAppDOM);
   bindAppEvents(newAppDOM);
   addDeleteBadge(newAppDOM);
   setAppNodes(); //Refresh app nodes
@@ -120,7 +129,7 @@ function initAppDeleteModal() {
  */
 function setAppDeleteModalData(appDOM) {
   var dlgDOM = document.querySelector("#modal_delete");
-  dlgDOM.querySelector(".delete-prompt").innerText = "Delete " + appDOM.querySelector(".app-title").innerText; + " ?";
+  dlgDOM.querySelector(".delete-prompt").innerText = "Delete " + (appDOM.querySelector(".app-title") != null ? appDOM.querySelector(".app-title").innerText : "App") + " ?";
   //Clear button to prevent duplicate events
   var confirmBtn = dlgDOM.querySelector("#delete-confirm");
   var confirmCopy = confirmBtn.cloneNode();
@@ -184,8 +193,12 @@ function toggleDragger() {
 
 function addNewAppPlaceholder()
 {
-  document.getElementById("app-container").innerHTML += nunjucks.render("templates/new_app.html");
+  var container = document.querySelector("#app-container");
+  container.innerHTML += nunjucks.render("templates/new_app.html");
   setAppNodes();
+  appNodes.forEach(function (app) {
+    bindAppEvents(app);
+  });
 }
 
 function removeNewAppPlaceholder()
@@ -265,9 +278,9 @@ function revertEditor() {
  */
 function appDOMtoJSON(app) {
   var appObject = {};
-  appObject.title = app.querySelector(".app-title").innerText;
-  appObject.detail = app.querySelector(".app-detail").innerText;
-  appObject.url = app.getAttribute("href");
+  appObject.title = (app.querySelector(".app-title") != null ? app.querySelector(".app-title").innerText : "");
+  appObject.detail = (app.querySelector(".app-detail") != null ? app.querySelector(".app-detail").innerText : "");
+  appObject.url = (app.getAttribute("href") != undefined ? app.getAttribute("href") : "");
   //Get App image
   var image = app.querySelector(".app-image");
   appObject.image = (image != null ?  image.getAttribute("src") : "");

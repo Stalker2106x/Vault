@@ -91,19 +91,6 @@ function setAppNodes()
 }
 
 /**
- * Binds the click behaviour to an app
- * @param {DOMElement} app DOM to bind click callback to
- * @param {Function} callback Callback to bind to event
- */
-function bindAppClick(app, callback) {
-  if (app.getAttribute("href") != undefined)
-  {
-    app.classList.add("app-link");
-    app.addEventListener("click", callback); //Bind navigation handler
-  }
-}
-
-/**
  * initialize the vault configuration modal
  */
 var VaultConfigModal = null;
@@ -212,7 +199,8 @@ function authenticate() {
  * Bind app navigation, hover and various events to an app
  */
 function bindAppEvents(app) {
-  bindAppClick(app, navigateToSelection);
+  app.classList.add("app-link");
+  app.addEventListener("click", navigateToSelection); //Bind navigation handler
   app.querySelector(".card").addEventListener("mouseover", function () { selectApp(app); }); //Bind selection handler
   app.querySelector(".card").addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
 }

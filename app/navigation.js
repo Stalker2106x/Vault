@@ -15,7 +15,10 @@ function navigateToSelection() {
     }
     else
     {
-      setAppEditModalData(selection);
+      setAppEditModalData(selection, function() {
+        if (selection.id == "newapp") reportAppEditModalData();
+        else reportAppEditModalData(selection);
+      });
       AppEditModal.open();
     }
   }
