@@ -3,12 +3,15 @@
 //Helpers
 
 /**
- * checks if the vault is in edition mode
+ * returns true if the vault is in edition mode, false if not
  */
 function isEditorEnabled() {
   return (document.querySelector("#toggleEditor.active") == null ? false : true);
 }
 
+/**
+ * opens a popup with available color palette
+ */
 function openColorPaletteHelp() {
   var help = window.open("palette.html", "Color palette helper", "height=800, width=600");
   if (window.focus) help.focus();
@@ -30,8 +33,7 @@ function getAppAttribute(app, selector)
 }
 
 /**
- * Opens edit modal for an app
- * @param {Event} event triggered from click event on an app
+ * Initialize app edition modal
  */
 var AppEditModal = null;
 function initAppEditModal() {
@@ -47,7 +49,8 @@ function initAppEditModal() {
 
 /**
  * Fills edit modal with an app data
- * @param {DOM} appDOM concerned app
+ * @param {DOM} appDOM edited app DOM
+ * @param {function} applyCallback function to call when clicking apply
  */
 function setAppEditModalData(appDOM, applyCallback) {
   var dlgDOM = document.querySelector("#modal_edit");
@@ -80,8 +83,8 @@ function dumpAppEditModalData() {
 }
 
 /**
- * Grabs modal data and injects it in current editor state
- * @param {DOM} appDOM concerned app
+ * Extract data from app edition modal, and update concerned app with edits
+ * @param {DOM} appDOM edited app DOM
  */
 function reportAppEditModalData(appDOM) {
   var appObject = dumpAppEditModalData();
@@ -99,7 +102,7 @@ function reportAppEditModalData(appDOM) {
 
 /**
  * delete an application from grid
- * @param {DOM} appDOM concerned app
+ * @param {DOM} appDOM app DOM to remove
  */
 function deleteApp(appDOM) {
   var appContainer = document.querySelector("#app-container");
@@ -124,8 +127,8 @@ function initAppDeleteModal() {
 }
 
 /**
- * Opens modal to confirm app deletion
- * @param {Event} event triggered from click on an app delete-btn
+ * set delete modal content before opening
+ * @param {DOM} appDOM DOM of the app to remove
  */
 function setAppDeleteModalData(appDOM) {
   var dlgDOM = document.querySelector("#modal_delete");
@@ -151,8 +154,8 @@ function addDeleteBadge(app) {
 }
 
 /**
- * Add delete badge to an app
- * @param {DOM} app DOM of app to add delete badge to
+ * Remove delete badge to an app
+ * @param {DOM} app DOM of app to remove delete badge from
  */
 function removeDeleteBadge(app) {
   let badgeDOM = app.querySelector(".delete-badge");
@@ -191,6 +194,9 @@ function toggleDragger() {
   else appDragger.containers.push(document.querySelector("#app-container"));
 }
 
+/**
+ * Adds a fake app with "+" to create a new app
+ */
 function addNewAppPlaceholder()
 {
   var container = document.querySelector("#app-container");
@@ -201,6 +207,9 @@ function addNewAppPlaceholder()
   });
 }
 
+/**
+ * Removes the fake "+" app
+ */
 function removeNewAppPlaceholder()
 {
   var appContainer = document.querySelector("#app-container");
@@ -241,7 +250,7 @@ function closeEditor(save) {
 
 /**
  * toggle app editor on or off
- * @param save : should we save on exit ?
+ * @param {bool} save : true to save on exit, false to skip saving
  */
 function toggleEditor(save) {
   var toggle = document.getElementById("toggleEditor");
@@ -275,6 +284,7 @@ function revertEditor() {
 
 /**
  * Converts an app DOM to JSON Object
+ * @param {DOM} app DOM of the app to convert
  */
 function appDOMtoJSON(app) {
   var appObject = {};
@@ -288,7 +298,7 @@ function appDOMtoJSON(app) {
 }
 
 /**
- * Dump vault apps to JSON object
+ * Dump all vault apps to JSON array
  */
 function dumpVaultApps() {
   //Collecting apps data

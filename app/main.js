@@ -22,13 +22,16 @@ function loadJSON(file, callback) {
 }
 
 /**
- * Empties the app grid
+ * Empties the app container, and app nodes array
  */
 function clearApps() {
   appNodes = [];
   document.getElementById("app-container").innerHTML = ""; //Empty container content
 }
 
+/**
+ * fills appConfig object with JSON config
+ */
 function loadConfig() {
   loadJSON("data/config.json", function(json){
     appConfig = JSON.parse(json);
@@ -39,7 +42,42 @@ function loadConfig() {
 }
 
 /**
+ * filter apps displayed on grid based on search bar contents
+ */
+function filterApps() {
+  var filter = this.value.toLowerCase();
+  var firstMatching = true;
+  if (filter == "")
+  {
+    appNodes.forEach(function (app) {
+      app.style.display = "";
+    });
+    return;
+  }
+  appNodes.forEach(function (app) {
+    if (app.querySelector(".app-title").innerText.toLowerCase().indexOf(filter) < 0 //Filter title
+      && app.querySelector(".app-detail").innerText.toLowerCase().indexOf(filter) < 0) //Filter detail
+    {
+      app.style.display = "none";
+    }
+    else 
+    {
+      if (firstMatching)
+      {
+        firstMatching = false;
+        selectApp(app);
+      }
+      if (app.style.display == "none")
+      {
+        app.style.display = "";
+      }
+    }
+  });
+}
+
+/**
  * Converts a JSON app to an html DOM
+ * @param app JSON data of the app to render
  */
 function buildAppDOMFromJSON(app)
 {
@@ -65,7 +103,7 @@ function buildAppDOMFromJSON(app)
 }
 
 /**
- * loads the whole Vault from JSON data
+ * loads all the Vault apps from JSON data
  */
 function loadApps() {
   if (appNodes.length != 0) clearApps();
@@ -87,7 +125,6 @@ function loadApps() {
 function setAppNodes()
 {
   appNodes = [].slice.call(document.getElementById("app-container").children);
-  return (true);
 }
 
 /**
@@ -108,7 +145,7 @@ function initVaultConfigModal() {
 }
 
 /**
- * fill the vault configuration modal data
+ * fill the vault configuration modal data before opening
  */
 function setVaultConfigModalData() {
   var dlgDOM = document.querySelector("#modal_config");
@@ -174,7 +211,7 @@ function initAuthModal()
 }
 
 /**
- * Prompt the user for passphrase, to trigger unlock of vault if correct
+ * callback of lock/unlock button
  */
 function authenticate() {
   let button = document.querySelector("#unlockVault");
@@ -197,6 +234,7 @@ function authenticate() {
 
 /**
  * Bind app navigation, hover and various events to an app
+ * @param {DOM} app DOM to bind events to
  */
 function bindAppEvents(app) {
   app.classList.add("app-link");
