@@ -29,15 +29,23 @@ the next chapters teach you how to configure config and apps components
 Vault come with a pre-configured config.json file, located inside data folder.
 The data is an object with editable properties, which supports the following options:
 
-|    |
-|----|
-| NO |
+|Param              |Description
+|:-----------------:|:--------------------------------------------------------|
+|title              | Name of the vault                                       |
+|caption            | Caption displayed under title                           |
+|background         | Name of the background (x.jpg)                          |
+|allow-remote-login | Allow login only from localhost                         |
+|passphrase         | Secret passphrase to authenticate (Default: "marimba")  |
 
 #### Apps configuration (apps.json)
 
 Vault come with a pre-configured config.json file, located inside data folder.
 The data is an object with editable properties, which supports the following options:
 
-|    |
-|----|
-| NO |
+|Param   |Description                                                 |
+|:------:|:-----------------------------------------------------------|
+|title   |Title of the app                                            |
+|image   |Absolute or relative path to image (can be an external url) |
+|url     |Absolute or relative path to target (can be an external url)|
+|detail  |Caption text displayed on the app tile                      |
+|action  |Behaviour of click (undefined for now)                      |
