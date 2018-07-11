@@ -92,10 +92,10 @@ function reportAppEditModalData(appDOM) {
   newAppDOM.innerHTML = buildAppDOMFromJSON(appObject);
   newAppDOM = newAppDOM.firstChild;
   if (appDOM != undefined) appDOM.parentNode.replaceChild(newAppDOM, appDOM);
-  else document.querySelector("#app-container").appendChild(newAppDOM);
+  else document.querySelector("#app-container").insertBefore(newAppDOM, document.querySelector("#newapp"));
+  setAppNodes(); //Refresh app nodes
   bindAppEvents(newAppDOM);
   addDeleteBadge(newAppDOM);
-  setAppNodes(); //Refresh app nodes
   M.toast({html: "<span>Modifications applied.</span>"});
   AppEditModal.close();
 }
