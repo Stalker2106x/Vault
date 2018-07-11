@@ -84,6 +84,7 @@ function buildAppDOMFromJSON(app)
   var appDOM;
   if (app == undefined) return (appDOM);
   //Inject defaults
+  if (!app.action) app.action = "redirect";
   if (!app.color) app.color = "blue-grey"; else app.color = app.color.toLowerCase();
   if (!app.textcolor) app.textcolor = "white"; else app.textcolor = app.textcolor.toLowerCase();
   //Render
@@ -91,7 +92,7 @@ function buildAppDOMFromJSON(app)
   {
     appDOM = nunjucks.render("templates/app_image.html", app);
   }
-  else if (app.action && app.url) //Standard app
+  else if (app.title) //Standard app
   {
     appDOM = nunjucks.render("templates/app_base.html", app);
   }
