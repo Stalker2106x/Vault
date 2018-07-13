@@ -141,7 +141,6 @@ function initVaultConfigModal() {
     onOpenStart: setVaultConfigModalData
   };
   M.updateTextFields();
-  var bgSelect = M.FormSelect.init(dlgDOM.querySelector("#configSelect_background"));
   VaultConfigModal = M.Modal.init(dlgDOM, dlgParams);
 }
 
@@ -156,6 +155,7 @@ function setVaultConfigModalData() {
   [].forEach.call(bgSelect.children, function (option) {
     option.selected = (option.value == appConfig.background ? true : false);
   });
+  M.FormSelect.init(bgSelect);
   dlgDOM.querySelector("#configInput_passphrase").value = "";
 }
 

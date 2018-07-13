@@ -8,12 +8,26 @@ function navigateToSelection() {
   var selection = document.querySelector(".app.selected");
   if (selection != undefined && selection != null) //If not null, execute
   {
-    if (!isEditorEnabled()) //Editor off
+    if (!isEditorEnabled()) //Navigate
     {
-      if (selection.getAttribute("href") == undefined) return;
-      window.location.href = selection.getAttribute("href");
+      var url = selection.getAttribute("href");
+      if (url == undefined || selection.getAttribute("action") == undefined) return;
+      switch(selection.getAttribute("action"))
+      {
+      case "redirect":
+        window.location.href = url;
+        break;
+      case "newtab":
+        window.open(url, "_blank");
+        break;
+      case "popup":
+        window.open(url, "Target", "resizable=yes");
+        break;
+      default:
+        break;
+      }
     }
-    else
+    else //Editor
     {
       setAppEditModalData(selection, function() {
         if (selection.id == "newapp") reportAppEditModalData();

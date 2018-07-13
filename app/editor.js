@@ -56,8 +56,16 @@ function setAppEditModalData(appDOM, applyCallback) {
   var dlgDOM = document.querySelector("#modal_edit");
   //Set data
   dlgDOM.querySelector("#appInput_title").value = (appDOM.querySelector(".app-title") != null ? appDOM.querySelector(".app-title").innerText : "");
-  dlgDOM.querySelector("#appInput_detail").value = (appDOM.querySelector(".app-detail") != null ? appDOM.querySelector(".app-detail").innerText : "");
+  var actionSelect = dlgDOM.querySelector("#appSelect_action");
+  if (appDOM.getAttribute("action") != undefined)
+  {
+    [].forEach.call(actionSelect.children, function (option) {
+      option.selected = (option.value == appDOM.getAttribute("action") ? true : false);
+    });
+  }
+  M.FormSelect.init(actionSelect);
   dlgDOM.querySelector("#appInput_color").value = (appDOM.querySelector(".card").getAttribute("color") != "blue-grey" ? appDOM.querySelector(".card").getAttribute("color") : "");
+  dlgDOM.querySelector("#appInput_detail").value = (appDOM.querySelector(".app-detail") != null ? appDOM.querySelector(".app-detail").innerText : "");
   dlgDOM.querySelector("#appInput_image").value = (appDOM.querySelector(".app-image") != null ? appDOM.querySelector(".app-image").getAttribute("src") : "");
   //Clear button to prevent duplicate events
   var applyBtn = dlgDOM.querySelector("#edit-apply");
@@ -75,10 +83,14 @@ function setAppEditModalData(appDOM, applyCallback) {
 function dumpAppEditModalData() {
   var appObject = {
     title: document.querySelector("#appInput_title").value,
-    detail: document.querySelector("#appInput_detail").value,
     color: document.querySelector("#appInput_color").value,
+    detail: document.querySelector("#appInput_detail").value,
     image: document.querySelector("#appInput_image").value
   };
+  var actionSelect = document.querySelector("#appSelect_action");
+  [].forEach.call(actionSelect.children, function (option) {
+    if (option.selected && !option.disabled) appObject.action = option.value;
+  });
   return (appObject);
 }
 

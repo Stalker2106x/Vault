@@ -108,6 +108,16 @@
                             <input id="appInput_title" type="text" class="validate" value="TITLE">
                             <label for="appInput_title">Title</label>
                         </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">insert_link</i>
+                            <select id="appSelect_action">
+                                <option value="none" disabled selected>None</option>
+                                <option value="redirect">Redirect</option>
+                                <option value="newtab">Open in new tab</option>
+                                <option value="popup">Open in a popup</option>
+                            </select>
+                            <label>Action</label>
+                        </div>
                         <div class="row">
                             <div class="input-field col s11">
                                 <i class="material-icons prefix">color_lens</i>
@@ -157,7 +167,6 @@
         <script type="text/javascript" src="app/toolbar.js"></script>
         <script type="text/javascript" src="app/navigation.js"></script>
         <script type="text/javascript" src="app/editor.js"></script>
-        <script type="text/javascript" src="app/filter.js"></script>
         <script type="text/javascript" src="app/main.js"></script>
     </body>
 </html>
