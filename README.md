@@ -15,6 +15,8 @@ It uses a CMS-approach, where zero knowledge is needed to deploy the service.
 When you fire up your vault, a three-dotted button appears on the bottom right corner.
 Just click it, unlock it (default password is "marimba") and toggle editor on !
 
+![Editor](https://bitbucket.org/stalker2106/vault/raw/master/example/editor.gif)
+
 ### Configuring your Vault (manually)
 
 You can also configure displayed data yourself, by editing app resources.
