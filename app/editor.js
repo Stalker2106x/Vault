@@ -5,8 +5,9 @@
 /**
  * returns true if the vault is in edition mode, false if not
  */
+var editing = false;
 function isEditorEnabled() {
-  return (document.querySelector("#toggleEditor.active") == null ? false : true);
+  return (editing);
 }
 
 /**
@@ -160,9 +161,8 @@ function setAppDeleteModalData(appDOM) {
  * @param {DOM} app DOM of app to add delete badge to
  */
 function addDeleteBadge(app) {
-  let badgeHTML = "<i class=\"delete-badge material-icons\">cancel</i>";
+  let badgeHTML = "<div class=\"btn-floating btn-small waves-effect waves-light red delete-badge\"><i class=\"material-icons delete-fix\">close</i></div>";
   app.innerHTML = badgeHTML + app.innerHTML;
-  app.querySelector(".delete-badge").addEventListener("click", function () { setAppDeleteModalData(app); });
 }
 
 /**
@@ -178,6 +178,7 @@ function removeDeleteBadge(app) {
  * Opens vault app editor
  */
 function openEditor() {
+  editing = true;
   initAppEditModal();
   initAppDeleteModal();
   toggleDragger();
@@ -233,6 +234,7 @@ function removeNewAppPlaceholder()
  * Close vault app editor
  */
 function closeEditor(save) {
+  editing = false;
   //Disabling page editor
   var apps = document.getElementsByClassName("app");
   if (AppEditModal.isOpen) AppEditModal.close(); //Close modal if open
