@@ -55,19 +55,18 @@ function initAppEditModal() {
  */
 function setAppEditModalData(appDOM, applyCallback) {
   var dlgDOM = document.querySelector("#modal_edit");
+  var appObject = appDOMtoJSON(appDOM);
   //Set data
-  dlgDOM.querySelector("#appInput_title").value = (appDOM.querySelector(".app-title") != null ? appDOM.querySelector(".app-title").innerText : "");
+  dlgDOM.querySelector("#appEdit_title").innerText = (appDOM.id == "newapp" ? "Create App" : appObject.title + " Settings");
+  dlgDOM.querySelector("#appInput_title").value = appObject.title;
   var actionSelect = dlgDOM.querySelector("#appSelect_action");
-  if (appDOM.getAttribute("action") != undefined)
-  {
-    [].forEach.call(actionSelect.children, function (option) {
-      option.selected = (option.value == appDOM.getAttribute("action") ? true : false);
-    });
-  }
+  [].forEach.call(actionSelect.children, function (option) {
+    option.selected = (option.value == appObject.action ? true : false);
+  });
   M.FormSelect.init(actionSelect);
-  dlgDOM.querySelector("#appInput_color").value = (appDOM.querySelector(".card").getAttribute("color") != "blue-grey" ? appDOM.querySelector(".card").getAttribute("color") : "");
-  dlgDOM.querySelector("#appInput_detail").value = (appDOM.querySelector(".app-detail") != null ? appDOM.querySelector(".app-detail").innerText : "");
-  dlgDOM.querySelector("#appInput_image").value = (appDOM.querySelector(".app-image") != null ? appDOM.querySelector(".app-image").getAttribute("src") : "");
+  dlgDOM.querySelector("#appInput_color").value = appObject.color;
+  dlgDOM.querySelector("#appInput_detail").value = appObject.detail;
+  dlgDOM.querySelector("#appInput_image").value = appObject.image;
   //Clear button to prevent duplicate events
   var applyBtn = dlgDOM.querySelector("#edit-apply");
   var applyCopy = applyBtn.cloneNode();
@@ -107,8 +106,8 @@ function reportAppEditModalData(appDOM) {
   if (appDOM != undefined) appDOM.parentNode.replaceChild(newAppDOM, appDOM);
   else document.querySelector("#app-container").insertBefore(newAppDOM, document.querySelector("#newapp"));
   setAppNodes(); //Refresh app nodes
-  bindAppEvents(newAppDOM);
   addDeleteBadge(newAppDOM);
+  bindAppEvents(newAppDOM);
   M.toast({html: "<span>Modifications applied.</span>"});
   AppEditModal.close();
 }
@@ -305,6 +304,8 @@ function appDOMtoJSON(app) {
   appObject.title = (app.querySelector(".app-title") != null ? app.querySelector(".app-title").innerText : "");
   appObject.detail = (app.querySelector(".app-detail") != null ? app.querySelector(".app-detail").innerText : "");
   appObject.url = (app.getAttribute("href") != undefined ? app.getAttribute("href") : "");
+  appObject.color = (app.querySelector(".card").getAttribute("color") != "blue-grey" ? app.querySelector(".card").getAttribute("color") : "");
+  appObject.action = (app.getAttribute("action") != undefined ? app.getAttribute("action") : "none");
   //Get App image
   var image = app.querySelector(".app-image");
   appObject.image = (image != null ?  image.getAttribute("src") : "");

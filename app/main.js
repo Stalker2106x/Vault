@@ -240,9 +240,13 @@ function authenticate() {
 function bindAppEvents(app) {
   app.classList.add("app-link");
   app.addEventListener("click", navigateToSelection); //Bind navigation handler
-  if (isEditorEnabled() && app.id != "newapp") app.querySelector(".delete-badge").addEventListener("click", function () { setAppDeleteModalData(app); });
   app.querySelector(".card").addEventListener("mouseover", function () { selectApp(app); }); //Bind selection handler
   app.querySelector(".card").addEventListener("mouseleave", clearSelection); //Bind clearSelection handler
+  if (isEditorEnabled())
+  {
+    var deleteBadge = app.querySelector(".delete-badge");
+    if (deleteBadge != null) deleteBadge.addEventListener("click", function () { setAppDeleteModalData(app); });
+  }
 }
 
 //APP BEGIN
