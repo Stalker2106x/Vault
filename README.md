@@ -1,7 +1,7 @@
 # README
 
 Vault is a pure vanillaJS + PHP landing page for your server.
-It shows an web application grid like a smartphone layout, having each tile routed to a service you use, or used as a note.
+It shows an application grid similar to a smartphone layout, having each tile routed to a service you use, or used as a note.
 It uses a CMS-approach, where zero knowledge is needed either to use it, or to deploy it.
 
 ![Example](https://bitbucket.org/stalker2106/vault/raw/master/example/grid.png)
