@@ -46,10 +46,5 @@
         "url": "http://trello.com/",
         "detail": "Organize your mess for better handling.",
         "action": "redirect"
-    },
-    {
-        "title": "Ebay",
-        "detail": "10 Hours left for a $999 stephen hawkins hair?! Gotta bid!",
-        "action": "redirect"
     }
 ]
