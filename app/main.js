@@ -81,26 +81,31 @@ function filterApps() {
  */
 function buildAppDOMFromJSON(app)
 {
-  var appDOM;
+  var appDOM = document.createElement("div");
   if (app == undefined) return (appDOM);
   //Inject defaults
   if (!app.action) app.action = "redirect";
   if (!app.color) app.color = "blue-grey"; else app.color = app.color.toLowerCase();
   if (!app.textcolor) app.textcolor = "white"; else app.textcolor = app.textcolor.toLowerCase();
   //Render
-  if (app.image) //Image app
+  if (app.html) //Widget
   {
-    appDOM = nunjucks.render("templates/app_image.html", app);
+    appDOM.innerHTML = nunjucks.render("templates/app_widget.html", app);
+    appDOM.querySelector(".app-widget").innerHTML = app.html;
+  }
+  else if (app.image) //Image app
+  {
+    appDOM.innerHTML = nunjucks.render("templates/app_image.html", app);
   }
   else if (app.title) //Standard app
   {
-    appDOM = nunjucks.render("templates/app_base.html", app);
+    appDOM.innerHTML = nunjucks.render("templates/app_base.html", app);
   }
   else //Not an app (note or alert)
   {
-    appDOM = nunjucks.render("templates/app_panel.html", app);
+    appDOM.innerHTML = nunjucks.render("templates/app_panel.html", app);
   }
-  return (appDOM);
+  return (appDOM.firstChild);
 }
 
 /**
@@ -111,7 +116,7 @@ function loadApps() {
   //Rendering app tiles
   loadJSON("data/apps.json", function(json){
     JSON.parse(json).forEach(function (app) {
-      document.getElementById("app-container").innerHTML += buildAppDOMFromJSON(app);
+      document.getElementById("app-container").appendChild(buildAppDOMFromJSON(app));
     });
     setAppNodes();
     appNodes.forEach(function(app) {

@@ -44,7 +44,8 @@ function initAppEditModal() {
     dismissible: true,
     preventScrolling: true
   };
-  dlgDOM.querySelector("#paletteHelp").addEventListener("click", openColorPaletteHelp);
+  dlgDOM.querySelector(".paletteHelp").addEventListener("click", openColorPaletteHelp);
+  dlgDOM.querySelector("#widgetSwitch").addEventListener("click", toggleAppWidget);
   AppEditModal = M.Modal.init(dlgDOM, dlgParams);
 }
 
@@ -83,10 +84,17 @@ function setAppEditModalData(appDOM, applyCallback) {
 function dumpAppEditModalData() {
   var appObject = {
     title: document.querySelector("#appInput_title").value,
-    color: document.querySelector("#appInput_color").value,
-    detail: document.querySelector("#appInput_detail").value,
-    image: document.querySelector("#appInput_image").value
+    color: document.querySelector("#appInput_color").value
   };
+  if (AppEditModalMode == "app")
+  {
+    appObject.detail = document.querySelector("#appInput_detail").value;
+    appObject.image = document.querySelector("#appInput_image").value;
+  }
+  else if (AppEditModalMode == "widget")
+  {
+    appObject.html = document.querySelector("#appInput_html").value;
+  }
   var actionSelect = document.querySelector("#appSelect_action");
   [].forEach.call(actionSelect.children, function (option) {
     if (option.selected && !option.disabled) appObject.action = option.value;
@@ -100,9 +108,7 @@ function dumpAppEditModalData() {
  */
 function reportAppEditModalData(appDOM) {
   var appObject = dumpAppEditModalData();
-  var newAppDOM = document.createElement("div");
-  newAppDOM.innerHTML = buildAppDOMFromJSON(appObject);
-  newAppDOM = newAppDOM.firstChild;
+  var newAppDOM = buildAppDOMFromJSON(appObject);
   if (appDOM != undefined) appDOM.parentNode.replaceChild(newAppDOM, appDOM);
   else document.querySelector("#app-container").insertBefore(newAppDOM, document.querySelector("#newapp"));
   setAppNodes(); //Refresh app nodes
@@ -110,6 +116,26 @@ function reportAppEditModalData(appDOM) {
   bindAppEvents(newAppDOM);
   M.toast({html: "<span>Modifications applied.</span>"});
   AppEditModal.close();
+}
+
+/**
+ * Initialize widget edition modal
+ */
+var AppEditModalMode = "app";
+function toggleAppWidget() {
+  if (AppEditModal == null) return;
+  var dlgDOM = document.querySelector("#modal_edit");
+  AppEditModalMode = (AppEditModalMode == "app" ? "widget" : "app");
+  if (AppEditModalMode == "app")
+  {
+    dlgDOM.querySelector("#appEdit_widgetData").style.display = "none";
+    dlgDOM.querySelector("#appEdit_appData").style.display = "block";
+  }
+  else if (AppEditModalMode == "widget")
+  {
+    dlgDOM.querySelector("#appEdit_appData").style.display = "none";
+    dlgDOM.querySelector("#appEdit_widgetData").style.display = "block";
+  }
 }
 
 /**
@@ -302,13 +328,20 @@ function revertEditor() {
 function appDOMtoJSON(app) {
   var appObject = {};
   appObject.title = (app.querySelector(".app-title") != null ? app.querySelector(".app-title").innerText : "");
-  appObject.detail = (app.querySelector(".app-detail") != null ? app.querySelector(".app-detail").innerText : "");
   appObject.url = (app.getAttribute("href") != undefined ? app.getAttribute("href") : "");
   appObject.color = (app.querySelector(".card").getAttribute("color") != "blue-grey" ? app.querySelector(".card").getAttribute("color") : "");
   appObject.action = (app.getAttribute("action") != undefined ? app.getAttribute("action") : "none");
   //Get App image
-  var image = app.querySelector(".app-image");
-  appObject.image = (image != null ?  image.getAttribute("src") : "");
+  if (app.querySelector(".app-widget") != null) //Widget
+  {
+    appObject.html = (app.querySelector(".app-widget") != null ? app.querySelector(".app-widget").innerHTML : "");
+  }
+  else
+  {
+    var image = app.querySelector(".app-image");
+    appObject.image = (image != null ?  image.getAttribute("src") : "");
+    appObject.detail = (app.querySelector(".app-detail") != null ? app.querySelector(".app-detail").innerText : "");
+  }
   return (appObject);
 }
 

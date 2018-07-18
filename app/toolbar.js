@@ -56,7 +56,11 @@ function lockToolbar()
  * Initialize base toolbar with JS anims
  */
 function initToolbar() {
-  M.FloatingActionButton.init(toolbar, {direction: "left", hoverEnabled: true});
+  var toolbarParams = {
+    direction: "left",
+    hoverEnabled: true
+  };
+  M.FloatingActionButton.init(toolbar, toolbarParams);
   var activeTooltips = document.querySelectorAll(".tooltipped");
   for (var tooltip in activeTooltips)
   {

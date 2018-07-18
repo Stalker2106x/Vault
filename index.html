@@ -100,7 +100,14 @@
             <!-- app edition modal -->
             <div id="modal_edit" class="modal">
                 <div class="modal-content">
-                    <h4 id="appEdit_title">App Settings</h4>
+                    <div class="row">
+                        <div class="input-field col s11">
+                            <h4 id="appEdit_title">App Settings</h4>
+                        </div>
+                        <div class="input-field col s1">
+                            <a id="widgetSwitch" class="btn-floating btn-medium waves-effect waves-light cyan"><i class="material-icons">developer_mode</i></a>
+                        </div>
+                    </div>
                     <form onkeypress="return event.keyCode != 13;" class="modalForm">
                         <div class="input-field">
                             <i class="material-icons prefix">label</i>
@@ -124,18 +131,27 @@
                                 <label for="appInput_color">Card color</label>
                             </div>
                             <div class="input-field col s1">
-                                <a id="paletteHelp" class="waves-effect waves-light btn"><i class="material-icons">info</i></a>
+                                <a class="waves-effect waves-light btn paletteHelp"><i class="material-icons">info</i></a>
                             </div>
                         </div>
-                        <div class="input-field">
-                            <i class="material-icons prefix">chat</i>
-                            <textarea id="appInput_detail" class="materialize-textarea">DETAIL</textarea>
-                            <label for="appInput_detail">Detail</label>
+                        <div id="appEdit_appData">
+                            <div class="input-field">
+                                <i class="material-icons prefix">chat</i>
+                                <textarea id="appInput_detail" class="materialize-textarea">DETAIL</textarea>
+                                <label for="appInput_detail">Detail</label>
+                            </div>
+                            <div class="input-field">
+                                <i class="material-icons prefix">burst_mode</i>
+                                <input id="appInput_image" type="text" class="validate" value="IMAGE">
+                                <label for="appInput_image">Image href</label>
+                            </div>
                         </div>
-                        <div class="input-field">
-                            <i class="material-icons prefix">burst_mode</i>
-                            <input id="appInput_image" type="text" class="validate" value="IMAGE">
-                            <label for="appInput_image">Image href</label>
+                        <div id="appEdit_widgetData" style="display:none;">
+                            <div class="input-field">
+                                <i class="material-icons prefix">code</i>
+                                <textarea id="appInput_html" class="materialize-textarea"></textarea>
+                                <label for="appInput_html">Custom HTML</label>
+                            </div>
                         </div>
                     </form>
                 </div>
