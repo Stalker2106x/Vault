@@ -7,9 +7,12 @@
  /* Small devices (tablets and phones, 768px and down) */
  @media only screen and (max-width: 768px) {
 
+    #vault-toolbar-button {
+        margin-bottom: 20px;
+    }
+
     #vault-search {
-        margin: auto auto;
-        width: 90%;
+        width: 100%;
     }
 
     .app-nav .material-icons {
@@ -51,7 +54,7 @@
         height: 5em;
         position: absolute;
         top: 5%;
-        left: 70%;
+        right: 5%;
         width: 20%;
     }
 
@@ -93,7 +96,7 @@
         height: 5em;
         position: absolute;
         top: 5%;
-        left: 70%;
+        right: 5%;
         width: 20%;
     }
 
@@ -107,7 +110,7 @@
         top: 50%;
         left: 10px;
     }
-    
+
     #app-nav-forward {
         top: 50%;
         right: 10px;
@@ -122,8 +125,7 @@
         margin: 10px 10px !important;
         align-self: flex-start;
     }
-} 
-
+}
 
 /* EOR */
 
@@ -144,7 +146,7 @@ body {
 }
 
 .app .card-content * {
-    word-wrap: break-word; 
+    word-wrap: break-word;
 }
 
 body {
@@ -234,6 +236,7 @@ body {
 }
 
 /* grid overrides */
+
 .col {
     padding: 0px !important;
 }
