@@ -66,6 +66,7 @@ function setAppEditModalData(appDOM, applyCallback) {
   });
   M.FormSelect.init(actionSelect);
   dlgDOM.querySelector("#appInput_color").value = appObject.color;
+  dlgDOM.querySelector("#appInput_url").value = appObject.url;
   dlgDOM.querySelector("#appInput_detail").value = appObject.detail;
   dlgDOM.querySelector("#appInput_image").value = appObject.image;
   //Clear button to prevent duplicate events
