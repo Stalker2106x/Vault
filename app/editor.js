@@ -99,6 +99,7 @@ function dumpAppEditModalData() {
   [].forEach.call(actionSelect.children, function (option) {
     if (option.selected && !option.disabled) appObject.action = option.value;
   });
+  appObject.url = document.querySelector("#appInput_url").value;
   return (appObject);
 }
 
