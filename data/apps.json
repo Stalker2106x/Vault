@@ -8,7 +8,7 @@
     },
     {
         "title": "Google",
-        "image": "http://localhost/vault/data/img/google.png",
+        "image": "https://www.clickplus.be/sites/default/files/google_0.png",
         "url": "http://google.com/",
         "detail": "Always nice to have google right?",
         "action": "newtab"
