@@ -37,7 +37,7 @@ The data is an object with editable properties, which supports the following opt
 |title              | Name of the vault                                       |
 |caption            | Caption displayed under title                           |
 |background         | Name of the background (x.jpg)                          |
-|allow-remote-login | Allow login only from localhost                         |
+|forceOrigin        | Only allow login from specified domain/ip               |
 |passphrase         | Secret passphrase to authenticate (Default: "marimba")  |
 
 #### Apps configuration (apps.json)
@@ -51,4 +51,4 @@ The data is an object with editable properties, which supports the following opt
 |image   |Absolute or relative path to image (can be an external url) |
 |url     |Absolute or relative path to target (can be an external url)|
 |detail  |Caption text displayed on the app tile                      |
-|action  |Behaviour of click (undefined for now)                      |
+|action  |Behaviour of click (pop-up, redirect, new tab)              |
