@@ -156,6 +156,7 @@ function setVaultConfigModalData() {
   var dlgDOM = document.querySelector("#modal_config");
   dlgDOM.querySelector("#configInput_title").value = appConfig.title;
   dlgDOM.querySelector("#configInput_caption").value = appConfig.caption;
+  dlgDOM.querySelector("#configInput_forceOrigin").value = appConfig.forceOrigin;
   var bgSelect = dlgDOM.querySelector("#configSelect_background");
   [].forEach.call(bgSelect.children, function (option) {
     option.selected = (option.value == appConfig.background ? true : false);
@@ -171,6 +172,7 @@ function serializeVaultConfigModalData() {
   var dlgDOM = document.querySelector("#modal_config");
   appConfig.title = dlgDOM.querySelector("#configInput_title").value;
   appConfig.caption = dlgDOM.querySelector("#configInput_caption").value;
+  appConfig.forceOrigin = dlgDOM.querySelector("#configInput_forceOrigin").value;
   var bgSelect = dlgDOM.querySelector("#configSelect_background");
   [].forEach.call(bgSelect.children, function (option) {
     if (option.selected && !option.disabled) appConfig.background = option.value;
@@ -192,7 +194,7 @@ function initAuthModal()
   var dlgDOM = document.querySelector("#modal_auth");
   dlgDOM.querySelector("#submit-passphrase").addEventListener("click", function(){
     authorization_passphrase = sha256(document.querySelector("#passphrase").value);
-    if (authorization_passphrase == appConfig.passphrase) //auth success!
+    if (verifyAuthorization()) //auth success!
     {
       let button = document.querySelector("#unlockVault");
       button.querySelector(".material-icons").innerText = "lock_open";

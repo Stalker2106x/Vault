@@ -2,6 +2,6 @@
     "title": "Vault",
     "caption": "Where everything starts...",
     "background": "horizon",
-    "allow-remote-login": false,
-    "passphrase": "2a464f59ab5457248315d414e95cc29ba731b7096c8e358ebffda28cfc53b21f"
+    "passphrase": "2a464f59ab5457248315d414e95cc29ba731b7096c8e358ebffda28cfc53b21f",
+    "forceOrigin": ""
 }

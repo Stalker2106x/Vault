@@ -10,7 +10,11 @@ var toolbarAdditionalToggles = [];
  */
 function verifyAuthorization()
 {
-  return (authorization_passphrase == appConfig.passphrase);
+  if (appConfig.forceOrigin != "" && location.host == appConfig.forceOrigin)
+  {
+    return (authorization_passphrase == appConfig.passphrase);
+  }
+  return (false);
 }
 
 /**
