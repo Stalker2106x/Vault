@@ -191,7 +191,7 @@ function initAuthModal()
 {
   var dlgDOM = document.querySelector("#modal_auth");
   dlgDOM.querySelector("#submit-passphrase").addEventListener("click", function(){
-    authorization_passphrase = document.querySelector("#passphrase").value;
+    authorization_passphrase = sha256(document.querySelector("#passphrase").value);
     if (authorization_passphrase == appConfig.passphrase) //auth success!
     {
       let button = document.querySelector("#unlockVault");
