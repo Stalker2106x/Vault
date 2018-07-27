@@ -177,7 +177,7 @@ function serializeVaultConfigModalData() {
   [].forEach.call(bgSelect.children, function (option) {
     if (option.selected && !option.disabled) appConfig.background = option.value;
   });
-  appConfig.passphrase = dlgDOM.querySelector("#configInput_passphrase").value;
+  appConfig.passphrase = sha256(dlgDOM.querySelector("#configInput_passphrase").value);
   VaultConfigModal.close();
   serializeData("config");
   M.toast({html: "<span>Modifications applied.</span>"});
@@ -193,7 +193,7 @@ function initAuthModal()
 {
   var dlgDOM = document.querySelector("#modal_auth");
   dlgDOM.querySelector("#submit-passphrase").addEventListener("click", function(){
-    authorization_passphrase = sha256(document.querySelector("#passphrase").value);
+    authorization_passphrase = document.querySelector("#passphrase").value;
     if (verifyAuthorization()) //auth success!
     {
       let button = document.querySelector("#unlockVault");

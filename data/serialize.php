@@ -17,7 +17,7 @@ $postdata = json_decode(file_get_contents('php://input'), true);
 //Reading vault config (before anything because passphrase check is needed)
 $config = json_decode(file_get_contents("config.json"), true);
 
-if (!isset($postdata["passphrase"]) || $config['passphrase'] != $postdata["passphrase"])
+if (!isset($postdata["passphrase"]) || $config['passphrase'] !=  hash('sha256', $postdata["passphrase"]))
 {
     echo 'Authorization: Wrong or missing passphrase.';
     http_response_code(401);
