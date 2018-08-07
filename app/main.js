@@ -192,7 +192,7 @@ var AuthModal = null;
 function initAuthModal()
 {
   var dlgDOM = document.querySelector("#modal_auth");
-  dlgDOM.querySelector("#submit-passphrase").addEventListener("click", function(){
+  dlgDOM.querySelector("#submit-passphrase").addEventListener("submit", function(){
     authorization_passphrase = document.querySelector("#passphrase").value;
     if (verifyAuthorization()) //auth success!
     {
@@ -209,6 +209,7 @@ function initAuthModal()
       //Toast bad_passphrase
       M.toast({html: "<span>Wrong passphrase!</span>"});
     }
+    return false;
   });
   var dlgParams = {
     dismissible: true,

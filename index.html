@@ -47,18 +47,18 @@
         <div id="modal-container">
             <!-- Authentication modal -->
             <div id="modal_auth" class="modal">
+                <form style="padding-top: 1vh;" id="submit-passphrase">
                 <div class="modal-content">
                     <h4>Authenticate to proceed</h4>
-                    <form style="padding-top: 1vh;" onkeypress="return event.keyCode != 13;">
                         <div class="input-field">
                             <input placeholder="Seek and ye shall find" id="passphrase" type="password" class="validate" />
                             <label for="passphrase">Passphrase</label>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button id="submit-passphrase" class="modal-action waves-effect waves-green btn-flat">I'm lucky</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-action waves-effect waves-green btn-flat">I'm lucky</button>
+                    </div>
+                </form>
             </div>
             <!-- Vault configuration modal -->
             <div id="modal_config" class="modal">
