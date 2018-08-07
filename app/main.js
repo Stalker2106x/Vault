@@ -220,6 +220,21 @@ function initAuthModal()
 }
 
 /**
+ * initialize the iFrame modal
+ */
+var IFrameModal = null;
+function iniIFrameModal()
+{
+  var dlgDOM = document.querySelector("#modal_frame");
+  var dlgParams = {
+    dismissible: true,
+    preventScrolling: true
+  };
+  IFrameModal = M.Modal.init(dlgDOM, dlgParams);
+  M.updateTextFields();
+}
+
+/**
  * callback of lock/unlock button
  */
 function authenticate() {
@@ -275,6 +290,7 @@ window.addEventListener("wheel", replaceVerticalScrollByHorizontal); //Bind Horz
 document.getElementById("filterInput").addEventListener("input", filterApps); //Bind filter handler
 initToolbar();
 initAuthModal();
+iniIFrameModal();
 //Main
 //Getting global vault configuration
 loadConfig();

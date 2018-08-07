@@ -45,11 +45,16 @@
             </ul>
         </div>
         <div id="modal-container">
+            <!-- iFrame modal -->
+            <div id="modal_frame" class="modal" style="width: 80vw; height: 80vh; max-height: 80vh">
+                <iframe style="padding: 1vh; border: none; width: 100%; height: 99%" id="modal-iframe" src="">
+                </iframe>
+            </div>
             <!-- Authentication modal -->
             <div id="modal_auth" class="modal">
                 <form style="padding-top: 1vh;" id="submit-passphrase">
-                <div class="modal-content">
-                    <h4>Authenticate to proceed</h4>
+                    <div class="modal-content">
+                        <h4>Authenticate to proceed</h4>
                         <div class="input-field">
                             <input placeholder="Seek and ye shall find" id="passphrase" type="password" class="validate" />
                             <label for="passphrase">Passphrase</label>
@@ -126,6 +131,7 @@
                                 <option value="redirect">Redirect</option>
                                 <option value="newtab">Open in new tab</option>
                                 <option value="popup">Open in a popup</option>
+                                <option value="modal">Open in a modal</option>
                             </select>
                             <label>Action</label>
                         </div>
