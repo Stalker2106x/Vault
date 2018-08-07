@@ -24,8 +24,9 @@ function navigateToSelection() {
         window.open(url, "Target", "resizable=yes");
         break;
       case "modal":
-        openModalIFrameVault(url);
-        break
+        document.querySelector("#modal-iframe").setAttribute("src", url);
+        IFrameModal.open();
+        break;
       default:
         break;
       }
@@ -100,17 +101,4 @@ function replaceVerticalScrollByHorizontal(event) {
     event.preventDefault();
   }
   return;
-}
-
-/**
- * open a vault iframe modal
- */
-function openModalIFrameVault(url)
-{
-  if(IFrameModal != null) {
-    document.querySelector("#modal-iframe").setAttribute("src", url);
-    IFrameModal.open();
-  } else {
-    M.toast({html: "<span>Error opening modal</span>"});
-  }
 }

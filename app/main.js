@@ -231,7 +231,6 @@ function iniIFrameModal()
     preventScrolling: true
   };
   IFrameModal = M.Modal.init(dlgDOM, dlgParams);
-  M.updateTextFields();
 }
 
 /**
