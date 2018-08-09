@@ -177,7 +177,7 @@ function serializeVaultConfigModalData() {
   [].forEach.call(bgSelect.children, function (option) {
     if (option.selected && !option.disabled) appConfig.background = option.value;
   });
-  appConfig.passphrase = sha256(dlgDOM.querySelector("#configInput_passphrase").value);
+  appConfig.passphrase = (dlgDOM.querySelector("#configInput_passphrase").value != "" ? sha256(dlgDOM.querySelector("#configInput_passphrase").value) : "");
   VaultConfigModal.close();
   serializeData("config");
   M.toast({html: "<span>Modifications applied.</span>"});
