@@ -14,17 +14,18 @@ function navigateToSelection() {
       if (url == undefined || selection.getAttribute("action") == undefined) return;
       switch(selection.getAttribute("action"))
       {
-      case "redirect":
+        case "redirect":
         window.location.href = url;
         break;
-      case "newtab":
+        case "newtab":
         window.open(url, "_blank");
         break;
-      case "popup":
+        case "popup":
         window.open(url, "Target", "resizable=yes");
         break;
-      case "modal":
-        openModalIFrameVault(url);
+        case "modal":
+        var title = selection.querySelector(".app-title").innerHTML;
+        createModalIFrameVault(title, url);
         break
       default:
         break;
@@ -39,8 +40,8 @@ function navigateToSelection() {
       AppEditModal.open();
     }
   }
-}
 
+}
 /**
  * Updates navigation arrows surrounding app container
  */
@@ -100,17 +101,4 @@ function replaceVerticalScrollByHorizontal(event) {
     event.preventDefault();
   }
   return;
-}
-
-/**
- * open a vault iframe modal
- */
-function openModalIFrameVault(url)
-{
-  if(IFrameModal != null) {
-    document.querySelector("#modal-iframe").setAttribute("src", url);
-    IFrameModal.open();
-  } else {
-    M.toast({html: "<span>Error opening modal</span>"});
-  }
 }
