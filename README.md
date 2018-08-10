@@ -6,6 +6,10 @@ It uses a CMS-approach, where zero knowledge is needed either to use it, or to d
 
 ![Example](https://bitbucket.org/stalker2106/vault/raw/master/example/grid.png)
 
+### Contributors
+* Maxime 'Stalker2106' Martens
+* Victor 'Terag' Rouquette
+
 ### How do I get set up?
 
 1. clone the whole repository contents to your htdocs or www folder on your web server
@@ -14,7 +18,7 @@ It uses a CMS-approach, where zero knowledge is needed either to use it, or to d
 ### Configuring your Vault (easy)
 
 When you fire up your vault, a three-dotted button appears on the bottom right corner.
-Just click it, unlock it (default password is "marimba") and toggle editor on !
+Just click it, unlock it (__default password is "marimba"__) and toggle editor on !
 
 ![Editor](https://bitbucket.org/stalker2106/vault/raw/master/example/editor.gif)
 
