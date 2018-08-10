@@ -1,0 +1,22 @@
+<div class="app" action="{{action}}" href="{{url}}">
+    <div class="card {{color}} darken-1 z-depth-2" color="{{color}}">
+    {% if image %}
+      <div class="card-image">
+        <img class="app-image" src="{{image}}" />
+        {% if (title) %}
+        <span class="app-title white-text card-title">{{title}}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+      <div class="card-content">
+        {% if (not image and title) %}
+        <span class="app-title white-text card-title">{{title}}</span>
+        {% endif %}
+        {% if detail %}
+        <span class="app-detail {{textcolor}}-text">{{detail}}</span>
+        {% elif html %}
+        <div class="app-widget"></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>

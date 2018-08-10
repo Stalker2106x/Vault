@@ -88,23 +88,7 @@ function buildAppDOMFromJSON(app)
   if (!app.color) app.color = "blue-grey"; else app.color = app.color.toLowerCase();
   if (!app.textcolor) app.textcolor = "white"; else app.textcolor = app.textcolor.toLowerCase();
   //Render
-  if (app.html) //Widget
-  {
-    appDOM.innerHTML = nunjucks.render("templates/app_widget.html", app);
-    appDOM.querySelector(".app-widget").innerHTML = app.html;
-  }
-  else if (app.image) //Image app
-  {
-    appDOM.innerHTML = nunjucks.render("templates/app_image.html", app);
-  }
-  else if (app.title) //Standard app
-  {
-    appDOM.innerHTML = nunjucks.render("templates/app_base.html", app);
-  }
-  else //Not an app (note or alert)
-  {
-    appDOM.innerHTML = nunjucks.render("templates/app_panel.html", app);
-  }
+  appDOM.innerHTML = nunjucks.render("templates/app.html", app);
   return (appDOM.firstChild);
 }
 
