@@ -177,7 +177,7 @@ function initAuthModal()
 {
   var dlgDOM = document.querySelector("#modal_auth");
   dlgDOM.querySelector("#submit-passphrase").addEventListener("submit", function(){
-    authorization_passphrase = document.querySelector("#passphrase").value;
+    authorization_passphrase = document.getElementById("passphrase_input").value;
     if (verifyAuthorization()) //auth success!
     {
       let button = document.querySelector("#unlockVault");
@@ -197,7 +197,8 @@ function initAuthModal()
   });
   var dlgParams = {
     dismissible: true,
-    preventScrolling: true
+    preventScrolling: true,
+    onOpenEnd: function() { document.getElementById("passphrase_input").focus(); }
   };
   AuthModal = M.Modal.init(dlgDOM, dlgParams);
   M.updateTextFields();
@@ -211,7 +212,6 @@ function authenticate() {
   if (button.classList.contains("locked")) //app is locked
   {
     AuthModal.open();
-    document.getElementById("passphrase").focus();
   }
   else //app unlocked
   {
