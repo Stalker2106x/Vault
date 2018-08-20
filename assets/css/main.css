@@ -76,16 +76,21 @@
     }
  }
 
-/* Small devices (tablets/phones, 1025px and up) */
-@media only screen and (max-width: 1025px) {
-    #app-container
-    {
+/* Small devices (tablets/phones, 992px and up) */
+@media only screen and (min-width: 1025px) {
+
+    body {
         overflow-y: scroll;
+        overflow-x: hidden;
     }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 1025px) {
+
+    body {
+        overflow: hidden;
+    }
 
     #vault-header {
         margin-bottom: 40px;
@@ -97,11 +102,6 @@
         top: 5%;
         right: 5%;
         width: 20%;
-    }
-
-    #app-container
-    {
-        overflow-y: hidden;
     }
 
     .app-nav .material-icons {
@@ -130,11 +130,9 @@
 /* Vault main */
 
 body {
-    min-height: 100vh;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    overflow: hidden;
 }
 
 #vault-title {
@@ -166,6 +164,7 @@ body {
     height: 75vh;
     align-content: flex-start;
     overflow-x: scroll;
+    overflow-y: visible;
 }
 
 .app-nav  {
