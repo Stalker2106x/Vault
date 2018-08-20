@@ -36,6 +36,15 @@
         margin: 10px 10px !important;
         align-self: flex-start;
     }
+
+    #toast-container {
+        top: 0 !important;
+        bottom: auto !important;
+    }
+
+    .toast {
+        margin-top: 0 !important;
+    }
  }
  
  /* Medium devices (landscape tablets, 768px and up) */
@@ -102,6 +111,11 @@
         top: 5%;
         right: 5%;
         width: 20%;
+    }
+
+    #app-container
+    {
+        overflow-y: hidden;
     }
 
     .app-nav .material-icons {
