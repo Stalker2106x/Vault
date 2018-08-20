@@ -153,7 +153,7 @@ body {
     height: 75vh;
     align-content: flex-start;
     overflow-x: scroll;
-    overflow:hidden;
+    overflow-y:hidden;
 }
 
 .app-nav  {
