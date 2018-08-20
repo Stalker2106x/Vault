@@ -76,6 +76,14 @@
     }
  }
 
+/* Small devices (tablets/phones, 1025px and up) */
+@media only screen and (max-width: 1025px) {
+    #app-container
+    {
+        overflow-y: scroll;
+    }
+}
+
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 1025px) {
 
@@ -89,6 +97,11 @@
         top: 5%;
         right: 5%;
         width: 20%;
+    }
+
+    #app-container
+    {
+        overflow-y: hidden;
     }
 
     .app-nav .material-icons {
@@ -153,7 +166,6 @@ body {
     height: 75vh;
     align-content: flex-start;
     overflow-x: scroll;
-    overflow-y:hidden;
 }
 
 .app-nav  {
