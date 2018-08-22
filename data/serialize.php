@@ -73,7 +73,16 @@ if (isset($postdata["apps"])) //Update apps if present
     $apps = array_values($apps); //Remove app indexes for serialization
     //Now serialize to file
     $fp = fopen('apps.json', 'w');
-    fwrite($fp, json_encode($apps, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    if($fp != false)
+    {
+        fwrite($fp, json_encode($apps, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    }
+    else
+    {
+        echo 'Cannot open apps.json file on the server';
+        http_response_code(500);
+        exit;
+    }
     fclose($fp);
 }
 
