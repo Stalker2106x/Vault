@@ -4,7 +4,7 @@ Vault is a pure vanillaJS + PHP landing page for your server.
 It shows an application grid similar to a smartphone layout, having each tile routed to a service you use, or used as a note.
 It uses a CMS-approach, where zero knowledge is needed either to use it, or to deploy it.
 
-![Example](https://bitbucket.org/stalker2106/vault/raw/master/example/grid.png)
+![Example](example/grid.png)
 
 ### Contributors
 * Maxime 'Stalker2106' Martens
@@ -20,7 +20,7 @@ It uses a CMS-approach, where zero knowledge is needed either to use it, or to d
 When you fire up your vault, a three-dotted button appears on the bottom right corner.
 Just click it, unlock it (__default password is "marimba"__) and toggle editor on !
 
-![Editor](https://bitbucket.org/stalker2106/vault/raw/master/example/editor.gif)
+![Editor](example/editor.gif)
 
 ### Configuring your Vault (manually)
 
